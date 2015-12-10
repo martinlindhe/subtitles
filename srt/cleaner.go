@@ -53,7 +53,7 @@ func CleanSubs(subs []Caption) []Caption {
 			for _, adLine := range ads {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					fmt.Println("Removing ads from seq", orgSeq, sub.text)
+					fmt.Println("Removing caption", orgSeq, sub.text)
 					break
 				}
 			}

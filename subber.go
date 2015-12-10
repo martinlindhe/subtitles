@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
+	"path"
 
+	"github.com/martinlindhe/go-subber/download"
 	"github.com/martinlindhe/go-subber/srt"
 )
 
@@ -12,6 +13,13 @@ func check(e error) {
 	if e != nil {
 		panic(e)
 	}
+}
+
+func fileExists(fileName string) bool {
+	if _, err := os.Stat(fileName); err == nil {
+		return true
+	}
+	return false
 }
 
 func main() {
@@ -23,34 +31,31 @@ func main() {
 
 	inFileName := os.Args[1]
 
-	data, err := ioutil.ReadFile(inFileName)
-	if err != nil {
-		fmt.Println("Error", err)
-		os.Exit(1)
+	ext := path.Ext(inFileName)
+	if ext == ".srt" {
+
+		srt.CleanupSrt(inFileName)
+	} else {
+
+		subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
+
+		if fileExists(subFileName) {
+			fmt.Println("Subs found locally, not downloading ...")
+			srt.CleanupSrt(subFileName)
+			os.Exit(0)
+		}
+
+		fmt.Printf("Downloading subs for input file ...\n")
+
+		text := download.FromTheSubDb(inFileName)
+
+		f, err := os.Create(subFileName)
+		check(err)
+
+		f.WriteString(text)
+
+		f.Close()
+
+		srt.CleanupSrt(subFileName)
 	}
-
-	s := string(data)
-
-	subs := srt.ParseSrt(s)
-
-	cleaned := srt.CleanSubs(subs)
-
-	out := srt.RenderSrt(cleaned)
-
-	if s == out {
-		fmt.Printf("No changes performed\n")
-		os.Exit(0)
-	}
-
-	orgFileName := inFileName + ".org"
-	os.Rename(inFileName, orgFileName)
-
-	f, err := os.Create(inFileName)
-	check(err)
-	defer f.Close()
-
-	_, err = f.WriteString(out)
-	check(err)
-
-	fmt.Print("Written to %s\n", inFileName)
 }

@@ -3,11 +3,19 @@ package srt
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 )
+
+func check(e error) {
+	if e != nil {
+		fmt.Println(e)
+		panic(e)
+	}
+}
 
 // Caption represents one subtitle block
 type Caption struct {
@@ -15,6 +23,15 @@ type Caption struct {
 	start time.Time
 	end   time.Time
 	text  []string
+}
+
+func renderSrtTime(t time.Time) string {
+	res := t.Format("15:04:05.000")
+	return strings.Replace(res, ".", ",", 1)
+}
+
+func (cap Caption) srtTime() string {
+	return renderSrtTime(cap.start) + " --> " + renderSrtTime(cap.end)
 }
 
 // ParseSrt parses a .srt text representation into []Caption
@@ -119,13 +136,36 @@ func renderCaptionAsSrt(sub Caption) string {
 	return res
 }
 
-func renderSrtTime(t time.Time) string {
-	const form = "15:04:05.000"
-	res := t.Format(form)
+// CleanupSrt performs cleanup on fileName, overwriting the original file
+func CleanupSrt(fileName string) {
 
-	return strings.Replace(res, ".", ",", 1)
-}
+	fmt.Printf("Cleaning sub %s ...\n", fileName)
 
-func (cap Caption) srtTime() string {
-	return renderSrtTime(cap.start) + " --> " + renderSrtTime(cap.end)
+	data, err := ioutil.ReadFile(fileName)
+	check(err)
+
+	s := string(data)
+
+	subs := ParseSrt(s)
+
+	cleaned := CleanSubs(subs)
+
+	out := RenderSrt(cleaned)
+
+	if s == out {
+		fmt.Printf("No changes performed\n")
+		return
+	}
+
+	orgFileName := fileName + ".org"
+	os.Rename(fileName, orgFileName)
+
+	f, err := os.Create(fileName)
+	check(err)
+	defer f.Close()
+
+	_, err = f.WriteString(out)
+	check(err)
+
+	fmt.Printf("Written to %s\n", fileName)
 }
