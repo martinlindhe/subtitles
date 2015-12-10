@@ -33,10 +33,13 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 }
 
 func TestDownloadFromTheSubDb(t *testing.T) {
+	// XXX this test does a real http query, maybe we should mock it?
 
 	fileName := createZeroedTempFile(1024 * 1024 * 2)
 
-	assert.Equal(t, "", FromTheSubDb(fileName))
+	text, err := FromTheSubDb(fileName)
+	assert.Equal(t, nil, err)
+	assert.True(t, len(text) > 1000)
 
 	os.Remove(fileName)
 }

@@ -10,6 +10,9 @@ import (
 	"time"
 )
 
+// Eol is the end of line characters to use when writing .srt data
+const Eol = "\n"
+
 func check(e error) {
 	if e != nil {
 		fmt.Println(e)
@@ -34,7 +37,7 @@ func (cap Caption) srtTime() string {
 	return renderSrtTime(cap.start) + " --> " + renderSrtTime(cap.end)
 }
 
-// ParseSrt parses a .srt text representation into []Caption
+// ParseSrt parses a .srt text into []Caption
 func ParseSrt(s string) []Caption {
 
 	var res []Caption
@@ -52,8 +55,7 @@ func ParseSrt(s string) []Caption {
 
 		val, err := strconv.Atoi(seq)
 		if err != nil {
-			fmt.Printf("Parse error at line %d: ", i)
-			fmt.Println(err)
+			fmt.Printf("Parse error at line %d: %v\n", i, err)
 			continue
 		}
 
@@ -63,8 +65,18 @@ func ParseSrt(s string) []Caption {
 
 		matches := r1.FindStringSubmatch(lines[i])
 
-		o.start = parseTime(matches[1])
-		o.end = parseTime(matches[2])
+		o.start, err = parseTime(matches[1])
+		if err != nil {
+			fmt.Printf("Parse error at line %d: %v\n", i, err)
+			continue
+		}
+
+		o.end, err = parseTime(matches[2])
+		if err != nil {
+			fmt.Printf("Parse error at line %d: %v\n", i, err)
+			continue
+		}
+
 		i++
 
 		for {
@@ -77,13 +89,12 @@ func ParseSrt(s string) []Caption {
 		}
 
 		res = append(res, o)
-
 	}
 
 	return res
 }
 
-func parseTime(in string) time.Time {
+func parseTime(in string) (time.Time, error) {
 
 	// . to ,
 	in = strings.Replace(in, ",", ".", 1)
@@ -95,10 +106,10 @@ func parseTime(in string) time.Time {
 	const form = "15:04:05.000"
 	t, err := time.Parse(form, in)
 	if err != nil {
-		fmt.Println(err)
+		return t, fmt.Errorf("Parse error: %v", err)
 	}
 
-	return t
+	return t, nil
 }
 
 // WriteSrt prints a srt render to outFileName
@@ -125,23 +136,23 @@ func RenderSrt(subs []Caption) string {
 }
 
 func renderCaptionAsSrt(sub Caption) string {
-	res := fmt.Sprintf("%d\n", sub.seq) + sub.srtTime() + "\n"
+
+	res := fmt.Sprintf("%d", sub.seq) + Eol +
+		sub.srtTime() + Eol
 
 	for _, line := range sub.text {
-		res += line + "\n"
+		res += line + Eol
 	}
 
-	res += "\n"
-
-	return res
+	return res + Eol
 }
 
 // CleanupSrt performs cleanup on fileName, overwriting the original file
-func CleanupSrt(fileName string) {
+func CleanupSrt(inFileName string, makeBackup bool) {
 
-	fmt.Printf("Cleaning sub %s ...\n", fileName)
+	fmt.Printf("Cleaning sub %s ...\n", inFileName)
 
-	data, err := ioutil.ReadFile(fileName)
+	data, err := ioutil.ReadFile(inFileName)
 	check(err)
 
 	s := string(data)
@@ -157,15 +168,18 @@ func CleanupSrt(fileName string) {
 		return
 	}
 
-	orgFileName := fileName + ".org"
-	os.Rename(fileName, orgFileName)
+	if makeBackup {
+		backupFileName := inFileName + ".org"
+		os.Rename(inFileName, backupFileName)
+		fmt.Printf("Backed up to %s\n", backupFileName)
+	}
 
-	f, err := os.Create(fileName)
+	f, err := os.Create(inFileName) // xxx can we create if exists? when makebackup=false ?
 	check(err)
 	defer f.Close()
 
 	_, err = f.WriteString(out)
 	check(err)
 
-	fmt.Printf("Written to %s\n", fileName)
+	fmt.Printf("Written to %s\n", inFileName)
 }

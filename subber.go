@@ -34,28 +34,28 @@ func main() {
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
 
-		srt.CleanupSrt(inFileName)
-	} else {
-
-		subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
-
-		if fileExists(subFileName) {
-			fmt.Println("Subs found locally, not downloading ...")
-			srt.CleanupSrt(subFileName)
-			os.Exit(0)
-		}
-
-		fmt.Printf("Downloading subs for input file ...\n")
-
-		text := download.FromTheSubDb(inFileName)
-
-		f, err := os.Create(subFileName)
-		check(err)
-
-		f.WriteString(text)
-
-		f.Close()
-
-		srt.CleanupSrt(subFileName)
+		srt.CleanupSrt(inFileName, true)
+		os.Exit(0)
 	}
+
+	subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
+
+	if fileExists(subFileName) {
+		fmt.Println("Subs found locally, not downloading ...")
+		srt.CleanupSrt(subFileName, true)
+		os.Exit(0)
+	}
+
+	fmt.Printf("Downloading subs for input file ...\n")
+
+	text, err := download.FromTheSubDb(inFileName)
+	check(err)
+
+	f, err := os.Create(subFileName)
+	check(err)
+
+	f.WriteString(text)
+	f.Close()
+
+	srt.CleanupSrt(subFileName, true)
 }

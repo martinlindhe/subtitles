@@ -13,9 +13,13 @@ func makeTime(h int, m int, s int, ms int) time.Time {
 
 func TestParseTime(t *testing.T) {
 
-	assert.Equal(t, makeTime(18, 40, 22, 110), parseTime("18:40:22.110"))
-	assert.Equal(t, makeTime(18, 40, 22, 110), parseTime("18:40:22,110"))
-	assert.Equal(t, makeTime(18, 40, 22, 0), parseTime("18:40:22"))
+	t1, _ := parseTime("18:40:22.110")
+	t2, _ := parseTime("18:40:22,110")
+	t3, _ := parseTime("18:40:22")
+
+	assert.Equal(t, makeTime(18, 40, 22, 110), t1)
+	assert.Equal(t, makeTime(18, 40, 22, 110), t2)
+	assert.Equal(t, makeTime(18, 40, 22, 0), t3)
 }
 
 func TestParseSrt(t *testing.T) {
@@ -75,13 +79,13 @@ func TestRenderTime(t *testing.T) {
 
 func TestRenderSrt(t *testing.T) {
 
-	expected := "1\n" +
-		"00:00:04,630 --> 00:00:06,018\n" +
-		"<i>Go ninja!</i>\n" +
-		"\n" +
-		"2\n" +
-		"00:01:09,630 --> 00:01:11,005\n" +
-		"<i>No ninja!</i>\n\n"
+	expected := "1" + Eol +
+		"00:00:04,630 --> 00:00:06,018" + Eol +
+		"<i>Go ninja!</i>" + Eol +
+		Eol +
+		"2" + Eol +
+		"00:01:09,630 --> 00:01:11,005" + Eol +
+		"<i>No ninja!</i>" + Eol + Eol
 
 	var in []Caption
 	in = append(in, Caption{seq: 1, text: []string{"<i>Go ninja!</i>"}, start: makeTime(0, 0, 4, 630), end: makeTime(0, 0, 6, 18)})

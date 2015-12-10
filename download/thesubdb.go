@@ -15,12 +15,15 @@ func check(e error) {
 	}
 }
 
-func FromTheSubDb(fileName string) string {
+func FromTheSubDb(fileName string) (string, error) {
 	hash := createMovieHashFromMovieFile(fileName)
 
 	actualText, err := downloadSubtitleByHash(hash)
-	check(err)
-	return actualText
+	if err != nil {
+		return actualText, err
+	}
+
+	return actualText, nil
 }
 
 // returns a md5-sum in hex-string representation
