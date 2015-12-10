@@ -15,10 +15,17 @@ func check(e error) {
 	}
 }
 
-func FromTheSubDb(fileName string) (string, error) {
-	hash := createMovieHashFromMovieFile(fileName)
+// FromTheSubDb downloads a subtitle from thesubdb.com
+func FromTheSubDb(videoFileName string, optional ...string) (string, error) {
 
-	actualText, err := downloadSubtitleByHash(hash)
+	_apiHost := "api.thesubdb.com"
+	if len(optional) > 0 {
+		_apiHost = optional[0]
+	}
+
+	hash := createMovieHashFromMovieFile(videoFileName)
+
+	actualText, err := downloadSubtitleByHash(hash, _apiHost)
 	if err != nil {
 		return actualText, err
 	}
@@ -63,13 +70,13 @@ func createMovieHashFromMovieFile(fileName string) string {
 	return fmt.Sprintf("%x", md5.Sum(combined))
 }
 
-func downloadSubtitleByHash(hash string) (string, error) {
+func downloadSubtitleByHash(hash string, apiHost string) (string, error) {
 
 	client := &http.Client{}
 
 	language := "en"
 
-	query := "http://api.thesubdb.com/?action=download&hash=" + hash + "&language=" + language
+	query := "http://" + apiHost + "/?action=download&hash=" + hash + "&language=" + language
 
 	fmt.Printf("Fetching %s ...\n", query)
 
