@@ -36,9 +36,3 @@ Removing caption 22 [CAPTIONS PAID FOR BY DISCOVERY COMMUNICATIONS]
 ## License
 
 BSD
-
-
-
-## TODO
-
-- if cli is passed a non  .srt file, try search for sub
