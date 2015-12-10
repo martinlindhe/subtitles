@@ -1,6 +1,9 @@
 package srt
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // CleanSubs removes advertisement from the subtitles
 func CleanSubs(subs []Caption) []Caption {
@@ -41,15 +44,16 @@ func CleanSubs(subs []Caption) []Caption {
 	}
 
 	seq := 1
-	for _, sub := range subs {
+	for orgSeq, sub := range subs {
 
 		isAd := false
 
 		for _, line := range sub.text {
 			x := strings.ToLower(line)
 			for _, adLine := range ads {
-				if strings.Contains(x, adLine) {
+				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
+					fmt.Println("Removing ads from seq", orgSeq, sub.text)
 					break
 				}
 			}

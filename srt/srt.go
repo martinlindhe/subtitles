@@ -28,28 +28,39 @@ func ParseSrt(s string) []Caption {
 
 	for i := 0; i < len(lines); i++ {
 
-		val, err := strconv.Atoi(lines[i])
-		if err == nil {
-			var o Caption
-			o.seq = val
-			i++
-
-			matches := r1.FindStringSubmatch(lines[i])
-
-			o.start = parseTime(matches[1])
-			o.end = parseTime(matches[2])
-			i++
-
-			for {
-				if i >= len(lines) || lines[i] == "" {
-					break
-				}
-				o.text = append(o.text, lines[i])
-				i++
-			}
-
-			res = append(res, o)
+		seq := strings.Trim(lines[i], "\ufeff\r ")
+		if seq == "" {
+			break
 		}
+
+		val, err := strconv.Atoi(seq)
+		if err != nil {
+			fmt.Printf("Parse error at line %d: ", i)
+			fmt.Println(err)
+			continue
+		}
+
+		var o Caption
+		o.seq = val
+		i++
+
+		matches := r1.FindStringSubmatch(lines[i])
+
+		o.start = parseTime(matches[1])
+		o.end = parseTime(matches[2])
+		i++
+
+		for {
+			line := strings.Trim(lines[i], "\r ")
+			if i >= len(lines) || line == "" {
+				break
+			}
+			o.text = append(o.text, line)
+			i++
+		}
+
+		res = append(res, o)
+
 	}
 
 	return res

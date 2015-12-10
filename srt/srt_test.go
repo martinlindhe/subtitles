@@ -40,6 +40,32 @@ func TestParseSrt(t *testing.T) {
 	assert.Equal(t, expected, ParseSrt(in))
 }
 
+func TestParseSrtCrlf(t *testing.T) {
+
+	in := "1\n" +
+		"00:00:04,630 --> 00:00:06,018\r\n" +
+		"<i>Go ninja!</i>\r\n" +
+		"\r\n"
+
+	var expected []Caption
+	expected = append(expected, Caption{seq: 1, text: []string{"<i>Go ninja!</i>"}, start: makeTime(0, 0, 4, 630), end: makeTime(0, 0, 6, 18)})
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
+func TestParseSrtUtf8Bom(t *testing.T) {
+
+	in := "\ufeff1\n" +
+		"00:00:04,630 --> 00:00:06,018\r\n" +
+		"<i>Go ninja!</i>\r\n" +
+		"\r\n"
+
+	var expected []Caption
+	expected = append(expected, Caption{seq: 1, text: []string{"<i>Go ninja!</i>"}, start: makeTime(0, 0, 4, 630), end: makeTime(0, 0, 6, 18)})
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
 func TestRenderTime(t *testing.T) {
 
 	cap := Caption{seq: 1, text: []string{"<i>Go ninja!</i>"}, start: makeTime(18, 40, 22, 110), end: makeTime(18, 41, 20, 123)}
