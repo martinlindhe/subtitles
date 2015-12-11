@@ -83,7 +83,9 @@ func downloadSubtitleByHash(hash string, apiHost string) (string, error) {
 	req, err := http.NewRequest("GET", query, nil)
 	check(err)
 
-	req.Header.Add("User-Agent", "SubDB/1.0 (GoSubber/1.0; http://github.com/martinlindhe/go-subber)")
+	req.Header.Set("User-Agent",
+		"SubDB/1.0 (GoSubber/1.0; http://github.com/martinlindhe/go-subber)")
+
 	resp, err := client.Do(req)
 	check(err)
 

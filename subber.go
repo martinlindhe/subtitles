@@ -16,7 +16,7 @@ func check(e error) {
 	}
 }
 
-func fileExists(fileName string) bool {
+func exists(fileName string) bool {
 	if _, err := os.Stat(fileName); err == nil {
 		return true
 	}
@@ -24,9 +24,9 @@ func fileExists(fileName string) bool {
 }
 
 var (
-	file    = kingpin.Arg("file", ".srt or video file").Required().File()
+	file    = kingpin.Arg("file", "A .srt (to clean) or video file (to fetch subs).").Required().File()
 	verbose = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
-	keepAds = kingpin.Flag("keep-ads", "Keep ads").Bool()
+	keepAds = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 )
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 
 	subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
 
-	if fileExists(subFileName) {
+	if exists(subFileName) {
 		fmt.Println("Subs found locally, not downloading ...")
 		srt.CleanupSrt(subFileName, true, !*keepAds)
 		os.Exit(0)
