@@ -7,6 +7,7 @@ import (
 
 	"github.com/martinlindhe/go-subber/download"
 	"github.com/martinlindhe/go-subber/srt"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 func check(e error) {
@@ -22,19 +23,27 @@ func fileExists(fileName string) bool {
 	return false
 }
 
-func main() {
+var (
+	file    = kingpin.Arg("file", ".srt or video file").Required().File()
+	verbose = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
+	keepAds = kingpin.Flag("keep-ads", "Keep ads").Bool()
+)
 
-	if len(os.Args) < 2 {
-		fmt.Printf("Usage: %s <file.srt>\n", os.Args[0])
+func main() {
+	// support -h for --help
+	kingpin.CommandLine.HelpFlag.Short('h')
+	kingpin.Parse()
+
+	inFileName := (*file).Name()
+
+	if len(inFileName) < 1 {
+		fmt.Printf("File name required\n")
 		os.Exit(0)
 	}
 
-	inFileName := os.Args[1]
-
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
-
-		srt.CleanupSrt(inFileName, true)
+		srt.CleanupSrt(inFileName, true, !*keepAds)
 		os.Exit(0)
 	}
 
@@ -42,7 +51,7 @@ func main() {
 
 	if fileExists(subFileName) {
 		fmt.Println("Subs found locally, not downloading ...")
-		srt.CleanupSrt(subFileName, true)
+		srt.CleanupSrt(subFileName, true, !*keepAds)
 		os.Exit(0)
 	}
 
@@ -57,5 +66,6 @@ func main() {
 	f.WriteString(text)
 	f.Close()
 
-	srt.CleanupSrt(subFileName, true)
+	srt.CleanupSrt(subFileName, true, !*keepAds)
+
 }

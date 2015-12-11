@@ -148,7 +148,7 @@ func renderCaptionAsSrt(sub Caption) string {
 }
 
 // CleanupSrt performs cleanup on fileName, overwriting the original file
-func CleanupSrt(inFileName string, makeBackup bool) {
+func CleanupSrt(inFileName string, makeBackup bool, removeAds bool) {
 
 	fmt.Printf("Cleaning sub %s ...\n", inFileName)
 
@@ -158,10 +158,11 @@ func CleanupSrt(inFileName string, makeBackup bool) {
 	s := string(data)
 
 	subs := ParseSrt(s)
+	if removeAds {
+		subs = CleanSubs(subs)
+	}
 
-	cleaned := CleanSubs(subs)
-
-	out := RenderSrt(cleaned)
+	out := RenderSrt(subs)
 
 	if s == out {
 		fmt.Printf("No changes performed\n")
