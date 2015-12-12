@@ -24,9 +24,10 @@ func exists(fileName string) bool {
 }
 
 var (
-	file    = kingpin.Arg("file", "A .srt (to clean) or video file (to fetch subs).").Required().File()
-	verbose = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
-	keepAds = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
+	file        = kingpin.Arg("file", "A .srt (to clean) or video file (to fetch subs).").Required().File()
+	verbose     = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
+	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
+	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 )
 
 func main() {
@@ -43,7 +44,7 @@ func main() {
 
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
-		srt.CleanupSrt(inFileName, true, !*keepAds)
+		srt.CleanupSrt(inFileName, *skipBackups, *keepAds)
 		os.Exit(0)
 	}
 
@@ -51,21 +52,14 @@ func main() {
 
 	if exists(subFileName) {
 		fmt.Println("Subs found locally, not downloading ...")
-		srt.CleanupSrt(subFileName, true, !*keepAds)
+		srt.CleanupSrt(subFileName, *skipBackups, *keepAds)
 		os.Exit(0)
 	}
 
 	fmt.Printf("Downloading subs for input file ...\n")
 
-	text, err := download.FromTheSubDb(inFileName)
+	captions, err := download.FindSubs(inFileName, *keepAds)
 	check(err)
 
-	f, err := os.Create(subFileName)
-	check(err)
-
-	f.WriteString(text)
-	f.Close()
-
-	srt.CleanupSrt(subFileName, true, !*keepAds)
-
+	srt.WriteSrt(captions, subFileName)
 }

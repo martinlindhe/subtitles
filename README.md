@@ -43,7 +43,6 @@ BSD
 Patches welcome!
 
 Ideas for features:
-- cli flag to disable creation of .srt.org when cleaning up a .srt
 - cli flag to specify sub language
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer

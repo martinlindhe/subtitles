@@ -126,3 +126,8 @@ func TestRenderSrt(t *testing.T) {
 
 	assert.Equal(t, expected, RenderSrt(in))
 }
+
+/*
+func TestWriteSrt(t *testing.T) {
+	xxx
+}*/

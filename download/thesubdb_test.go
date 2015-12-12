@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/martinlindhe/go-subber/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +19,7 @@ func createTempFile(byteSize int) string {
 	}
 
 	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	check(err)
+	common.Check(err)
 
 	defer f.Close()
 
@@ -33,7 +34,7 @@ func createZeroedTempFile(byteSize int) string {
 	data := make([]byte, byteSize)
 
 	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	check(err)
+	common.Check(err)
 
 	defer f.Close()
 
@@ -48,7 +49,10 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 
 	fileName := createTempFile(1024 * 1024 * 2)
 
-	assert.Equal(t, "38a503307786991a982f8ded498b90e0", createMovieHashFromMovieFile(fileName))
+	hash, err := createMovieHashFromMovieFile(fileName)
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, "38a503307786991a982f8ded498b90e0", hash)
 
 	os.Remove(fileName)
 }
@@ -56,7 +60,7 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 func TestDownloadFromTheSubDb(t *testing.T) {
 	fileName := createZeroedTempFile(1024 * 1024 * 2)
 
-	text, err := FromTheSubDb(fileName, "sandbox.thesubdb.com")
+	text, err := fromTheSubDb(fileName, "sandbox.thesubdb.com")
 	assert.Equal(t, nil, err)
 	assert.True(t, len(text) > 1000)
 
