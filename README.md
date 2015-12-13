@@ -43,7 +43,6 @@ BSD
 Patches welcome!
 
 Ideas for features:
-- cli flag to specify sub language
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer
 - .sub reader and converter to .srt: requires specifying a frame rate

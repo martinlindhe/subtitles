@@ -28,6 +28,7 @@ var (
 	verbose     = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
+	language    = kingpin.Flag("language", "Language.").Default("en").String()
 )
 
 func main() {
@@ -58,7 +59,7 @@ func main() {
 
 	fmt.Printf("Downloading subs for input file ...\n")
 
-	captions, err := download.FindSubs(inFileName, *keepAds)
+	captions, err := download.FindSubs(inFileName, *language, *keepAds)
 	check(err)
 
 	srt.WriteSrt(captions, subFileName)

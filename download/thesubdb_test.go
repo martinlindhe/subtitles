@@ -60,7 +60,7 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 func TestDownloadFromTheSubDb(t *testing.T) {
 	fileName := createZeroedTempFile(1024 * 1024 * 2)
 
-	text, err := fromTheSubDb(fileName, "sandbox.thesubdb.com")
+	text, err := fromTheSubDb(fileName, "en", "sandbox.thesubdb.com")
 	assert.Equal(t, nil, err)
 	assert.True(t, len(text) > 1000)
 

@@ -12,7 +12,7 @@ import (
 )
 
 // FindSubs tries to find subtitles online
-func FindSubs(videoFileName string, keepAds bool) ([]srt.Caption, error) {
+func FindSubs(videoFileName string, language string, keepAds bool) ([]srt.Caption, error) {
 
 	if !common.Exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)
@@ -22,7 +22,7 @@ func FindSubs(videoFileName string, keepAds bool) ([]srt.Caption, error) {
 		return nil, fmt.Errorf("%s is not a file", videoFileName)
 	}
 
-	text, err := fromTheSubDb(videoFileName)
+	text, err := fromTheSubDb(videoFileName, language)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func FindSubs(videoFileName string, keepAds bool) ([]srt.Caption, error) {
 }
 
 // FromTheSubDb downloads a subtitle from thesubdb.com
-func fromTheSubDb(videoFileName string, optional ...string) (string, error) {
+func fromTheSubDb(videoFileName string, language string, optional ...string) (string, error) {
 
 	_apiHost := "api.thesubdb.com"
 	if len(optional) > 0 {
@@ -49,7 +49,7 @@ func fromTheSubDb(videoFileName string, optional ...string) (string, error) {
 		return "", err
 	}
 
-	actualText, err := downloadSubtitleByHash(hash, _apiHost)
+	actualText, err := downloadSubtitleByHash(hash, language, _apiHost)
 	if err != nil {
 		return "", err
 	}
@@ -105,11 +105,9 @@ func createMovieHashFromMovieFile(fileName string) (string, error) {
 	return fmt.Sprintf("%x", md5.Sum(combined)), nil
 }
 
-func downloadSubtitleByHash(hash string, apiHost string) (string, error) {
+func downloadSubtitleByHash(hash string, language string, apiHost string) (string, error) {
 
 	client := &http.Client{}
-
-	language := "en"
 
 	query := "http://" + apiHost + "/?action=download&hash=" + hash + "&language=" + language
 
