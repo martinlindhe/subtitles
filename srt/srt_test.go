@@ -168,3 +168,12 @@ func TestRenderSrt(t *testing.T) {
 
 	assert.Equal(t, expected, RenderSrt(in))
 }
+
+func TestLooksLikeLatin1(t *testing.T) {
+	assert.Equal(t, true, looksLikeLatin1("hall\xe5"))
+	assert.Equal(t, false, looksLikeLatin1("hallå"))
+}
+
+func TestParseLatin1Srt(t *testing.T) {
+	// XXX
+}

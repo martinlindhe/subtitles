@@ -25,10 +25,12 @@ func CleanSubs(subs []Caption) []Caption {
 		"subscene",
 		"seriessub",
 		"addic7ed", "addicted.com",
+		"sdimedia", "sdi media",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "cssubs", "tvsub",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com",
-		"napisy.org", "1000fr.com", "opensubtitles.org", "o p e n s u b t i t l e s",
+		"napisy.org", "1000fr.com", "opensubtitles.org",
+		"s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
 		"simail.si", "sf.net", "yify-torrents", "vitac.com",
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
@@ -38,7 +40,7 @@ func CleanSubs(subs []Caption) []Caption {
 		// swe subs:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
-		"undertext av", "översatt av", "översättning av", "rättad av",
+		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av",
 		"svensk text", "text av", "text:", "omsynk:", "omsynkad",
 		"transkribering:", "piratpartiet.se",
@@ -60,7 +62,7 @@ func CleanSubs(subs []Caption) []Caption {
 			for _, adLine := range ads {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					fmt.Println("Removing caption", orgSeq, sub.Text)
+					fmt.Println("[ads]", orgSeq, sub.Text, "matched", adLine)
 					break
 				}
 			}
