@@ -60,17 +60,25 @@ func ParseSrt(s string) []caption.Caption {
 
 		for {
 			line := strings.Trim(lines[i], "\r ")
-			if i >= len(lines) || line == "" {
+			if line == "" {
 				break
 			}
 			o.Text = append(o.Text, line)
 			i++
+
+			if i >= len(lines) {
+				break
+			}
 		}
 
 		res = append(res, o)
 	}
 
 	return res
+}
+
+func makeTime(h int, m int, s int, ms int) time.Time {
+	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
 func parseTime(in string) (time.Time, error) {
@@ -82,13 +90,35 @@ func parseTime(in string) (time.Time, error) {
 		in += ".000"
 	}
 
-	const form = "15:04:05.000"
-	t, err := time.Parse(form, in)
-	if err != nil {
-		return t, fmt.Errorf("Parse error: %v", err)
+	r1 := regexp.MustCompile("([0-9]+):([0-9]+):([0-9]+)[.]([0-9]+)")
+
+	matches := r1.FindStringSubmatch(in)
+
+	if len(matches) < 5 {
+		return time.Now(), fmt.Errorf("Regexp didnt match: %s", in)
 	}
 
-	return t, nil
+	h, err := strconv.Atoi(matches[1])
+	if err != nil {
+		return time.Now(), err
+	}
+
+	m, err := strconv.Atoi(matches[2])
+	if err != nil {
+		return time.Now(), err
+	}
+
+	s, err := strconv.Atoi(matches[3])
+	if err != nil {
+		return time.Now(), err
+	}
+
+	ms, err := strconv.Atoi(matches[4])
+	if err != nil {
+		return time.Now(), err
+	}
+
+	return makeTime(h, m, s, ms), nil
 }
 
 // WriteSrt prints a srt render to outFileName

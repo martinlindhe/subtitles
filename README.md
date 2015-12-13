@@ -25,6 +25,8 @@ Removing caption 701 [== sync, corrected by <font color="#00FF00">elderman</font
 Written to movie.srt
 ```
 
+To specify another language than default "en", use the `--language="sv"` flag.
+
 
 Remove ads from an existing .srt file:
 

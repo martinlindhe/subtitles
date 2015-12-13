@@ -14,9 +14,14 @@ func TestParseTime(t *testing.T) {
 	t2, _ := parseTime("18:40:22,110")
 	t3, _ := parseTime("18:40:22")
 
+	t4, _ := parseTime("00:00:0,500")
+	t5, _ := parseTime("00:00:2,00")
+
 	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 110), t1)
 	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 110), t2)
 	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 0), t3)
+	assert.Equal(t, testExtras.MakeTime(0, 0, 0, 500), t4)
+	assert.Equal(t, testExtras.MakeTime(0, 0, 2, 0), t5)
 }
 
 func TestParseSrt(t *testing.T) {

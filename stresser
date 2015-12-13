@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# try to process all .srt files under Downloads, recursively
+
+find ~/Downloads -name '*.srt' -print0 | xargs -0 -n1 -P6 go run subber.go

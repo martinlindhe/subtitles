@@ -27,7 +27,7 @@ func CleanSubs(subs []Caption) []Caption {
 		"addic7ed", "addicted.com",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "cssubs", "tvsub",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
-		"forom.com", "forom. com", "facebook.com",
+		"forom.com", "forom. com", "facebook.com", "hdvietnam.com",
 		"napisy.org", "1000fr.com", "opensubtitles.org", "o p e n s u b t i t l e s",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
 		"simail.si", "sf.net", "yify-torrents", "vitac.com",
@@ -40,7 +40,7 @@ func CleanSubs(subs []Caption) []Caption {
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden.net",
 		"undertext av", "översatt av", "översättning av", "rättad av", "synkad av",
 		"synkat av", "text av", "text:", "synk:", "synkning:", "transkribering:",
-		"korrektur:", "mediatextgruppen", "texter på nätet",
+		"korrektur:", "mediatextgruppen", "texter på nätet", "programtextning",
 	}
 
 	seq := 1
