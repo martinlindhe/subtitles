@@ -1,9 +1,8 @@
-package common
+package testExtras
 
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"time"
 )
 
@@ -16,25 +15,6 @@ func Check(e error) {
 		fmt.Println(e)
 		panic(e)
 	}
-}
-
-// Exists reports whether the named file or directory exists.
-func Exists(name string) bool {
-	if _, err := os.Stat(name); err != nil {
-		if os.IsNotExist(err) {
-			return false
-		}
-	}
-	return true
-}
-
-// IsDirectory reports wether the named path is a directory
-func IsDirectory(path string) bool {
-	fileInfo, err := os.Stat(path)
-	if err != nil {
-		return false
-	}
-	return fileInfo.IsDir()
 }
 
 func CreateTempFile(byteSize int) string {

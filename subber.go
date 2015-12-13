@@ -5,8 +5,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/martinlindhe/go-subber/common"
 	"github.com/martinlindhe/go-subber/download"
+	"github.com/martinlindhe/go-subber/helpers"
 	"github.com/martinlindhe/go-subber/srt"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
@@ -32,29 +32,35 @@ func main() {
 		os.Exit(0)
 	}
 
-	action(inFileName)
+	err := action(inFileName)
+	if err != nil {
+		fmt.Printf("An error occured: %v\n", err)
+	}
 }
 
-func action(inFileName string) {
+func action(inFileName string) error {
 
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
 		srt.CleanupSrt(inFileName, *filter, *skipBackups, *keepAds)
-		return
+		return nil
 	}
 
 	subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
 
-	if common.Exists(subFileName) {
+	if helpers.Exists(subFileName) {
 		fmt.Println("Subs found locally, not downloading ...")
 		srt.CleanupSrt(subFileName, *filter, *skipBackups, *keepAds)
-		return
+		return nil
 	}
 
 	fmt.Printf("Downloading subs for input file ...\n")
 
 	captions, err := download.FindSubs(inFileName, *language, *keepAds)
-	common.Check(err)
+	if err != nil {
+		return err
+	}
 
 	srt.WriteSrt(captions, subFileName)
+	return nil
 }

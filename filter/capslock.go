@@ -6,6 +6,7 @@ import (
 	"github.com/martinlindhe/go-subber/caption"
 )
 
+// CapslockStripper converts "ALL CAPS" text into "Initial letter capped"
 func CapslockStripper(captions []caption.Caption) []caption.Caption {
 
 	for _, cap := range captions {

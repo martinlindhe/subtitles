@@ -8,18 +8,18 @@ import (
 	"os"
 
 	"github.com/martinlindhe/go-subber/caption"
-	"github.com/martinlindhe/go-subber/common"
+	"github.com/martinlindhe/go-subber/helpers"
 	"github.com/martinlindhe/go-subber/srt"
 )
 
 // FindSubs tries to find subtitles online
 func FindSubs(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
 
-	if !common.Exists(videoFileName) {
+	if !helpers.Exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)
 	}
 
-	if common.IsDirectory(videoFileName) {
+	if helpers.IsDirectory(videoFileName) {
 		return nil, fmt.Errorf("%s is not a file", videoFileName)
 	}
 
@@ -62,7 +62,7 @@ func fromTheSubDb(videoFileName string, language string, optional ...string) (st
 func createMovieHashFromMovieFile(fileName string) (string, error) {
 
 	// XXX make sure filename is a file, and not a dir
-	if !common.Exists(fileName) {
+	if !helpers.Exists(fileName) {
 		return "", fmt.Errorf("File %s not found", fileName)
 	}
 
@@ -70,11 +70,15 @@ func createMovieHashFromMovieFile(fileName string) (string, error) {
 	readSize := int64(64 * 1024)
 
 	f, err := os.Open(fileName)
-	common.Check(err)
+	if err != nil {
+		return "", err
+	}
 	defer f.Close()
 
 	fi, err := f.Stat()
-	common.Check(err)
+	if err != nil {
+		return "", err
+	}
 
 	if fi.Size() < readSize {
 		return "", fmt.Errorf("File is too small: %s", fileName)

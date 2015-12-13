@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/martinlindhe/go-subber/caption"
-	"github.com/martinlindhe/go-subber/common"
+	"github.com/martinlindhe/go-subber/testExtras"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,9 +14,9 @@ func TestParseTime(t *testing.T) {
 	t2, _ := parseTime("18:40:22,110")
 	t3, _ := parseTime("18:40:22")
 
-	assert.Equal(t, common.MakeTime(18, 40, 22, 110), t1)
-	assert.Equal(t, common.MakeTime(18, 40, 22, 110), t2)
-	assert.Equal(t, common.MakeTime(18, 40, 22, 0), t3)
+	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 110), t1)
+	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 110), t2)
+	assert.Equal(t, testExtras.MakeTime(18, 40, 22, 0), t3)
 }
 
 func TestParseSrt(t *testing.T) {
@@ -37,19 +37,19 @@ func TestParseSrt(t *testing.T) {
 	expected = append(expected, caption.Caption{
 		Seq:   1,
 		Text:  []string{"<i>Go ninja!</i>"},
-		Start: common.MakeTime(0, 0, 4, 630),
-		End:   common.MakeTime(0, 0, 6, 18)})
+		Start: testExtras.MakeTime(0, 0, 4, 630),
+		End:   testExtras.MakeTime(0, 0, 6, 18)})
 	expected = append(expected,
 		caption.Caption{
 			Seq:   2,
 			Text:  []string{"<i>Subtitles By MrCool</i>"},
-			Start: common.MakeTime(0, 0, 10, 0),
-			End:   common.MakeTime(0, 0, 11, 0)})
+			Start: testExtras.MakeTime(0, 0, 10, 0),
+			End:   testExtras.MakeTime(0, 0, 11, 0)})
 	expected = append(expected, caption.Caption{
 		Seq:   3,
 		Text:  []string{"<i>No ninja!</i>"},
-		Start: common.MakeTime(0, 1, 9, 630),
-		End:   common.MakeTime(0, 1, 11, 005)})
+		Start: testExtras.MakeTime(0, 1, 9, 630),
+		End:   testExtras.MakeTime(0, 1, 11, 005)})
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -65,8 +65,8 @@ func TestParseSrtCrlf(t *testing.T) {
 	expected = append(expected, caption.Caption{
 		Seq:   1,
 		Text:  []string{"<i>Go ninja!</i>"},
-		Start: common.MakeTime(0, 0, 4, 630),
-		End:   common.MakeTime(0, 0, 6, 18)})
+		Start: testExtras.MakeTime(0, 0, 4, 630),
+		End:   testExtras.MakeTime(0, 0, 6, 18)})
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -82,8 +82,8 @@ func TestParseSrtUtf8Bom(t *testing.T) {
 	expected = append(expected, caption.Caption{
 		Seq:   1,
 		Text:  []string{"<i>Go ninja!</i>"},
-		Start: common.MakeTime(0, 0, 4, 630),
-		End:   common.MakeTime(0, 0, 6, 18)})
+		Start: testExtras.MakeTime(0, 0, 4, 630),
+		End:   testExtras.MakeTime(0, 0, 6, 18)})
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -102,13 +102,13 @@ func TestRenderSrt(t *testing.T) {
 	in = append(in, caption.Caption{
 		Seq:   1,
 		Text:  []string{"<i>Go ninja!</i>"},
-		Start: common.MakeTime(0, 0, 4, 630),
-		End:   common.MakeTime(0, 0, 6, 18)})
+		Start: testExtras.MakeTime(0, 0, 4, 630),
+		End:   testExtras.MakeTime(0, 0, 6, 18)})
 	in = append(in, caption.Caption{
 		Seq:   2,
 		Text:  []string{"<i>No ninja!</i>"},
-		Start: common.MakeTime(0, 1, 9, 630),
-		End:   common.MakeTime(0, 1, 11, 005)})
+		Start: testExtras.MakeTime(0, 1, 9, 630),
+		End:   testExtras.MakeTime(0, 1, 11, 005)})
 
 	assert.Equal(t, expected, RenderSrt(in))
 }
