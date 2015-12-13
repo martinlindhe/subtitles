@@ -20,7 +20,7 @@ func CleanSubs(subs []Caption) []Caption {
 		"sync by n17t01",
 		"sync,", "synchro :", "synchro:", "synchronized by", "synchronization by",
 		"synchronisation:", "relecture et corrections finales:", "resynchronization:",
-		"resync:", "resynchro",
+		"resync:", "resynchro", "resync by",
 		"encoded by",
 		"subscene",
 		"seriessub",

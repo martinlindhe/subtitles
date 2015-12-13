@@ -9,8 +9,8 @@ import (
 // FilterSubs pass the captions through a filter function
 func FilterSubs(captions []caption.Caption, filter string) []caption.Caption {
 
-	if filter == "capslock" {
-		return CapslockStripper(captions)
+	if filter == "caps" {
+		return CapsFixer(captions)
 	}
 	if filter == "html" {
 		return HTMLStripper(captions)

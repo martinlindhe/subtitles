@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCapslockStripper(t *testing.T) {
+func TestCapsFixer(t *testing.T) {
 
 	var in []caption.Caption
 	in = append(in, caption.Caption{
@@ -24,5 +24,5 @@ func TestCapslockStripper(t *testing.T) {
 		Start: testExtras.MakeTime(0, 0, 4, 630),
 		End:   testExtras.MakeTime(0, 0, 6, 18)})
 
-	assert.Equal(t, expected, CapslockStripper(in))
+	assert.Equal(t, expected, CapsFixer(in))
 }

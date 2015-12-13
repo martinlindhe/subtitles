@@ -17,7 +17,7 @@ var (
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 	language    = kingpin.Flag("language", "Language.").Default("en").String()
-	filter      = kingpin.Flag("filter", "Filter (none, capslock, html).").Default("none").String()
+	filter      = kingpin.Flag("filter", "Filter (none, caps, html).").Default("none").String()
 )
 
 func main() {
@@ -49,12 +49,12 @@ func action(inFileName string) error {
 	subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
 
 	if helpers.Exists(subFileName) {
-		fmt.Println("Subs found locally in %s, skipping download", subFileName)
+		fmt.Printf("Subs found locally in %s, skipping download\n", subFileName)
 		srt.CleanupSrt(subFileName, *filter, *skipBackups, *keepAds)
 		return nil
 	}
 
-	fmt.Printf("Downloading subtitles for %s ...\n", inFileName)
+	fmt.Printf("Downloading subs for %s ...\n", inFileName)
 
 	captions, err := download.FindSub(inFileName, *language, *keepAds)
 	if err != nil {
