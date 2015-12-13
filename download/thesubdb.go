@@ -20,7 +20,7 @@ func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Cap
 		return nil, err
 	}
 
-	captions := srt.ParseSrt(text)
+	captions := srt.ParseSrt([]byte(text))
 
 	if !keepAds {
 		captions = caption.CleanSubs(captions)

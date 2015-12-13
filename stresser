@@ -6,4 +6,4 @@ rootPath="/Users/m/dev/words/subtitles"
 # will halt the script on any error
 set -e
 
-find $rootPath -name '*.srt' -print0 | xargs -0 -n1 -P6 go-subber --skip-backups
+find $rootPath -name '*.srt' -print0 | xargs -0 -n1 -P6 subber --skip-backups

@@ -60,7 +60,7 @@ func TestParseSrt(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
 func TestParseSrtSkipEmpty(t *testing.T) {
@@ -92,7 +92,7 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
 func TestParseSrtCrlf(t *testing.T) {
@@ -111,7 +111,7 @@ func TestParseSrtCrlf(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
 func TestParseExtraLineBreak(t *testing.T) {
@@ -133,26 +133,7 @@ func TestParseExtraLineBreak(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
-}
-
-func TestParseSrtUtf8Bom(t *testing.T) {
-
-	in := "\ufeff1\n" +
-		"00:00:04,630 --> 00:00:06,018\r\n" +
-		"Go ninja!\r\n" +
-		"\r\n"
-
-	var expected = []caption.Caption{
-		{
-			1,
-			testExtras.MakeTime(0, 0, 4, 630),
-			testExtras.MakeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-	}
-
-	assert.Equal(t, expected, ParseSrt(in))
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
 func TestParseWierdTimestamp(t *testing.T) {
@@ -170,7 +151,7 @@ func TestParseWierdTimestamp(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
 func TestRenderSrt(t *testing.T) {
@@ -201,11 +182,127 @@ func TestRenderSrt(t *testing.T) {
 	assert.Equal(t, expected, RenderSrt(in))
 }
 
-func TestLooksLikeLatin1(t *testing.T) {
-	assert.Equal(t, true, looksLikeLatin1("hall\xe5"))
-	assert.Equal(t, false, looksLikeLatin1("hallå"))
+func TestParseLatin1Srt(t *testing.T) {
+	in := "1\r\n" +
+		"00:14:52.00 --> 00:14:57,500\r\n" +
+		"Hall\xe5 ninja!\r\n"
+
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 14, 52, 0),
+			testExtras.MakeTime(0, 14, 57, 500),
+			[]string{"Hallå ninja!"},
+		},
+	}
+
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }
 
-func TestParseLatin1Srt(t *testing.T) {
-	// XXX
+func TestParseUTF16BESrt(t *testing.T) {
+
+	in := []byte{
+		0xfe, 0xff, // UTF16 BE BOM
+
+		0, '1',
+		0, '\r', 0, '\n',
+
+		0, '0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':',
+		0, '0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '0',
+
+		0, ' ', 0, '-', 0, '-', 0, '>', 0, ' ',
+
+		0, '0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':',
+		0, '0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '1',
+
+		0, '\r', 0, '\n',
+
+		0, 'T', 0, 'e', 0, 's', 0, 't',
+
+		0, '\r', 0, '\n',
+		0, '\r', 0, '\n',
+	}
+
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 0, 0),
+			testExtras.MakeTime(0, 0, 0, 1),
+			[]string{"Test"},
+		},
+	}
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
+func TestParseUTF16LESrt(t *testing.T) {
+
+	in := []byte{
+		0xff, 0xfe, // UTF16 LE BOM
+
+		'1', 0,
+		'\r', 0, '\n', 0,
+
+		'0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':', 0,
+		'0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '0', 0,
+
+		' ', 0, '-', 0, '-', 0, '>', 0, ' ', 0,
+
+		'0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':', 0,
+		'0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '1', 0,
+
+		'\r', 0, '\n', 0,
+
+		'T', 0, 'e', 0, 's', 0, 't', 0,
+
+		'\r', 0, '\n', 0,
+		'\r', 0, '\n', 0,
+	}
+
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 0, 0),
+			testExtras.MakeTime(0, 0, 0, 1),
+			[]string{"Test"},
+		},
+	}
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
+func TestParseUTF8BomSrt(t *testing.T) {
+
+	in := []byte{
+		0xef, 0xbb, 0xbf, // UTF8 BOM
+
+		'1',
+		'\r', '\n',
+
+		'0', '0', ':', '0', '0', ':',
+		'0', '0', ',', '0', '0', '0',
+
+		' ', '-', '-', '>', ' ',
+
+		'0', '0', ':', '0', '0', ':',
+		'0', '0', ',', '0', '0', '1',
+
+		'\r', '\n',
+
+		'T', 'e', 's', 't',
+
+		'\r', '\n',
+		'\r', '\n',
+	}
+
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 0, 0),
+			testExtras.MakeTime(0, 0, 0, 1),
+			[]string{"Test"},
+		},
+	}
+
+	assert.Equal(t, expected, ParseSrt([]byte(in)))
 }

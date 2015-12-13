@@ -1,14 +1,15 @@
 ## About
 
-Golang cli tool and library for reading, writing and manipulating .srt subtitle files
+Subber is a cli tool and library for reading,
+writing and manipulating .srt subtitle files written in Go
 
 
 ## Installation
 
-Requires golang to be installed on your system.
+Assuming golang is installed on your system:
 
 ```
-go get github.com/martinlindhe/go-subber
+go get github.com/martinlindhe/subber
 ```
 
 ## Usage
@@ -16,7 +17,7 @@ go get github.com/martinlindhe/go-subber
 To download subtitles for a video file:
 
 ```
-$ go-subber movie.mp4
+$ subber movie.mp4
 
 Downloading subs for movie.mp4 ...
 Cleaning sub movie.srt ...
@@ -31,7 +32,7 @@ To specify another language than default "en", use the `--language="sv"` flag.
 Remove ads from an existing .srt file:
 
 ```
-$ go-subber subtitle.srt
+$ subber subtitle.srt
 
 Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font color="#00FFFF"> www.vitac.com</font>]
 Removing caption 22 [CAPTIONS PAID FOR BY DISCOVERY COMMUNICATIONS]
@@ -40,7 +41,7 @@ Removing caption 22 [CAPTIONS PAID FOR BY DISCOVERY COMMUNICATIONS]
 Strip html tags from .srt:
 
 ```
-$ go-subber subtitle.srt --filter="html"
+$ subber subtitle.srt --filter="html"
 
 [html] <i>And there's a lot of it there.</i> -> And there's a lot of it there.
 ```
@@ -48,7 +49,7 @@ $ go-subber subtitle.srt --filter="html"
 Normalize capitalization in .srt:
 
 ```
-$ go-subber subtitle.srt --filter="caps"
+$ subber subtitle.srt --filter="caps"
 
 [caps] INTRODUCING -> Introducing
 [caps] right, to go? -> Right, to go?
@@ -67,6 +68,7 @@ BSD
 Patches welcome!
 
 Some ideas, in no particular order:
+
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer
 - filter: spell fixer

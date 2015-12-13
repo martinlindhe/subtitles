@@ -11,67 +11,16 @@ import (
 
 	"github.com/martinlindhe/go-subber/caption"
 	"github.com/martinlindhe/go-subber/filter"
+	"github.com/martinlindhe/go-subber/txtformat"
 )
 
 // Eol is the end of line characters to use when writing .srt data
 const Eol = "\n"
 
-func looksLikeLatin1(s string) bool {
-
-	swe := float64(0)
-
-	for i := 0; i < len(s); i++ {
-		switch {
-		case s[i] == 0xe5: // å
-			swe++
-		case s[i] == 0xe4: // ä
-			swe++
-		case s[i] == 0xf6: // ö
-			swe++
-		case s[i] == 0xc4: // Ä
-			swe++
-		case s[i] == 0xc5: // Å
-			swe++
-		case s[i] == 0xd6: // Ö
-			swe++
-		}
-	}
-
-	// calc percent of swe letters
-	pct := (swe / float64(len(s))) * 100
-	if pct >= 1 {
-		return true
-	}
-
-	if pct > 0 {
-		fmt.Printf("XXX %v %% swe letters, %v\n", pct, swe)
-	}
-
-	return false
-}
-
-func latin1toUtf8(s string) string {
-
-	in := []byte(s)
-	res := make([]rune, len(in))
-	for i, b := range in {
-		res[i] = rune(b)
-	}
-	return string(res)
-}
-
-func tryConvertToUtf8(s string) string {
-
-	if looksLikeLatin1(s) {
-		s = latin1toUtf8(s)
-	}
-	return s
-}
-
 // ParseSrt parses a .srt text into []Caption
-func ParseSrt(s string) []caption.Caption {
+func ParseSrt(b []byte) []caption.Caption {
 
-	s = tryConvertToUtf8(s)
+	s := txtformat.ConvertToUTF8(b)
 
 	var res []caption.Caption
 
@@ -83,7 +32,7 @@ func ParseSrt(s string) []caption.Caption {
 
 	for i := 0; i < len(lines); i++ {
 
-		seq := strings.Trim(lines[i], "\ufeff\r ")
+		seq := strings.Trim(lines[i], "\r ")
 		if seq == "" {
 			break
 		}
@@ -230,9 +179,7 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 		return err
 	}
 
-	s := string(data)
-
-	captions := ParseSrt(s)
+	captions := ParseSrt(data)
 	if !keepAds {
 		captions = caption.CleanSubs(captions)
 	}
@@ -241,8 +188,8 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 
 	out := RenderSrt(captions)
 
-	if s == out {
-		//fmt.Printf("No changes performed\n")
+	if string(data) == out {
+		fmt.Printf("XXX No changes performed\n")
 		return nil
 	}
 
