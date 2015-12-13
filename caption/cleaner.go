@@ -41,7 +41,7 @@ func CleanSubs(subs []Caption) []Caption {
 		"undertext av", "översatt av", "översättning av", "rättad av",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av",
 		"svensk text", "text av", "text:", "omsynk:", "omsynkad",
-		"transkribering:",
+		"transkribering:", "piratpartiet.se",
 		"korrektur:", "korrekturläst", "texter på nätet", "text hämtad från",
 		"din filmsajt på nätet", "din största filmsajt på nätet",
 		"alltid nya texter",

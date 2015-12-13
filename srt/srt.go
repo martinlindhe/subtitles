@@ -163,7 +163,7 @@ func renderCaptionAsSrt(caption caption.Caption) string {
 // CleanupSrt performs cleanup on fileName, overwriting the original file
 func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds bool) error {
 
-	fmt.Printf("Cleaning sub %s ...\n", inFileName)
+	// fmt.Printf("Cleaning sub %s ...\n", inFileName)
 
 	data, err := ioutil.ReadFile(inFileName)
 	if err != nil {

@@ -10,19 +10,23 @@ import (
 
 func TestHTMLStripper(t *testing.T) {
 
-	var in []caption.Caption
-	in = append(in, caption.Caption{
-		Seq:   1,
-		Text:  []string{"<b>GO NINJA!</b>", "NINJA&nbsp;GO!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
+	var in = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"<b>GO NINJA!</b>", "NINJA&nbsp;GO!"},
+		},
+	}
 
-	var expected []caption.Caption
-	expected = append(expected, caption.Caption{
-		Seq:   1,
-		Text:  []string{"GO NINJA!", "NINJA GO!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"GO NINJA!", "NINJA GO!"},
+		},
+	}
 
 	assert.Equal(t, expected, HTMLStripper(in))
 }

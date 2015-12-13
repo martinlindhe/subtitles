@@ -68,9 +68,6 @@ Patches welcome!
 
 Some ideas, in no particular order:
 - recognize windows encoded text, convert to utf8
-    dev/words/subtitles/swe/Breaking Bad (Swe)/S03/srt/Breaking.Bad.S03E08.I.See.You.HDTV.XviD-FQM.srt
-    Removing caption 15 [Ã–versatt av Allebale Till Mamma. www.undertexter.se]
-
 
 
 - expose thesubdb.com search api

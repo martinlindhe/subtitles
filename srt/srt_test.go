@@ -38,23 +38,26 @@ func TestParseSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	var expected []caption.Caption
-	expected = append(expected, caption.Caption{
-		Seq:   1,
-		Text:  []string{"Go ninja!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
-	expected = append(expected,
-		caption.Caption{
-			Seq:   2,
-			Text:  []string{"Subtitles By MrCool"},
-			Start: testExtras.MakeTime(0, 0, 10, 0),
-			End:   testExtras.MakeTime(0, 0, 11, 0)})
-	expected = append(expected, caption.Caption{
-		Seq:   3,
-		Text:  []string{"No ninja!"},
-		Start: testExtras.MakeTime(0, 1, 9, 630),
-		End:   testExtras.MakeTime(0, 1, 11, 005)})
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+		{
+			2,
+			testExtras.MakeTime(0, 0, 10, 0),
+			testExtras.MakeTime(0, 0, 11, 0),
+			[]string{"Subtitles By MrCool"},
+		},
+		{
+			3,
+			testExtras.MakeTime(0, 1, 9, 630),
+			testExtras.MakeTime(0, 1, 11, 005),
+			[]string{"No ninja!"},
+		},
+	}
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -66,12 +69,14 @@ func TestParseSrtCrlf(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected []caption.Caption
-	expected = append(expected, caption.Caption{
-		Seq:   1,
-		Text:  []string{"Go ninja!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+	}
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -86,12 +91,14 @@ func TestParseExtraLineBreak(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected []caption.Caption
-	expected = append(expected, caption.Caption{
-		Seq:   1,
-		Text:  []string{"Go ninja!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+	}
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -103,12 +110,14 @@ func TestParseSrtUtf8Bom(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected []caption.Caption
-	expected = append(expected, caption.Caption{
-		Seq:   1,
-		Text:  []string{"Go ninja!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+	}
 
 	assert.Equal(t, expected, ParseSrt(in))
 }
@@ -123,22 +132,20 @@ func TestRenderSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005" + Eol +
 		"No ninja!" + Eol + Eol
 
-	var in []caption.Caption
-	in = append(in, caption.Caption{
-		Seq:   1,
-		Text:  []string{"Go ninja!"},
-		Start: testExtras.MakeTime(0, 0, 4, 630),
-		End:   testExtras.MakeTime(0, 0, 6, 18)})
-	in = append(in, caption.Caption{
-		Seq:   2,
-		Text:  []string{"No ninja!"},
-		Start: testExtras.MakeTime(0, 1, 9, 630),
-		End:   testExtras.MakeTime(0, 1, 11, 005)})
+	var in = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+		{
+			2,
+			testExtras.MakeTime(0, 1, 9, 630),
+			testExtras.MakeTime(0, 1, 11, 005),
+			[]string{"No ninja!"},
+		},
+	}
 
 	assert.Equal(t, expected, RenderSrt(in))
 }
-
-/*
-func TestWriteSrt(t *testing.T) {
-	xxx
-}*/
