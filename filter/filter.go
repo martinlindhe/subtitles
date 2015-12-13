@@ -3,7 +3,7 @@ package filter
 import (
 	"fmt"
 
-	"github.com/martinlindhe/go-subber/caption"
+	"github.com/martinlindhe/subber/caption"
 )
 
 // FilterSubs pass the captions through a filter function

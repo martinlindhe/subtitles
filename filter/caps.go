@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/martinlindhe/go-subber/caption"
+	"github.com/martinlindhe/subber/caption"
 )
 
 // CapsFixer converts "ALL CAPS" text into "Initial letter capped"

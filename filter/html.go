@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/kennygrant/sanitize"
-	"github.com/martinlindhe/go-subber/caption"
+	"github.com/martinlindhe/subber/caption"
 )
 
 // HTMLStripper removes all html tags from captions

@@ -3,8 +3,8 @@ package filter
 import (
 	"testing"
 
-	"github.com/martinlindhe/go-subber/caption"
-	"github.com/martinlindhe/go-subber/testExtras"
+	"github.com/martinlindhe/subber/caption"
+	"github.com/martinlindhe/subber/testExtras"
 	"github.com/stretchr/testify/assert"
 )
 

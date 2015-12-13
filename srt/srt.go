@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/martinlindhe/go-subber/caption"
-	"github.com/martinlindhe/go-subber/filter"
-	"github.com/martinlindhe/go-subber/txtformat"
+	"github.com/martinlindhe/subber/caption"
+	"github.com/martinlindhe/subber/filter"
+	"github.com/martinlindhe/subber/txtformat"
 )
 
 // Eol is the end of line characters to use when writing .srt data

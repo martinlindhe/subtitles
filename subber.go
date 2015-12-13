@@ -6,9 +6,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/martinlindhe/go-subber/download"
-	"github.com/martinlindhe/go-subber/helpers"
-	"github.com/martinlindhe/go-subber/srt"
+	"github.com/martinlindhe/subber/download"
+	"github.com/martinlindhe/subber/helpers"
+	"github.com/martinlindhe/subber/srt"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 

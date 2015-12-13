@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/martinlindhe/go-subber/caption"
-	"github.com/martinlindhe/go-subber/helpers"
-	"github.com/martinlindhe/go-subber/srt"
+	"github.com/martinlindhe/subber/caption"
+	"github.com/martinlindhe/subber/helpers"
+	"github.com/martinlindhe/subber/srt"
 )
 
 // FindSub finds ssubtitle online, and parses it into a []caption.Caption

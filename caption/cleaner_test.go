@@ -3,7 +3,7 @@ package caption
 import (
 	"testing"
 
-	"github.com/martinlindhe/go-subber/testExtras"
+	"github.com/martinlindhe/subber/testExtras"
 	"github.com/stretchr/testify/assert"
 )
 
