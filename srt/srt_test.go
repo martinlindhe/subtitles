@@ -28,31 +28,31 @@ func TestParseSrt(t *testing.T) {
 
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
-		"<i>Go ninja!</i>\n" +
+		"Go ninja!\n" +
 		"\n" +
 		"2\n" +
 		"00:00:10,000 --> 00:00:11,000\n" +
-		"<i>Subtitles By MrCool</i>\n" +
+		"Subtitles By MrCool\n" +
 		"\n" +
 		"3\n" +
 		"00:01:09,630 --> 00:01:11,005\n" +
-		"<i>No ninja!</i>\n"
+		"No ninja!\n"
 
 	var expected []caption.Caption
 	expected = append(expected, caption.Caption{
 		Seq:   1,
-		Text:  []string{"<i>Go ninja!</i>"},
+		Text:  []string{"Go ninja!"},
 		Start: testExtras.MakeTime(0, 0, 4, 630),
 		End:   testExtras.MakeTime(0, 0, 6, 18)})
 	expected = append(expected,
 		caption.Caption{
 			Seq:   2,
-			Text:  []string{"<i>Subtitles By MrCool</i>"},
+			Text:  []string{"Subtitles By MrCool"},
 			Start: testExtras.MakeTime(0, 0, 10, 0),
 			End:   testExtras.MakeTime(0, 0, 11, 0)})
 	expected = append(expected, caption.Caption{
 		Seq:   3,
-		Text:  []string{"<i>No ninja!</i>"},
+		Text:  []string{"No ninja!"},
 		Start: testExtras.MakeTime(0, 1, 9, 630),
 		End:   testExtras.MakeTime(0, 1, 11, 005)})
 
@@ -63,13 +63,33 @@ func TestParseSrtCrlf(t *testing.T) {
 
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\r\n" +
-		"<i>Go ninja!</i>\r\n" +
+		"Go ninja!\r\n" +
 		"\r\n"
 
 	var expected []caption.Caption
 	expected = append(expected, caption.Caption{
 		Seq:   1,
-		Text:  []string{"<i>Go ninja!</i>"},
+		Text:  []string{"Go ninja!"},
+		Start: testExtras.MakeTime(0, 0, 4, 630),
+		End:   testExtras.MakeTime(0, 0, 6, 18)})
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
+func TestParseExtraLineBreak(t *testing.T) {
+
+	in := "1\n" +
+		"00:00:04,630 --> 00:00:06,018\r\n" +
+		// NOTE: should not be line break here, but some files has,
+		// so lets make sure we handle it
+		"\r\n" +
+		"Go ninja!\r\n" +
+		"\r\n"
+
+	var expected []caption.Caption
+	expected = append(expected, caption.Caption{
+		Seq:   1,
+		Text:  []string{"Go ninja!"},
 		Start: testExtras.MakeTime(0, 0, 4, 630),
 		End:   testExtras.MakeTime(0, 0, 6, 18)})
 
@@ -80,13 +100,13 @@ func TestParseSrtUtf8Bom(t *testing.T) {
 
 	in := "\ufeff1\n" +
 		"00:00:04,630 --> 00:00:06,018\r\n" +
-		"<i>Go ninja!</i>\r\n" +
+		"Go ninja!\r\n" +
 		"\r\n"
 
 	var expected []caption.Caption
 	expected = append(expected, caption.Caption{
 		Seq:   1,
-		Text:  []string{"<i>Go ninja!</i>"},
+		Text:  []string{"Go ninja!"},
 		Start: testExtras.MakeTime(0, 0, 4, 630),
 		End:   testExtras.MakeTime(0, 0, 6, 18)})
 
@@ -97,21 +117,21 @@ func TestRenderSrt(t *testing.T) {
 
 	expected := "1" + Eol +
 		"00:00:04,630 --> 00:00:06,018" + Eol +
-		"<i>Go ninja!</i>" + Eol +
+		"Go ninja!" + Eol +
 		Eol +
 		"2" + Eol +
 		"00:01:09,630 --> 00:01:11,005" + Eol +
-		"<i>No ninja!</i>" + Eol + Eol
+		"No ninja!" + Eol + Eol
 
 	var in []caption.Caption
 	in = append(in, caption.Caption{
 		Seq:   1,
-		Text:  []string{"<i>Go ninja!</i>"},
+		Text:  []string{"Go ninja!"},
 		Start: testExtras.MakeTime(0, 0, 4, 630),
 		End:   testExtras.MakeTime(0, 0, 6, 18)})
 	in = append(in, caption.Caption{
 		Seq:   2,
-		Text:  []string{"<i>No ninja!</i>"},
+		Text:  []string{"No ninja!"},
 		Start: testExtras.MakeTime(0, 1, 9, 630),
 		End:   testExtras.MakeTime(0, 1, 11, 005)})
 

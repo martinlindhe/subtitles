@@ -36,11 +36,18 @@ func CleanSubs(subs []Caption) []Caption {
 		"1st-booking",
 
 		// swe subs:
-		"swedish subtitles",
-		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden.net",
-		"undertext av", "översatt av", "översättning av", "rättad av", "synkad av",
-		"synkat av", "text av", "text:", "synk:", "synkning:", "transkribering:",
-		"korrektur:", "mediatextgruppen", "texter på nätet", "programtextning",
+		"swedish subtitles", "svenska undertexter", "internationella undertexter",
+		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
+		"undertext av", "översatt av", "översättning av", "rättad av",
+		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av",
+		"svensk text", "text av", "text:", "omsynk:", "omsynkad",
+		"transkribering:",
+		"korrektur:", "korrekturläst", "texter på nätet", "text hämtad från",
+		"din filmsajt på nätet", "din största filmsajt på nätet",
+		"alltid nya texter",
+		"senaste undertexter på",
+		"programtextning", "översättargrupp",
+		"mediatextgruppen", "visiontext",
 	}
 
 	seq := 1

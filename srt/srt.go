@@ -34,7 +34,7 @@ func ParseSrt(s string) []caption.Caption {
 
 		val, err := strconv.Atoi(seq)
 		if err != nil {
-			fmt.Printf("Parse error at line %d: %v\n", i, err)
+			fmt.Printf("Parse error 1 at line %d: %v\n", i, err)
 			continue
 		}
 
@@ -46,29 +46,33 @@ func ParseSrt(s string) []caption.Caption {
 
 		o.Start, err = parseTime(matches[1])
 		if err != nil {
-			fmt.Printf("Parse error at line %d: %v\n", i, err)
+			fmt.Printf("Parse error 2 at line %d: %v\n", i, err)
 			continue
 		}
 
 		o.End, err = parseTime(matches[2])
 		if err != nil {
-			fmt.Printf("Parse error at line %d: %v\n", i, err)
+			fmt.Printf("Parse error 3 at line %d: %v\n", i, err)
 			continue
 		}
 
 		i++
 
+		textLine := 1
 		for {
 			line := strings.Trim(lines[i], "\r ")
-			if line == "" {
+			if line == "" && textLine > 1 {
 				break
 			}
-			o.Text = append(o.Text, line)
+			if line != "" {
+				o.Text = append(o.Text, line)
+			}
 			i++
 
 			if i >= len(lines) {
 				break
 			}
+			textLine++
 		}
 
 		res = append(res, o)
@@ -178,14 +182,14 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 	out := RenderSrt(captions)
 
 	if s == out {
-		fmt.Printf("No changes performed\n")
+		//fmt.Printf("No changes performed\n")
 		return nil
 	}
 
 	if !skipBackup {
 		backupFileName := inFileName + ".org"
 		os.Rename(inFileName, backupFileName)
-		fmt.Printf("Backed up to %s\n", backupFileName)
+		// fmt.Printf("Backed up to %s\n", backupFileName)
 	}
 
 	f, err := os.Create(inFileName) // xxx can we create if exists? when makebackup=false ?
@@ -200,6 +204,6 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 		return err
 	}
 
-	fmt.Printf("Written %d captions to %s\n", len(captions), inFileName)
+	//fmt.Printf("Written %d captions to %s\n", len(captions), inFileName)
 	return nil
 }
