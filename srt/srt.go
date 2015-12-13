@@ -48,16 +48,20 @@ func ParseSrt(b []byte) []caption.Caption {
 		i++
 
 		matches := r1.FindStringSubmatch(lines[i])
+		if len(matches) < 3 {
+			fmt.Printf("Parser error 2 at line %d (idx out of range)\n", i)
+			continue
+		}
 
 		o.Start, err = parseTime(matches[1])
 		if err != nil {
-			fmt.Printf("Parse error 2 at line %d: %v\n", i, err)
+			fmt.Printf("Parse error 3 at line %d: %v\n", i, err)
 			continue
 		}
 
 		o.End, err = parseTime(matches[2])
 		if err != nil {
-			fmt.Printf("Parse error 3 at line %d: %v\n", i, err)
+			fmt.Printf("Parse error 4 at line %d: %v\n", i, err)
 			continue
 		}
 
@@ -172,7 +176,7 @@ func renderCaptionAsSrt(caption caption.Caption) string {
 // CleanupSrt performs cleanup on fileName, overwriting the original file
 func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds bool) error {
 
-	// fmt.Printf("Cleaning sub %s ...\n", inFileName)
+	fmt.Fprintf(os.Stderr, "CleanupSrt %s\n", inFileName)
 
 	data, err := ioutil.ReadFile(inFileName)
 	if err != nil {
@@ -189,7 +193,6 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 	out := RenderSrt(captions)
 
 	if string(data) == out {
-		fmt.Printf("XXX No changes performed\n")
 		return nil
 	}
 
@@ -199,7 +202,7 @@ func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds b
 		// fmt.Printf("Backed up to %s\n", backupFileName)
 	}
 
-	f, err := os.Create(inFileName) // xxx can we create if exists? when makebackup=false ?
+	f, err := os.Create(inFileName)
 	if err != nil {
 		return err
 	}
