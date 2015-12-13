@@ -67,9 +67,6 @@ BSD
 Patches welcome!
 
 Some ideas, in no particular order:
-- recognize windows encoded text, convert to utf8
-
-
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer
 - spellfix sub

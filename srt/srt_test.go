@@ -63,6 +63,38 @@ func TestParseSrt(t *testing.T) {
 	assert.Equal(t, expected, ParseSrt(in))
 }
 
+func TestParseSrtSkipEmpty(t *testing.T) {
+
+	in := "1\n" +
+		"00:00:04,630 --> 00:00:06,018\n" +
+		"Go ninja!\n" +
+		"\n" +
+		"2\n" +
+		"00:00:10,000 --> 00:00:11,000\n" +
+		"\n" +
+		"\n" +
+		"3\n" +
+		"00:01:09,630 --> 00:01:11,005\n" +
+		"No ninja!\n"
+
+	var expected = []caption.Caption{
+		{
+			1,
+			testExtras.MakeTime(0, 0, 4, 630),
+			testExtras.MakeTime(0, 0, 6, 18),
+			[]string{"Go ninja!"},
+		},
+		{
+			2,
+			testExtras.MakeTime(0, 1, 9, 630),
+			testExtras.MakeTime(0, 1, 11, 005),
+			[]string{"No ninja!"},
+		},
+	}
+
+	assert.Equal(t, expected, ParseSrt(in))
+}
+
 func TestParseSrtCrlf(t *testing.T) {
 
 	in := "1\n" +

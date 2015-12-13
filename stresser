@@ -2,4 +2,4 @@
 
 # try to process all .srt files under Downloads, recursively
 
-find ~/dev/words -name '*.srt' -print0 | xargs -0 -n1 -P1 go run subber.go
+find ~/dev/words/subtitles -name '*.srt' -print0 | xargs -0 -n1 -P6 go-subber --skip-backups

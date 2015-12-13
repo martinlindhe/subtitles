@@ -79,6 +79,8 @@ func ParseSrt(s string) []caption.Caption {
 
 	lines := strings.Split(s, "\n")
 
+	outSeq := 1
+
 	for i := 0; i < len(lines); i++ {
 
 		seq := strings.Trim(lines[i], "\ufeff\r ")
@@ -86,14 +88,14 @@ func ParseSrt(s string) []caption.Caption {
 			break
 		}
 
-		val, err := strconv.Atoi(seq)
+		_, err := strconv.Atoi(seq)
 		if err != nil {
 			fmt.Printf("Parse error 1 at line %d: %v\n", i, err)
 			continue
 		}
 
 		var o caption.Caption
-		o.Seq = val
+		o.Seq = outSeq
 		i++
 
 		matches := r1.FindStringSubmatch(lines[i])
@@ -129,7 +131,10 @@ func ParseSrt(s string) []caption.Caption {
 			textLine++
 		}
 
-		res = append(res, o)
+		if len(o.Text) > 0 {
+			res = append(res, o)
+			outSeq++
+		}
 	}
 
 	return res
