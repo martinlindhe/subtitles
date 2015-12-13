@@ -29,13 +29,13 @@ func CleanSubs(subs []Caption) []Caption {
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "cssubs", "tvsub",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com",
-		"napisy.org", "1000fr.com", "opensubtitles.org",
-		"s u b t i t l e",
+		"napisy.org", "1000fr.com",
+		"opensubtitles.org", "open subtitles", "s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
 		"simail.si", "sf.net", "yify-torrents", "vitac.com",
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
-		"memoryonsmells", "mkv player",
-		"1st-booking",
+		"mkv player", "best watched using", "advertise your product", "remove all ads",
+		"memoryonsmells", "1st-booking",
 
 		// swe subs:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",

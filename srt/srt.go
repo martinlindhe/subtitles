@@ -45,6 +45,7 @@ func ParseSrt(b []byte) []caption.Caption {
 
 		var o caption.Caption
 		o.Seq = outSeq
+
 		i++
 		if i >= len(lines) {
 			break
@@ -69,6 +70,9 @@ func ParseSrt(b []byte) []caption.Caption {
 		}
 
 		i++
+		if i >= len(lines) {
+			break
+		}
 
 		textLine := 1
 		for {
@@ -79,11 +83,12 @@ func ParseSrt(b []byte) []caption.Caption {
 			if line != "" {
 				o.Text = append(o.Text, line)
 			}
-			i++
 
+			i++
 			if i >= len(lines) {
 				break
 			}
+
 			textLine++
 		}
 

@@ -29,26 +29,26 @@ func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Cap
 	return captions, nil
 }
 
-// FindSubText finds ssubtitle online, and return untouched string
-func FindSubText(videoFileName string, language string) (string, error) {
+// FindSubText finds ssubtitle online, returns untouched data
+func FindSubText(videoFileName string, language string) ([]byte, error) {
 	if !helpers.Exists(videoFileName) {
-		return "", fmt.Errorf("%s not found", videoFileName)
+		return nil, fmt.Errorf("%s not found", videoFileName)
 	}
 
 	if helpers.IsDirectory(videoFileName) {
-		return "", fmt.Errorf("%s is not a file", videoFileName)
+		return nil, fmt.Errorf("%s is not a file", videoFileName)
 	}
 
 	text, err := fromTheSubDb(videoFileName, language)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	return text, nil
 }
 
 // FromTheSubDb downloads a subtitle from thesubdb.com
-func fromTheSubDb(videoFileName string, language string, optional ...string) (string, error) {
+func fromTheSubDb(videoFileName string, language string, optional ...string) ([]byte, error) {
 
 	_apiHost := "api.thesubdb.com"
 	if len(optional) > 0 {
@@ -57,12 +57,12 @@ func fromTheSubDb(videoFileName string, language string, optional ...string) (st
 
 	hash, err := createMovieHashFromMovieFile(videoFileName)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	actualText, err := downloadSubtitleByHash(hash, language, _apiHost)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	return actualText, nil
@@ -120,7 +120,7 @@ func createMovieHashFromMovieFile(fileName string) (string, error) {
 	return fmt.Sprintf("%x", md5.Sum(combined)), nil
 }
 
-func downloadSubtitleByHash(hash string, language string, apiHost string) (string, error) {
+func downloadSubtitleByHash(hash string, language string, apiHost string) ([]byte, error) {
 
 	client := &http.Client{}
 
@@ -130,29 +130,29 @@ func downloadSubtitleByHash(hash string, language string, apiHost string) (strin
 
 	req, err := http.NewRequest("GET", query, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	req.Header.Set("User-Agent",
-		"SubDB/1.0 (GoSubber/1.0; http://github.com/martinlindhe/go-subber)")
+		"SubDB/1.0 (GoSubber/1.0; http://github.com/martinlindhe/subber)")
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	if resp.StatusCode == 404 {
-		return "", fmt.Errorf("Subtitle not found")
+		return nil, fmt.Errorf("Subtitle not found")
 	}
 
 	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("Server error %s", resp.Status)
+		return nil, fmt.Errorf("Server error %s", resp.Status)
 	}
 
 	slurp, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("Server reading request body: %v", err)
+		return nil, fmt.Errorf("Server reading request body: %v", err)
 	}
 
-	return string(slurp), nil
+	return slurp, nil
 }

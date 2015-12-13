@@ -70,7 +70,8 @@ Patches welcome!
 Some ideas, in no particular order:
 
 - expose thesubdb.com search api
-- .ssa/.ass reader/writer
+- .ssa/.ass reader
+    ssa2srt tool
 - filter: spell fixer
 - filter: remove hearing aid tags [DOOR OPENS]
 - make -v (verbose mode) have any effect

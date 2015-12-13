@@ -5,7 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
 
+	"github.com/martinlindhe/subber/caption"
 	"github.com/martinlindhe/subber/download"
 	"github.com/martinlindhe/subber/helpers"
 	"github.com/martinlindhe/subber/srt"
@@ -28,6 +30,13 @@ func main() {
 	kingpin.Parse()
 
 	inFileName := (*file).Name()
+
+	// skip "hidden" .dotfiles
+	baseName := filepath.Base(inFileName)
+	if baseName[0] == '.' {
+		// fmt.Printf("Skipping hidden %s\n", inFileName)
+		os.Exit(1)
+	}
 
 	if len(inFileName) < 1 {
 		fmt.Printf("File name required\n")
@@ -58,28 +67,32 @@ func action(inFileName string) error {
 
 	fmt.Printf("Downloading subs for %s ...\n", inFileName)
 
-	if *dontTouch {
-		// download and write untouched
-		text, err := download.FindSubText(inFileName, *language)
+	data, err := download.FindSubText(inFileName, *language)
+	if err != nil {
+		return err
+	}
+
+	if !*dontTouch {
+		// write untouched copy
+		err = writeText(subFileName+".org", string(data))
 		if err != nil {
 			return err
 		}
 
-		err = writeText(subFileName, text)
-		if err != nil {
-			return err
-		}
-	} else {
+		// clean and render to str
+		captions := srt.ParseSrt(data)
 
-		captions, err := download.FindSub(inFileName, *language, *keepAds)
-		if err != nil {
-			return err
+		if !*keepAds {
+			captions = caption.CleanSubs(captions)
 		}
 
-		err = srt.WriteSrt(captions, subFileName)
-		if err != nil {
-			return err
-		}
+		text := srt.RenderSrt(captions)
+		data = []byte(text)
+	}
+
+	err = writeText(subFileName, string(data))
+	if err != nil {
+		return err
 	}
 
 	return nil
