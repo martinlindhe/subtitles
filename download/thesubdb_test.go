@@ -1,7 +1,6 @@
 package download
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -9,45 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func createTempFile(byteSize int) string {
-	data := make([]byte, byteSize)
-
-	cnt := uint8(0)
-	for i := 0; i < byteSize; i++ {
-		data[i] = cnt
-		cnt++
-	}
-
-	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	common.Check(err)
-
-	defer f.Close()
-
-	fileName := f.Name()
-
-	f.Write(data)
-
-	return fileName
-}
-
-func createZeroedTempFile(byteSize int) string {
-	data := make([]byte, byteSize)
-
-	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	common.Check(err)
-
-	defer f.Close()
-
-	fileName := f.Name()
-
-	f.Write(data)
-
-	return fileName
-}
-
 func TestCreateMovieHashFromMovieFile(t *testing.T) {
 
-	fileName := createTempFile(1024 * 1024 * 2)
+	fileName := common.CreateTempFile(1024 * 1024 * 2)
 
 	hash, err := createMovieHashFromMovieFile(fileName)
 
@@ -58,7 +21,7 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 }
 
 func TestDownloadFromTheSubDb(t *testing.T) {
-	fileName := createZeroedTempFile(1024 * 1024 * 2)
+	fileName := common.CreateZeroedTempFile(1024 * 1024 * 2)
 
 	text, err := fromTheSubDb(fileName, "en", "sandbox.thesubdb.com")
 	assert.Equal(t, nil, err)

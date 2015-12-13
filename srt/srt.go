@@ -8,39 +8,18 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/martinlindhe/go-subber/caption"
+	"github.com/martinlindhe/go-subber/filter"
 )
 
 // Eol is the end of line characters to use when writing .srt data
 const Eol = "\n"
 
-func check(e error) {
-	if e != nil {
-		fmt.Println(e)
-		panic(e)
-	}
-}
-
-// Caption represents one subtitle block
-type Caption struct {
-	seq   int
-	start time.Time
-	end   time.Time
-	text  []string
-}
-
-func renderSrtTime(t time.Time) string {
-	res := t.Format("15:04:05.000")
-	return strings.Replace(res, ".", ",", 1)
-}
-
-func (cap Caption) srtTime() string {
-	return renderSrtTime(cap.start) + " --> " + renderSrtTime(cap.end)
-}
-
 // ParseSrt parses a .srt text into []Caption
-func ParseSrt(s string) []Caption {
+func ParseSrt(s string) []caption.Caption {
 
-	var res []Caption
+	var res []caption.Caption
 
 	r1 := regexp.MustCompile("([0-9:,]*) --> ([0-9:,]*)")
 
@@ -59,19 +38,19 @@ func ParseSrt(s string) []Caption {
 			continue
 		}
 
-		var o Caption
-		o.seq = val
+		var o caption.Caption
+		o.Seq = val
 		i++
 
 		matches := r1.FindStringSubmatch(lines[i])
 
-		o.start, err = parseTime(matches[1])
+		o.Start, err = parseTime(matches[1])
 		if err != nil {
 			fmt.Printf("Parse error at line %d: %v\n", i, err)
 			continue
 		}
 
-		o.end, err = parseTime(matches[2])
+		o.End, err = parseTime(matches[2])
 		if err != nil {
 			fmt.Printf("Parse error at line %d: %v\n", i, err)
 			continue
@@ -84,7 +63,7 @@ func ParseSrt(s string) []Caption {
 			if i >= len(lines) || line == "" {
 				break
 			}
-			o.text = append(o.text, line)
+			o.Text = append(o.Text, line)
 			i++
 		}
 
@@ -113,7 +92,7 @@ func parseTime(in string) (time.Time, error) {
 }
 
 // WriteSrt prints a srt render to outFileName
-func WriteSrt(subs []Caption, outFileName string) {
+func WriteSrt(subs []caption.Caption, outFileName string) {
 
 	text := RenderSrt(subs)
 
@@ -124,7 +103,7 @@ func WriteSrt(subs []Caption, outFileName string) {
 }
 
 // RenderSrt produces a text representation of the subtitles
-func RenderSrt(subs []Caption) string {
+func RenderSrt(subs []caption.Caption) string {
 
 	res := ""
 
@@ -135,12 +114,12 @@ func RenderSrt(subs []Caption) string {
 	return res
 }
 
-func renderCaptionAsSrt(sub Caption) string {
+func renderCaptionAsSrt(caption caption.Caption) string {
 
-	res := fmt.Sprintf("%d", sub.seq) + Eol +
-		sub.srtTime() + Eol
+	res := fmt.Sprintf("%d", caption.Seq) + Eol +
+		caption.SrtTime() + Eol
 
-	for _, line := range sub.text {
+	for _, line := range caption.Text {
 		res += line + Eol
 	}
 
@@ -148,25 +127,29 @@ func renderCaptionAsSrt(sub Caption) string {
 }
 
 // CleanupSrt performs cleanup on fileName, overwriting the original file
-func CleanupSrt(inFileName string, skipBackup bool, keepAds bool) {
+func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds bool) error {
 
 	fmt.Printf("Cleaning sub %s ...\n", inFileName)
 
 	data, err := ioutil.ReadFile(inFileName)
-	check(err)
+	if err != nil {
+		return err
+	}
 
 	s := string(data)
 
-	subs := ParseSrt(s)
+	captions := ParseSrt(s)
 	if !keepAds {
-		subs = CleanSubs(subs)
+		captions = caption.CleanSubs(captions)
 	}
 
-	out := RenderSrt(subs)
+	captions = filter.FilterSubs(captions, filterName)
+
+	out := RenderSrt(captions)
 
 	if s == out {
 		fmt.Printf("No changes performed\n")
-		return
+		return nil
 	}
 
 	if !skipBackup {
@@ -176,11 +159,17 @@ func CleanupSrt(inFileName string, skipBackup bool, keepAds bool) {
 	}
 
 	f, err := os.Create(inFileName) // xxx can we create if exists? when makebackup=false ?
-	check(err)
+	if err != nil {
+		return err
+	}
+
 	defer f.Close()
 
 	_, err = f.WriteString(out)
-	check(err)
+	if err != nil {
+		return err
+	}
 
-	fmt.Printf("Written to %s\n", inFileName)
+	fmt.Printf("Written %d captions to %s\n", len(captions), inFileName)
+	return nil
 }

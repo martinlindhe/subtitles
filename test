@@ -1,4 +1,3 @@
 #!/bin/sh
 
-go test -v ./srt
-go test -v ./download
+go test -v ./caption ./common ./download ./filter ./srt

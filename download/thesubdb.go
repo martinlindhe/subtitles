@@ -7,12 +7,13 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/martinlindhe/go-subber/caption"
 	"github.com/martinlindhe/go-subber/common"
 	"github.com/martinlindhe/go-subber/srt"
 )
 
 // FindSubs tries to find subtitles online
-func FindSubs(videoFileName string, language string, keepAds bool) ([]srt.Caption, error) {
+func FindSubs(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
 
 	if !common.Exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)
@@ -30,7 +31,7 @@ func FindSubs(videoFileName string, language string, keepAds bool) ([]srt.Captio
 	captions := srt.ParseSrt(text)
 
 	if !keepAds {
-		captions = srt.CleanSubs(captions)
+		captions = caption.CleanSubs(captions)
 	}
 
 	return captions, nil

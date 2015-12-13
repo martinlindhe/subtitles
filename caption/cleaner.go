@@ -1,4 +1,4 @@
-package srt
+package caption
 
 import (
 	"fmt"
@@ -48,19 +48,19 @@ func CleanSubs(subs []Caption) []Caption {
 
 		isAd := false
 
-		for _, line := range sub.text {
+		for _, line := range sub.Text {
 			x := strings.ToLower(line)
 			for _, adLine := range ads {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					fmt.Println("Removing caption", orgSeq, sub.text)
+					fmt.Println("Removing caption", orgSeq, sub.Text)
 					break
 				}
 			}
 		}
 
 		if !isAd {
-			sub.seq = seq
+			sub.Seq = seq
 			res = append(res, sub)
 			seq++
 		}
