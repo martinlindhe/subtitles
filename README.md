@@ -43,10 +43,9 @@ BSD
 Patches welcome!
 
 Ideas for features:
-- un-capslock filter sub
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer
 - .sub reader and converter to .srt: requires specifying a frame rate
 - spellfix sub
 - remove hearing aid [ddd]
-- remove html from subs
+- make -v (verbose mode) have any effect

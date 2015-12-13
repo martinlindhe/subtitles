@@ -17,7 +17,7 @@ var (
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 	language    = kingpin.Flag("language", "Language.").Default("en").String()
-	filter      = kingpin.Flag("filter", "Filter (none, capslock).").Default("none").String()
+	filter      = kingpin.Flag("filter", "Filter (none, capslock, html).").Default("none").String()
 )
 
 func main() {

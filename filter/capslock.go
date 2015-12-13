@@ -1,6 +1,7 @@
 package filter
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/martinlindhe/go-subber/caption"
@@ -11,7 +12,13 @@ func CapslockStripper(captions []caption.Caption) []caption.Caption {
 
 	for _, cap := range captions {
 		for i, line := range cap.Text {
-			cap.Text[i] = ucFirst(line)
+
+			clean := ucFirst(line)
+
+			if clean != cap.Text[i] {
+				fmt.Printf("[capslock] %s -> %s\n", cap.Text[i], clean)
+				cap.Text[i] = clean
+			}
 		}
 	}
 
