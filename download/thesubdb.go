@@ -13,7 +13,7 @@ import (
 )
 
 // FindSubs tries to find subtitles online
-func FindSubs(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
+func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
 
 	if !helpers.Exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)

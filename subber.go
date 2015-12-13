@@ -49,14 +49,14 @@ func action(inFileName string) error {
 	subFileName := inFileName[0:len(inFileName)-len(ext)] + ".srt"
 
 	if helpers.Exists(subFileName) {
-		fmt.Println("Subs found locally, not downloading ...")
+		fmt.Println("Subs found locally in %s, skipping download", subFileName)
 		srt.CleanupSrt(subFileName, *filter, *skipBackups, *keepAds)
 		return nil
 	}
 
-	fmt.Printf("Downloading subs for input file ...\n")
+	fmt.Printf("Downloading subtitles for %s ...\n", inFileName)
 
-	captions, err := download.FindSubs(inFileName, *language, *keepAds)
+	captions, err := download.FindSub(inFileName, *language, *keepAds)
 	if err != nil {
 		return err
 	}

@@ -6,15 +6,17 @@ import (
 	"time"
 )
 
-func MakeTime(h int, m int, s int, ms int) time.Time {
-	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
-}
+const tempFilePrefix = "moviehash-temp"
 
-func Check(e error) {
+func check(e error) {
 	if e != nil {
 		fmt.Println(e)
 		panic(e)
 	}
+}
+
+func MakeTime(h int, m int, s int, ms int) time.Time {
+	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
 func CreateTempFile(byteSize int) string {
@@ -26,13 +28,11 @@ func CreateTempFile(byteSize int) string {
 		cnt++
 	}
 
-	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	Check(err)
-
+	f, err := ioutil.TempFile("/tmp", tempFilePrefix)
+	check(err)
 	defer f.Close()
 
 	fileName := f.Name()
-
 	f.Write(data)
 
 	return fileName
@@ -41,13 +41,11 @@ func CreateTempFile(byteSize int) string {
 func CreateZeroedTempFile(byteSize int) string {
 	data := make([]byte, byteSize)
 
-	f, err := ioutil.TempFile("/tmp", "moviehash-temp")
-	Check(err)
-
+	f, err := ioutil.TempFile("/tmp", tempFilePrefix)
+	check(err)
 	defer f.Close()
 
 	fileName := f.Name()
-
 	f.Write(data)
 
 	return fileName
