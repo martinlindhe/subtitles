@@ -3,7 +3,4 @@
 # WARNING: processes all .srt files under $rootPath, without backups
 rootPath="/Users/m/dev/words/subtitles"
 
-# will halt the script on any error
-set -e
-
 find $rootPath -name '*.srt' -print0 | xargs -0 -n1 -P1 subber --skip-backups

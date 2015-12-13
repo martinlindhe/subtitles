@@ -46,6 +46,9 @@ func ParseSrt(b []byte) []caption.Caption {
 		var o caption.Caption
 		o.Seq = outSeq
 		i++
+		if i >= len(lines) {
+			break
+		}
 
 		matches := r1.FindStringSubmatch(lines[i])
 		if len(matches) < 3 {
