@@ -12,32 +12,41 @@ func CleanSubs(subs []Caption) []Caption {
 
 	ads := []string{
 
-		// eng subs:
+		// english:
 		"captions paid for by",
-		"subtitles:", "subtitles by", "captioning by", "captions by",
-		"transcript :", "transcript:", "transcript by", "sync and corrected",
-		"sync, corrected", "traduction:", "transcript par",
+		"subtitles:", "subtitles by",
+		"subtitles downloaded",
+		"captioning by", "captions by",
+		"transcript :", "transcript:", "transcript by",
+		"sync, corrected", "synced and corrected",
+		"sync and corrected", "sync & corrections",
+		"sync and corrections",
+		"traduction:", "transcript par",
+		"corrections by",
 		"sync by n17t01",
-		"sync,", "synchro :", "synchro:", "synchronized by", "synchronization by",
-		"synchronisation:", "relecture et corrections finales:", "resynchronization:",
+		"sync,", "synchro :", "synchro:", "synced by", "synchronized by",
+		"synchronization by", "synchronisation:",
+		"resynchronization:",
 		"resync:", "resynchro", "resync by",
 		"encoded by",
+		"web-dl",
 		"subscene",
 		"seriessub",
 		"addic7ed", "addicted.com",
 		"sdimedia", "sdi media",
-		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "cssubs", "tvsub",
+		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral",
+		"cssubs", "tvsub", "uksubtitles",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com",
 		"napisy.org", "1000fr.com",
-		"opensubtitles.org", "open subtitles", "s u b t i t l e",
+		"opensubtitles", "open subtitles", "s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
 		"simail.si", "sf.net", "yify-torrents", "vitac.com",
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
 
-		// swe subs:
+		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
 		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
@@ -50,6 +59,9 @@ func CleanSubs(subs []Caption) []Caption {
 		"senaste undertexter på",
 		"programtextning", "översättargrupp",
 		"mediatextgruppen", "visiontext",
+
+		// french:
+		"relecture et corrections finales:",
 	}
 
 	seq := 1

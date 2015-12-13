@@ -7,6 +7,7 @@ import (
 	"unicode/utf8"
 )
 
+// ConvertToUTF8 returns an utf8 string
 func ConvertToUTF8(b []byte) string {
 
 	if hasUTF16BeMarker(b) {
@@ -59,7 +60,7 @@ func looksLikeLatin1(b []byte) bool {
 	}
 
 	if pct > 0 {
-		fmt.Printf("XXX %v %% swe letters, %v\n", pct, swe)
+		//fmt.Printf("XXX %v %% swe letters, %v\n", pct, swe)
 	}
 
 	return false
