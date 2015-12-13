@@ -21,7 +21,7 @@ func ParseSrt(s string) []caption.Caption {
 
 	var res []caption.Caption
 
-	r1 := regexp.MustCompile("([0-9:,]*) --> ([0-9:,]*)")
+	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
 
 	lines := strings.Split(s, "\n")
 
