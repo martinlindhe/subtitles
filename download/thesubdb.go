@@ -12,18 +12,10 @@ import (
 	"github.com/martinlindhe/go-subber/srt"
 )
 
-// FindSubs tries to find subtitles online
+// FindSub finds ssubtitle online, and parses it into a []caption.Caption
 func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
 
-	if !helpers.Exists(videoFileName) {
-		return nil, fmt.Errorf("%s not found", videoFileName)
-	}
-
-	if helpers.IsDirectory(videoFileName) {
-		return nil, fmt.Errorf("%s is not a file", videoFileName)
-	}
-
-	text, err := fromTheSubDb(videoFileName, language)
+	text, err := FindSubText(videoFileName, language)
 	if err != nil {
 		return nil, err
 	}
@@ -35,6 +27,24 @@ func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Cap
 	}
 
 	return captions, nil
+}
+
+// FindSubText finds ssubtitle online, and return untouched string
+func FindSubText(videoFileName string, language string) (string, error) {
+	if !helpers.Exists(videoFileName) {
+		return "", fmt.Errorf("%s not found", videoFileName)
+	}
+
+	if helpers.IsDirectory(videoFileName) {
+		return "", fmt.Errorf("%s is not a file", videoFileName)
+	}
+
+	text, err := fromTheSubDb(videoFileName, language)
+	if err != nil {
+		return "", err
+	}
+
+	return text, nil
 }
 
 // FromTheSubDb downloads a subtitle from thesubdb.com

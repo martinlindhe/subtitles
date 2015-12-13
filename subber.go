@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 
@@ -14,6 +15,7 @@ import (
 var (
 	file        = kingpin.Arg("file", "A .srt (to clean) or video file (to fetch subs).").Required().File()
 	verbose     = kingpin.Flag("verbose", "Verbose mode.").Short('v').Bool()
+	dontTouch   = kingpin.Flag("dont-touch", "Do not try to process .srt (write directly to disk).").Bool()
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 	language    = kingpin.Flag("language", "Language.").Default("en").String()
@@ -56,11 +58,37 @@ func action(inFileName string) error {
 
 	fmt.Printf("Downloading subs for %s ...\n", inFileName)
 
-	captions, err := download.FindSub(inFileName, *language, *keepAds)
+	if *dontTouch {
+		// download and write untouched
+		text, err := download.FindSubText(inFileName, *language)
+		if err != nil {
+			return err
+		}
+
+		err = writeText(subFileName, text)
+		if err != nil {
+			return err
+		}
+	} else {
+
+		captions, err := download.FindSub(inFileName, *language, *keepAds)
+		if err != nil {
+			return err
+		}
+
+		err = srt.WriteSrt(captions, subFileName)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func writeText(outFileName, text string) error {
+	err := ioutil.WriteFile(outFileName, []byte(text), 0644)
 	if err != nil {
 		return err
 	}
-
-	srt.WriteSrt(captions, subFileName)
 	return nil
 }

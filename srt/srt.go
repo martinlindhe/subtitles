@@ -185,14 +185,15 @@ func parseTime(in string) (time.Time, error) {
 }
 
 // WriteSrt prints a srt render to outFileName
-func WriteSrt(subs []caption.Caption, outFileName string) {
+func WriteSrt(subs []caption.Caption, outFileName string) error {
 
 	text := RenderSrt(subs)
 
 	err := ioutil.WriteFile(outFileName, []byte(text), 0644)
 	if err != nil {
-		fmt.Printf("Error writing to %s, %v", outFileName, err)
+		return err
 	}
+	return nil
 }
 
 // RenderSrt produces a text representation of the subtitles

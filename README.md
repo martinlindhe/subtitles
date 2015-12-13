@@ -69,8 +69,8 @@ Patches welcome!
 Some ideas, in no particular order:
 - expose thesubdb.com search api
 - .ssa/.ass reader/writer
-- spellfix sub
-- remove hearing aid [ddd]
+- filter: spell fixer
+- filter: remove hearing aid tags [DOOR OPENS]
 - make -v (verbose mode) have any effect
 
 - maybe .sub reader and converter to .srt

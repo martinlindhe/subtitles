@@ -1,5 +1,9 @@
 #!/bin/sh
 
-# try to process all .srt files under Downloads, recursively
+# WARNING: processes all .srt files under $rootPath, without backups
+rootPath="/Users/m/dev/words/subtitles"
 
-find ~/dev/words/subtitles -name '*.srt' -print0 | xargs -0 -n1 -P6 go-subber --skip-backups
+# will halt the script on any error
+set -e
+
+find $rootPath -name '*.srt' -print0 | xargs -0 -n1 -P6 go-subber --skip-backups
