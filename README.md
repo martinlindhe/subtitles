@@ -14,9 +14,10 @@ writing and manipulating .srt subtitle files written in Go
 
 ### Why?
 
-While VLC may swallow all kinds of odd subtitles, not all software
-are so forgiving. So, sometimes "some other software" needs a cleaned
-up .srt, and the `subber` cli app automates this task.
+While VLC may swallow all kinds of malformed subtitles,
+not all software are so forgiving.
+So, sometimes "other software" needs a cleaned up .srt,
+and the `subber` cli app automates this task.
 
 
 # Installation
@@ -81,7 +82,7 @@ Patches welcome!
 
 Some ideas, in no particular order:
 
-- automatically convert downloaded .ssa files to .srt, needs looksLikeSrt() and looksLikeSsa()
+- automatically convert downloaded .ssa files to .srt
 - expose thesubdb.com search api
 - filter: spell fixer
 - filter: remove hearing aid tags [DOOR OPENS]
