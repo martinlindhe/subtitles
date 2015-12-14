@@ -91,7 +91,11 @@ Some ideas, in no particular order:
     - crappy frame-based format, but useful to be able to convert away from
     - requires specifying a frame rate
 
+# See also
+
+- [ssa2srt](https://github.com/martinlindhe/ssa2srt) for converting .ssa to .srt
+
 
 # License
 
-BSD
+Under [MIT](LICENSE)
