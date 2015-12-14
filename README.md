@@ -83,14 +83,10 @@ Patches welcome!
 Some ideas, in no particular order:
 
 - automatically convert downloaded .ssa files to .srt
-- expose thesubdb.com search api
 - filter: spell fixer
 - filter: remove hearing aid tags [DOOR OPENS]
 - make -v (verbose mode) have any effect
 
-- maybe .sub reader and converter to .srt
-    - crappy frame-based format, but useful to be able to convert away from
-    - requires specifying a frame rate
 
 # See also
 

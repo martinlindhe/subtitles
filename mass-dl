@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rootPath="/Mount/filmer/film"
+
+find $rootPath -name '*.avi' ! -name '*.mkv' ! -name '*.mp4' -print0 | xargs -0 -n1 -P1 subber
