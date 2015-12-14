@@ -22,6 +22,7 @@ var (
 
 func main() {
 	// support -h for --help
+	kingpin.Version("0.1.0")
 	kingpin.CommandLine.HelpFlag.Short('h')
 	kingpin.Parse()
 
