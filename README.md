@@ -1,54 +1,70 @@
-## About
+# About
 
 Subber is a cli tool and library for reading,
 writing and manipulating .srt subtitle files written in Go
 
+### Features
 
-## Installation
+- Processes .srt and .ssa subtitles
+- Generates a cleaned up .srt
+- Outputs utf8 text
+
+### Why?
+
+While VLC may swallow all kinds of odd subtitles, not all software
+are so forgiving. So, sometimes "some other software" needs a cleaned
+up .srt, and the `subber` cli app automates this task.
+
+
+
+# Installation
 
 Assuming golang is installed on your system:
 
 
 For the subber tool:
-```
+```bash
 go install github.com/martinlindhe/subber/subber
 ```
 
 For the ssa2srt tool:
-```
+```bash
 go install github.com/martinlindhe/subber/ssa2srt
 ```
 
 
-## Usage
+# Usage
 
 To download subtitles for a video file:
 
-```
+```bash
 $ subber movie.mp4
 
 Downloading subs for movie.mp4 ...
 Cleaning sub movie.srt ...
 Removing caption 82 [== sync, corrected by <font color="#00FF00">elderman</font> ==]
-Removing caption 701 [== sync, corrected by <font color="#00FF00">elderman</font> ==]
 Written to movie.srt
 ```
 
-To specify another language than default "en", use the `--language="sv"` flag.
+Some additional flags (use `-h` for full list) includes:
+
+  * `--keep-ads` do not remove advertising segments from the processesed sub
+  * `--dont-touch` write sub as-is (downloaded are processed by default)`
+  * `--skip-backups` by default, a .org file is created for every modified .srt
+  * `--language="sv"` Specify another language, English subtitles is the default
 
 
 Remove ads from an existing .srt file:
 
-```
+```bash
 $ subber subtitle.srt
 
 Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font color="#00FFFF"> www.vitac.com</font>]
-Removing caption 22 [CAPTIONS PAID FOR BY DISCOVERY COMMUNICATIONS]
 ```
 
 Strip html tags from .srt:
 
-```
+```bash
 $ subber subtitle.srt --filter="html"
 
 [html] <i>And there's a lot of it there.</i> -> And there's a lot of it there.
@@ -56,7 +72,7 @@ $ subber subtitle.srt --filter="html"
 
 Normalize capitalization in .srt:
 
-```
+```bash
 $ subber subtitle.srt --filter="caps"
 
 [caps] INTRODUCING -> Introducing
@@ -68,19 +84,12 @@ A backup of the modified .srt file is created as .srt.org by default. To disable
 
 Convert a .ssa to .srt:
 
-```
+```bash
 $ ssa2srt subtile.ssa
-
-[ads] 942 [Subtitles by: Scandinavian Text Service and JHS International ApS] matched subtitles by
-Written subtile.srt
 ```
 
-## License
 
-BSD
-
-
-## Contributing
+# Contributing
 
 Patches welcome!
 
@@ -95,3 +104,8 @@ Some ideas, in no particular order:
 - maybe .sub reader and converter to .srt
     - crappy frame-based format, but useful to be able to convert away from
     - requires specifying a frame rate
+
+
+# License
+
+BSD

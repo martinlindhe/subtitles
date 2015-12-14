@@ -12,7 +12,7 @@ import (
 	"github.com/martinlindhe/subber/srt"
 )
 
-// FindSub finds ssubtitle online, and parses it into a []caption.Caption
+// FindSub finds subtitle online, and parses it into a []caption.Caption
 func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
 
 	text, err := FindSubText(videoFileName, language)
@@ -29,7 +29,7 @@ func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Cap
 	return captions, nil
 }
 
-// FindSubText finds ssubtitle online, returns untouched data
+// FindSubText finds subtitle online, returns untouched data
 func FindSubText(videoFileName string, language string) ([]byte, error) {
 	if !helpers.Exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)
