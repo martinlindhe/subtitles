@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/martinlindhe/subber/caption"
+	"github.com/martinlindhe/subber/common"
 	"github.com/martinlindhe/subber/filter"
 	"github.com/martinlindhe/subber/srt"
 	"github.com/martinlindhe/subber/ssa"
@@ -22,7 +23,7 @@ var (
 
 func main() {
 	// support -h for --help
-	kingpin.Version("0.1.0")
+	kingpin.Version(common.Version)
 	kingpin.CommandLine.HelpFlag.Short('h')
 	kingpin.Parse()
 
