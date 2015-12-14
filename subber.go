@@ -1,3 +1,5 @@
+// +build subber
+
 package main
 
 import (
@@ -21,7 +23,7 @@ var (
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 	language    = kingpin.Flag("language", "Language.").Default("en").String()
-	filter      = kingpin.Flag("filter", "Filter (none, caps, html).").Default("none").String()
+	filterName  = kingpin.Flag("filter", "Filter (none, caps, html).").Default("none").String()
 )
 
 func main() {
@@ -38,11 +40,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(inFileName) < 1 {
-		fmt.Printf("File name required\n")
-		os.Exit(0)
-	}
-
 	err := action(inFileName)
 	if err != nil {
 		fmt.Printf("An error occured: %v\n", err)
@@ -53,7 +50,7 @@ func action(inFileName string) error {
 
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
-		srt.CleanupSrt(inFileName, *filter, *skipBackups, *keepAds)
+		srt.CleanupSrt(inFileName, *filterName, *skipBackups, *keepAds)
 		return nil
 	}
 

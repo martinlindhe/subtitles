@@ -1,5 +1,5 @@
 #!/bin/sh
 
-paths="./caption ./download ./filter ./helpers ./srt ./testExtras ./txtformat"
+paths="./caption ./download ./filter ./helpers ./srt ./ssa ./testExtras ./txtformat"
 
 go test $paths

@@ -58,6 +58,15 @@ $ subber subtitle.srt --filter="caps"
 A backup of the modified .srt file is created as .srt.org by default. To disable this behaviour, add the `--skip-backups` flag
 
 
+Convert a .ssa to .srt:
+
+```
+$ ssa2srt subtile.ssa
+
+[ads] 942 [Subtitles by: Scandinavian Text Service and JHS International ApS] matched subtitles by
+Written subtile.srt
+```
+
 ## License
 
 BSD
@@ -69,9 +78,8 @@ Patches welcome!
 
 Some ideas, in no particular order:
 
+- automatically convert downloaded .ssa files to .srt, needs looksLikeSrt() and looksLikeSsa()
 - expose thesubdb.com search api
-- .ssa/.ass reader
-    ssa2srt tool
 - filter: spell fixer
 - filter: remove hearing aid tags [DOOR OPENS]
 - make -v (verbose mode) have any effect

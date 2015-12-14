@@ -39,7 +39,7 @@ func ParseSrt(b []byte) []caption.Caption {
 
 		_, err := strconv.Atoi(seq)
 		if err != nil {
-			fmt.Printf("Parse error 1 at line %d: %v\n", i, err)
+			fmt.Printf("[srt] Parse error 1 at line %d: %v\n", i, err)
 			continue
 		}
 
@@ -53,19 +53,19 @@ func ParseSrt(b []byte) []caption.Caption {
 
 		matches := r1.FindStringSubmatch(lines[i])
 		if len(matches) < 3 {
-			fmt.Printf("Parser error 2 at line %d (idx out of range)\n", i)
+			fmt.Printf("[srt] Parser error 2 at line %d (idx out of range)\n", i)
 			continue
 		}
 
 		o.Start, err = parseTime(matches[1])
 		if err != nil {
-			fmt.Printf("Parse error 3 at line %d: %v\n", i, err)
+			fmt.Printf("[srt] Parse error 3 at line %d: %v\n", i, err)
 			continue
 		}
 
 		o.End, err = parseTime(matches[2])
 		if err != nil {
-			fmt.Printf("Parse error 4 at line %d: %v\n", i, err)
+			fmt.Printf("[srt] Parse error 4 at line %d: %v\n", i, err)
 			continue
 		}
 
@@ -119,7 +119,7 @@ func parseTime(in string) (time.Time, error) {
 	matches := r1.FindStringSubmatch(in)
 
 	if len(matches) < 5 {
-		return time.Now(), fmt.Errorf("Regexp didnt match: %s", in)
+		return time.Now(), fmt.Errorf("[srt] Regexp didnt match: %s", in)
 	}
 
 	h, err := strconv.Atoi(matches[1])

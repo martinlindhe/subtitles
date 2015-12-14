@@ -3,6 +3,7 @@ package txtformat
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
 )
@@ -10,26 +11,47 @@ import (
 // ConvertToUTF8 returns an utf8 string
 func ConvertToUTF8(b []byte) string {
 
+	s := ""
+
 	if hasUTF16BeMarker(b) {
-		s, err := utf16ToUTF8(b[2:], true)
-		if err != nil {
-			fmt.Println("UTF16-BE DECODE ERROR", err)
-		}
-		return s
+		s, _ = utf16ToUTF8(b[2:], true)
 	} else if hasUTF16LeMarker(b) {
-		s, err := utf16ToUTF8(b[2:], false)
-		if err != nil {
-			fmt.Println("UTF16-LE DECODE ERROR", err)
-			fmt.Println(err)
-		}
-		return s
+		s, _ = utf16ToUTF8(b[2:], false)
 	} else if hasUTF8Marker(b) {
-		return string(b[3:])
+		s = string(b[3:])
 	} else if looksLikeLatin1(b) {
-		return latin1toUTF8(b)
+		s = latin1toUTF8(b)
+	} else {
+		s = string(b)
 	}
 
-	return string(b)
+	return NormalizeLineFeeds(s)
+}
+
+// NormalizeLineFeeds will return a string with \n as linefeeds
+func NormalizeLineFeeds(s string) string {
+
+	if len(s) < 80 {
+		return s
+	}
+
+	r := 0
+	n := 0
+
+	for i := 0; i < 80; i++ {
+		if s[i] == '\r' {
+			r++
+		} else if s[i] == '\n' {
+			n++
+		}
+	}
+
+	if n == 0 && r > 0 {
+		// older Mac files has \r linebreak
+		return strings.Replace(s, "\r", "\n", -1)
+	}
+
+	return strings.Replace(s, "\r\n", "\n", -1)
 }
 
 func looksLikeLatin1(b []byte) bool {

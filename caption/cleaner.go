@@ -14,6 +14,7 @@ func CleanSubs(subs []Caption) []Caption {
 
 		// english:
 		"captions paid for by",
+		"english subtitles",
 		"subtitles:", "subtitles by",
 		"subtitles downloaded",
 		"captioning by", "captions by",
@@ -32,7 +33,7 @@ func CleanSubs(subs []Caption) []Caption {
 		"web-dl",
 		"subscene",
 		"seriessub",
-		"addic7ed", "addicted.com",
+		"addic7ed", "addicted.com", "vaioholics",
 		"sdimedia", "sdi media",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral",
 		"cssubs", "tvsub", "uksubtitles",
@@ -41,7 +42,8 @@ func CleanSubs(subs []Caption) []Caption {
 		"napisy.org", "1000fr.com",
 		"opensubtitles", "open subtitles", "s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
-		"simail.si", "sf.net", "yify-torrents", "vitac.com",
+		"simail.si", "sf.net", "vitac.com",
+		"yify-torrents", "yify torrents",
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
@@ -58,7 +60,8 @@ func CleanSubs(subs []Caption) []Caption {
 		"alltid nya texter",
 		"senaste undertexter på",
 		"programtextning", "översättargrupp",
-		"mediatextgruppen", "visiontext",
+		"mediatextgruppen", "visiontext", "scandinavian text service",
+		"jhs International",
 
 		// french:
 		"relecture et corrections finales:",
