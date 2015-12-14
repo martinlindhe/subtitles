@@ -3,11 +3,14 @@
 Subber is a cli tool and library for reading,
 writing and manipulating .srt subtitle files written in Go
 
+
 ### Features
 
 - Processes .srt and .ssa subtitles
-- Generates a cleaned up .srt
-- Outputs utf8 text
+- Cleans up the captions
+- Optionally remove html tags or fix capitalization
+- Outputs utf8 subtitle in the popular .srt format
+
 
 ### Why?
 
@@ -16,20 +19,12 @@ are so forgiving. So, sometimes "some other software" needs a cleaned
 up .srt, and the `subber` cli app automates this task.
 
 
-
 # Installation
 
 Assuming golang is installed on your system:
 
-
-For the subber tool:
-```bash
-go install github.com/martinlindhe/subber/subber
 ```
-
-For the ssa2srt tool:
-```bash
-go install github.com/martinlindhe/subber/ssa2srt
+go install github.com/martinlindhe/subber
 ```
 
 
@@ -37,7 +32,7 @@ go install github.com/martinlindhe/subber/ssa2srt
 
 To download subtitles for a video file:
 
-```bash
+```
 $ subber movie.mp4
 
 Downloading subs for movie.mp4 ...
@@ -56,7 +51,7 @@ Some additional flags (use `-h` for full list) includes:
 
 Remove ads from an existing .srt file:
 
-```bash
+```
 $ subber subtitle.srt
 
 Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font color="#00FFFF"> www.vitac.com</font>]
@@ -64,7 +59,7 @@ Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font colo
 
 Strip html tags from .srt:
 
-```bash
+```
 $ subber subtitle.srt --filter="html"
 
 [html] <i>And there's a lot of it there.</i> -> And there's a lot of it there.
@@ -72,20 +67,11 @@ $ subber subtitle.srt --filter="html"
 
 Normalize capitalization in .srt:
 
-```bash
+```
 $ subber subtitle.srt --filter="caps"
 
 [caps] INTRODUCING -> Introducing
 [caps] right, to go? -> Right, to go?
-```
-
-A backup of the modified .srt file is created as .srt.org by default. To disable this behaviour, add the `--skip-backups` flag
-
-
-Convert a .ssa to .srt:
-
-```bash
-$ ssa2srt subtile.ssa
 ```
 
 
