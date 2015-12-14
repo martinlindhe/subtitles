@@ -1,5 +1,3 @@
-// +build ssa2srt
-
 package main
 
 import (

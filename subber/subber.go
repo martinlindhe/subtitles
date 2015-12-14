@@ -1,5 +1,3 @@
-// +build subber
-
 package main
 
 import (
@@ -58,7 +56,7 @@ func action(inFileName string) error {
 
 	if helpers.Exists(subFileName) {
 		fmt.Printf("Subs found locally in %s, skipping download\n", subFileName)
-		srt.CleanupSrt(subFileName, *filter, *skipBackups, *keepAds)
+		srt.CleanupSrt(subFileName, *filterName, *skipBackups, *keepAds)
 		return nil
 	}
 

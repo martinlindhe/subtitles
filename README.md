@@ -8,9 +8,17 @@ writing and manipulating .srt subtitle files written in Go
 
 Assuming golang is installed on your system:
 
+
+For the subber tool:
 ```
-go get github.com/martinlindhe/subber
+go install github.com/martinlindhe/subber/subber
 ```
+
+For the ssa2srt tool:
+```
+go install github.com/martinlindhe/subber/ssa2srt
+```
+
 
 ## Usage
 
