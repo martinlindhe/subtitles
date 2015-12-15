@@ -1,15 +1,16 @@
-package caption
+package cleaner
 
 import (
 	"testing"
 
+	"github.com/martinlindhe/subber/caption"
 	"github.com/martinlindhe/subber/testExtras"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCleanSub(t *testing.T) {
 
-	var in = []Caption{
+	var in = []caption.Caption{
 		{
 			1,
 			testExtras.MakeTime(0, 0, 4, 630),
@@ -30,9 +31,7 @@ func TestCleanSub(t *testing.T) {
 		},
 	}
 
-	cleaned := CleanSubs(in)
-
-	var expected = []Caption{
+	var expected = []caption.Caption{
 		{
 			1,
 			testExtras.MakeTime(0, 0, 4, 630),
@@ -47,5 +46,5 @@ func TestCleanSub(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, cleaned)
+	assert.Equal(t, expected, RemoveAds(in))
 }

@@ -3,24 +3,19 @@ package srt
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/martinlindhe/subber/caption"
-	"github.com/martinlindhe/subber/filter"
-	"github.com/martinlindhe/subber/txtformat"
 )
 
 // Eol is the end of line characters to use when writing .srt data
 const Eol = "\n"
 
-// ParseSrt parses a .srt text into []Caption
-func ParseSrt(b []byte) []caption.Caption {
-
-	s := txtformat.ConvertToUTF8(b)
+// ParseSrt parses a .srt text into []Caption, assumes s is a clean utf8 string
+func ParseSrt(s string) []caption.Caption {
 
 	var res []caption.Caption
 
@@ -179,49 +174,4 @@ func renderCaptionAsSrt(caption caption.Caption) string {
 	}
 
 	return res + Eol
-}
-
-// CleanupSrt performs cleanup on fileName, overwriting the original file
-func CleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds bool) error {
-
-	fmt.Fprintf(os.Stderr, "CleanupSrt %s\n", inFileName)
-
-	data, err := ioutil.ReadFile(inFileName)
-	if err != nil {
-		return err
-	}
-
-	captions := ParseSrt(data)
-	if !keepAds {
-		captions = caption.CleanSubs(captions)
-	}
-
-	captions = filter.FilterSubs(captions, filterName)
-
-	out := RenderSrt(captions)
-
-	if string(data) == out {
-		return nil
-	}
-
-	if !skipBackup {
-		backupFileName := inFileName + ".org"
-		os.Rename(inFileName, backupFileName)
-		// fmt.Printf("Backed up to %s\n", backupFileName)
-	}
-
-	f, err := os.Create(inFileName)
-	if err != nil {
-		return err
-	}
-
-	defer f.Close()
-
-	_, err = f.WriteString(out)
-	if err != nil {
-		return err
-	}
-
-	//fmt.Printf("Written %d captions to %s\n", len(captions), inFileName)
-	return nil
 }

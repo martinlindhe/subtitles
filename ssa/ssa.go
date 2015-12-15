@@ -8,12 +8,9 @@ import (
 	"time"
 
 	"github.com/martinlindhe/subber/caption"
-	"github.com/martinlindhe/subber/txtformat"
 )
 
-func ParseSsa(b []byte) []caption.Caption {
-
-	s := txtformat.ConvertToUTF8(b)
+func ParseSsa(s string) []caption.Caption {
 
 	var res []caption.Caption
 

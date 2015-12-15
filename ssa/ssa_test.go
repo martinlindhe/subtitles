@@ -10,11 +10,10 @@ import (
 
 func TestParseSsa(t *testing.T) {
 
-	in := []byte(
-		"[Events]\n" +
-			"Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text\n" +
-			"Dialogue: 0,0:01:06.37,0:01:08.04,Default,,0000,0000,0000,,Honey, I'm home!\n" +
-			"Dialogue: 0,0:01:09.05,0:01:10.69,Default,,0000,0000,0000,,Hi.\\n- Hi, love.\n")
+	in := "[Events]\n" +
+		"Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text\n" +
+		"Dialogue: 0,0:01:06.37,0:01:08.04,Default,,0000,0000,0000,,Honey, I'm home!\n" +
+		"Dialogue: 0,0:01:09.05,0:01:10.69,Default,,0000,0000,0000,,Hi.\\n- Hi, love.\n"
 
 	var expected = []caption.Caption{
 		{

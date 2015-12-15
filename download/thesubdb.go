@@ -13,18 +13,14 @@ import (
 )
 
 // FindSub finds subtitle online, and parses it into a []caption.Caption
-func FindSub(videoFileName string, language string, keepAds bool) ([]caption.Caption, error) {
+func FindSub(videoFileName string, language string) ([]caption.Caption, error) {
 
 	text, err := FindSubText(videoFileName, language)
 	if err != nil {
 		return nil, err
 	}
 
-	captions := srt.ParseSrt([]byte(text))
-
-	if !keepAds {
-		captions = caption.CleanSubs(captions)
-	}
+	captions := srt.ParseSrt(string(text))
 
 	return captions, nil
 }

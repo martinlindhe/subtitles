@@ -5,6 +5,7 @@ import (
 
 	"github.com/martinlindhe/subber/caption"
 	"github.com/martinlindhe/subber/testExtras"
+	"github.com/martinlindhe/subber/txtformat"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,18 +28,17 @@ func TestParseTime(t *testing.T) {
 
 func TestParseSrt(t *testing.T) {
 
-	in := []byte(
-		"1\n" +
-			"00:00:04,630 --> 00:00:06,018\n" +
-			"Go ninja!\n" +
-			"\n" +
-			"2\n" +
-			"00:00:10,000 --> 00:00:11,000\n" +
-			"Subtitles By MrCool\n" +
-			"\n" +
-			"3\n" +
-			"00:01:09,630 --> 00:01:11,005\n" +
-			"No ninja!\n")
+	in := "1\n" +
+		"00:00:04,630 --> 00:00:06,018\n" +
+		"Go ninja!\n" +
+		"\n" +
+		"2\n" +
+		"00:00:10,000 --> 00:00:11,000\n" +
+		"Subtitles By MrCool\n" +
+		"\n" +
+		"3\n" +
+		"00:01:09,630 --> 00:01:11,005\n" +
+		"No ninja!\n"
 
 	var expected = []caption.Caption{
 		{
@@ -66,14 +66,13 @@ func TestParseSrt(t *testing.T) {
 
 func TestParseSrtWithMacLinebreaks(t *testing.T) {
 
-	in := []byte(
-		"1\r" +
-			"00:00:04,630 --> 00:00:06,018\r" +
-			"Go ninja!\r" +
-			"\r" +
-			"3\r" +
-			"00:01:09,630 --> 00:01:11,005\r" +
-			"No ninja!\r")
+	in := "1\r" +
+		"00:00:04,630 --> 00:00:06,018\r" +
+		"Go ninja!\r" +
+		"\r" +
+		"3\r" +
+		"00:01:09,630 --> 00:01:11,005\r" +
+		"No ninja!\r"
 
 	var expected = []caption.Caption{
 		{
@@ -90,7 +89,9 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	utf8 := txtformat.ConvertToUTF8([]byte(in))
+
+	assert.Equal(t, expected, ParseSrt(utf8))
 }
 
 func TestParseSrtSkipEmpty(t *testing.T) {
@@ -122,7 +123,7 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	assert.Equal(t, expected, ParseSrt(in))
 }
 
 func TestParseSrtCrlf(t *testing.T) {
@@ -141,7 +142,7 @@ func TestParseSrtCrlf(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	assert.Equal(t, expected, ParseSrt(in))
 }
 
 func TestParseExtraLineBreak(t *testing.T) {
@@ -163,7 +164,7 @@ func TestParseExtraLineBreak(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	assert.Equal(t, expected, ParseSrt(in))
 }
 
 func TestParseWierdTimestamp(t *testing.T) {
@@ -181,7 +182,7 @@ func TestParseWierdTimestamp(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	assert.Equal(t, expected, ParseSrt(in))
 }
 
 func TestRenderSrt(t *testing.T) {
@@ -226,7 +227,9 @@ func TestParseLatin1Srt(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	utf8 := txtformat.ConvertToUTF8([]byte(in))
+
+	assert.Equal(t, expected, ParseSrt(utf8))
 }
 
 func TestParseUTF16BESrt(t *testing.T) {
@@ -262,7 +265,9 @@ func TestParseUTF16BESrt(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	utf8 := txtformat.ConvertToUTF8(in)
+
+	assert.Equal(t, expected, ParseSrt(utf8))
 }
 
 func TestParseUTF16LESrt(t *testing.T) {
@@ -298,7 +303,9 @@ func TestParseUTF16LESrt(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt(in))
+	utf8 := txtformat.ConvertToUTF8(in)
+
+	assert.Equal(t, expected, ParseSrt(utf8))
 }
 
 func TestParseUTF8BomSrt(t *testing.T) {
@@ -334,5 +341,7 @@ func TestParseUTF8BomSrt(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, expected, ParseSrt([]byte(in)))
+	utf8 := txtformat.ConvertToUTF8(in)
+
+	assert.Equal(t, expected, ParseSrt(utf8))
 }

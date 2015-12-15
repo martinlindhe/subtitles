@@ -7,10 +7,13 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/martinlindhe/subber/caption"
+	"github.com/martinlindhe/subber/cleaner"
 	"github.com/martinlindhe/subber/download"
+	"github.com/martinlindhe/subber/filter"
 	"github.com/martinlindhe/subber/helpers"
+	"github.com/martinlindhe/subber/parser"
 	"github.com/martinlindhe/subber/srt"
+	"github.com/martinlindhe/subber/txtformat"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -51,7 +54,7 @@ func action(inFileName string) error {
 
 	ext := path.Ext(inFileName)
 	if ext == ".srt" {
-		srt.CleanupSrt(inFileName, *filterName, *skipBackups, *keepAds)
+		cleanupSrt(inFileName, *filterName, *skipBackups, *keepAds)
 		return nil
 	}
 
@@ -59,7 +62,7 @@ func action(inFileName string) error {
 
 	if helpers.Exists(subFileName) {
 		fmt.Printf("Subs found locally in %s, skipping download\n", subFileName)
-		srt.CleanupSrt(subFileName, *filterName, *skipBackups, *keepAds)
+		cleanupSrt(subFileName, *filterName, *skipBackups, *keepAds)
 		return nil
 	}
 
@@ -77,11 +80,10 @@ func action(inFileName string) error {
 			return err
 		}
 
-		// clean and render to str
-		captions := srt.ParseSrt(data)
+		captions := parser.Parse(data)
 
 		if !*keepAds {
-			captions = caption.CleanSubs(captions)
+			captions = cleaner.RemoveAds(captions)
 		}
 
 		text := srt.RenderSrt(captions)
@@ -93,6 +95,53 @@ func action(inFileName string) error {
 		return err
 	}
 
+	return nil
+}
+
+// CleanupSrt performs cleanup on fileName, overwriting the original file
+func cleanupSrt(inFileName string, filterName string, skipBackup bool, keepAds bool) error {
+
+	fmt.Fprintf(os.Stderr, "CleanupSrt %s\n", inFileName)
+
+	data, err := ioutil.ReadFile(inFileName)
+	if err != nil {
+		return err
+	}
+
+	utf8 := txtformat.ConvertToUTF8(data)
+
+	captions := srt.ParseSrt(utf8)
+	if !keepAds {
+		captions = cleaner.RemoveAds(captions)
+	}
+
+	captions = filter.FilterSubs(captions, filterName)
+
+	out := srt.RenderSrt(captions)
+
+	if string(data) == out {
+		return nil
+	}
+
+	if !skipBackup {
+		backupFileName := inFileName + ".org"
+		os.Rename(inFileName, backupFileName)
+		// fmt.Printf("Backed up to %s\n", backupFileName)
+	}
+
+	f, err := os.Create(inFileName)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	_, err = f.WriteString(out)
+	if err != nil {
+		return err
+	}
+
+	//fmt.Printf("Written %d captions to %s\n", len(captions), inFileName)
 	return nil
 }
 

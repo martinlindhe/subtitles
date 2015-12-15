@@ -1,14 +1,16 @@
-package caption
+package cleaner
 
 import (
 	"fmt"
 	"strings"
+
+	"github.com/martinlindhe/subber/caption"
 )
 
-// CleanSubs removes advertisement from the subtitles
-func CleanSubs(subs []Caption) []Caption {
+// RemoveAds removes advertisement from the subtitles
+func RemoveAds(subs []caption.Caption) []caption.Caption {
 
-	var res []Caption
+	var res []caption.Caption
 
 	ads := []string{
 
