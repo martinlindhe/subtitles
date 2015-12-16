@@ -12,6 +12,13 @@ import (
 // Eol is the end of line characters to use when writing .srt data
 const eol = "\n"
 
+func looksLikeSrt(s string) bool {
+	if strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") {
+		return true
+	}
+	return false
+}
+
 // ParseSrt parses a .srt text into []Caption, assumes s is a clean utf8 string
 func parseSrt(s string) []caption {
 

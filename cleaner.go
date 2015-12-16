@@ -5,10 +5,18 @@ import (
 	"strings"
 )
 
-// CleanupSub performs cleanup on .srt data, returning a string. caller is responsible for passing UTF8 string
+// CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
 func CleanupSub(utf8 string, filterName string, keepAds bool) (string, error) {
 
-	captions := parseSrt(utf8)
+	var captions []caption
+
+	if looksLikeSrt(utf8) {
+		captions = parseSrt(utf8)
+	} else {
+		// falls back on .ssa decoding, for now
+		captions = parseSsa(utf8)
+	}
+
 	if !keepAds {
 		captions = removeAds(captions)
 	}
