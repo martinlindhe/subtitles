@@ -26,7 +26,7 @@ and the `subber` cli app automates this task.
 To install the command line:
 
 ```
-go install github.com/martinlindhe/subber/subber
+go install github.com/martinlindhe/subber/cli/subber
 ```
 
 
