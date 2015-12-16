@@ -1,37 +1,21 @@
-package download
+package subber
 
 import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
-
-	"github.com/martinlindhe/subber/caption"
-	"github.com/martinlindhe/subber/helpers"
-	"github.com/martinlindhe/subber/srt"
 )
 
-// FindSub finds subtitle online, and parses it into a []caption.Caption
-func FindSub(videoFileName string, language string) ([]caption.Caption, error) {
-
-	text, err := FindSubText(videoFileName, language)
-	if err != nil {
-		return nil, err
-	}
-
-	captions := srt.ParseSrt(string(text))
-
-	return captions, nil
-}
-
-// FindSubText finds subtitle online, returns untouched data
-func FindSubText(videoFileName string, language string) ([]byte, error) {
-	if !helpers.Exists(videoFileName) {
+// FindSub finds subtitle online, returns untouched data
+func FindSub(videoFileName string, language string) ([]byte, error) {
+	if !exists(videoFileName) {
 		return nil, fmt.Errorf("%s not found", videoFileName)
 	}
 
-	if helpers.IsDirectory(videoFileName) {
+	if isDirectory(videoFileName) {
 		return nil, fmt.Errorf("%s is not a file", videoFileName)
 	}
 
@@ -67,8 +51,7 @@ func fromTheSubDb(videoFileName string, language string, optional ...string) ([]
 // returns a md5-sum in hex-string representation
 func createMovieHashFromMovieFile(fileName string) (string, error) {
 
-	// XXX make sure filename is a file, and not a dir
-	if !helpers.Exists(fileName) {
+	if !exists(fileName) {
 		return "", fmt.Errorf("File %s not found", fileName)
 	}
 
@@ -122,7 +105,7 @@ func downloadSubtitleByHash(hash string, language string, apiHost string) ([]byt
 
 	query := "http://" + apiHost + "/?action=download&hash=" + hash + "&language=" + language
 
-	fmt.Printf("Fetching %s ...\n", query)
+	log.Printf("Fetching %s ...\n", query)
 
 	req, err := http.NewRequest("GET", query, nil)
 	if err != nil {

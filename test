@@ -1,5 +1,0 @@
-#!/bin/sh
-
-paths="./caption ./cleaner ./download ./filter ./helpers ./parser ./srt ./ssa ./testExtras ./txtformat"
-
-go test $paths

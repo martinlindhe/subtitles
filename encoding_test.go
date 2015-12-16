@@ -1,4 +1,4 @@
-package txtformat
+package subber
 
 import (
 	"testing"

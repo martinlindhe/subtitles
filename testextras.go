@@ -1,4 +1,4 @@
-package testExtras
+package subber
 
 import (
 	"fmt"
@@ -15,11 +15,11 @@ func check(e error) {
 	}
 }
 
-func MakeTime(h int, m int, s int, ms int) time.Time {
+func makeTime(h int, m int, s int, ms int) time.Time {
 	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
-func CreateTempFile(byteSize int) string {
+func createTempFile(byteSize int) string {
 	data := make([]byte, byteSize)
 
 	cnt := uint8(0)
@@ -38,7 +38,7 @@ func CreateTempFile(byteSize int) string {
 	return fileName
 }
 
-func CreateZeroedTempFile(byteSize int) string {
+func createZeroedTempFile(byteSize int) string {
 	data := make([]byte, byteSize)
 
 	f, err := ioutil.TempFile("/tmp", tempFilePrefix)

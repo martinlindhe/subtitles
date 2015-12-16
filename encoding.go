@@ -1,15 +1,28 @@
-package txtformat
+package subber
 
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
 )
 
+// ReadFileAsUTF8 reads text file, tries to convert to UTF8
+func ReadFileAsUTF8(fileName string) (string, error) {
+
+	data, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return "", err
+	}
+
+	utf8 := convertToUTF8(data)
+	return utf8, nil
+}
+
 // ConvertToUTF8 returns an utf8 string
-func ConvertToUTF8(b []byte) string {
+func convertToUTF8(b []byte) string {
 
 	s := ""
 
@@ -25,11 +38,11 @@ func ConvertToUTF8(b []byte) string {
 		s = string(b)
 	}
 
-	return NormalizeLineFeeds(s)
+	return normalizeLineFeeds(s)
 }
 
 // NormalizeLineFeeds will return a string with \n as linefeeds
-func NormalizeLineFeeds(s string) string {
+func normalizeLineFeeds(s string) string {
 
 	if len(s) < 80 {
 		return s

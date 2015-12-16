@@ -1,4 +1,4 @@
-package srt
+package subber
 
 import (
 	"fmt"
@@ -7,17 +7,15 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/martinlindhe/subber/caption"
 )
 
 // Eol is the end of line characters to use when writing .srt data
-const Eol = "\n"
+const eol = "\n"
 
 // ParseSrt parses a .srt text into []Caption, assumes s is a clean utf8 string
-func ParseSrt(s string) []caption.Caption {
+func parseSrt(s string) []caption {
 
-	var res []caption.Caption
+	var res []caption
 
 	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
 
@@ -38,7 +36,7 @@ func ParseSrt(s string) []caption.Caption {
 			continue
 		}
 
-		var o caption.Caption
+		var o caption
 		o.Seq = outSeq
 
 		i++
@@ -96,10 +94,6 @@ func ParseSrt(s string) []caption.Caption {
 	return res
 }
 
-func makeTime(h int, m int, s int, ms int) time.Time {
-	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
-}
-
 func parseTime(in string) (time.Time, error) {
 
 	// . to ,
@@ -140,10 +134,10 @@ func parseTime(in string) (time.Time, error) {
 	return makeTime(h, m, s, ms), nil
 }
 
-// WriteSrt prints a srt render to outFileName
-func WriteSrt(subs []caption.Caption, outFileName string) error {
+// writeSrt prints a srt render to outFileName
+func writeSrt(subs []caption, outFileName string) error {
 
-	text := RenderSrt(subs)
+	text := renderSrt(subs)
 
 	err := ioutil.WriteFile(outFileName, []byte(text), 0644)
 	if err != nil {
@@ -152,8 +146,8 @@ func WriteSrt(subs []caption.Caption, outFileName string) error {
 	return nil
 }
 
-// RenderSrt produces a text representation of the subtitles
-func RenderSrt(subs []caption.Caption) string {
+// renderSrt produces a text representation of the subtitles
+func renderSrt(subs []caption) string {
 
 	res := ""
 
@@ -164,14 +158,23 @@ func RenderSrt(subs []caption.Caption) string {
 	return res
 }
 
-func renderCaptionAsSrt(caption caption.Caption) string {
+func renderCaptionAsSrt(cap caption) string {
 
-	res := fmt.Sprintf("%d", caption.Seq) + Eol +
-		caption.SrtTime() + Eol
+	res := fmt.Sprintf("%d", cap.Seq) + eol +
+		cap.srtTime() + eol
 
-	for _, line := range caption.Text {
-		res += line + Eol
+	for _, line := range cap.Text {
+		res += line + eol
 	}
 
-	return res + Eol
+	return res + eol
+}
+
+func renderSrtTime(t time.Time) string {
+	res := t.Format("15:04:05.000")
+	return strings.Replace(res, ".", ",", 1)
+}
+
+func (cap caption) srtTime() string {
+	return renderSrtTime(cap.Start) + " --> " + renderSrtTime(cap.End)
 }

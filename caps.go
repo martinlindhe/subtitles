@@ -1,14 +1,12 @@
-package filter
+package subber
 
 import (
-	"fmt"
+	"log"
 	"strings"
-
-	"github.com/martinlindhe/subber/caption"
 )
 
-// CapsFixer converts "ALL CAPS" text into "Initial letter capped"
-func CapsFixer(captions []caption.Caption) []caption.Caption {
+// filterCapitalization converts "ALL CAPS" text into "Initial letter capped"
+func filterCapitalization(captions []caption) []caption {
 
 	for _, cap := range captions {
 		for i, line := range cap.Text {
@@ -16,7 +14,7 @@ func CapsFixer(captions []caption.Caption) []caption.Caption {
 			clean := ucFirst(line)
 
 			if clean != cap.Text[i] {
-				fmt.Printf("[caps] %s -> %s\n", cap.Text[i], clean)
+				log.Printf("[caps] %s -> %s\n", cap.Text[i], clean)
 				cap.Text[i] = clean
 			}
 		}

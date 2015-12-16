@@ -1,16 +1,29 @@
-package cleaner
+package subber
 
 import (
-	"fmt"
+	"log"
 	"strings"
-
-	"github.com/martinlindhe/subber/caption"
 )
 
-// RemoveAds removes advertisement from the subtitles
-func RemoveAds(subs []caption.Caption) []caption.Caption {
+// CleanupSub performs cleanup on .srt data, returning a string. caller is responsible for passing UTF8 string
+func CleanupSub(utf8 string, filterName string, keepAds bool) (string, error) {
 
-	var res []caption.Caption
+	captions := parseSrt(utf8)
+	if !keepAds {
+		captions = removeAds(captions)
+	}
+
+	captions = filterSubs(captions, filterName)
+
+	out := renderSrt(captions)
+
+	return out, nil
+}
+
+// RemoveAds removes advertisement from the subtitles
+func removeAds(subs []caption) []caption {
+
+	var res []caption
 
 	ads := []string{
 
@@ -79,7 +92,7 @@ func RemoveAds(subs []caption.Caption) []caption.Caption {
 			for _, adLine := range ads {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					fmt.Println("[ads]", orgSeq, sub.Text, "matched", adLine)
+					log.Println("[ads]", orgSeq, sub.Text, "matched", adLine)
 					break
 				}
 			}

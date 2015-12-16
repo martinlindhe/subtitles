@@ -1,9 +1,9 @@
-package helpers
+package subber
 
 import "os"
 
 // Exists reports whether the named file or directory exists.
-func Exists(name string) bool {
+func exists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
 		if os.IsNotExist(err) {
 			return false
@@ -13,7 +13,7 @@ func Exists(name string) bool {
 }
 
 // IsDirectory reports wether the named path is a directory
-func IsDirectory(path string) bool {
+func isDirectory(path string) bool {
 	fileInfo, err := os.Stat(path)
 	if err != nil {
 		return false

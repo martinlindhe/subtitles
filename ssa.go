@@ -1,4 +1,4 @@
-package ssa
+package subber
 
 import (
 	"fmt"
@@ -6,13 +6,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/martinlindhe/subber/caption"
 )
 
-func ParseSsa(s string) []caption.Caption {
+func parseSsa(s string) []caption {
 
-	var res []caption.Caption
+	var res []caption
 
 	chunk, err := extractSsaChunk("[Events]", s)
 	if err != nil {
@@ -45,7 +43,7 @@ func ParseSsa(s string) []caption.Caption {
 		end := parseSsaDialogue(lines[i], endCol, dialogueColumns)
 		text := parseSsaDialogue(lines[i], textCol, dialogueColumns)
 
-		var o caption.Caption
+		var o caption
 		o.Seq = outSeq
 		o.Start, err = parseSsaTime(start)
 		if err != nil {
@@ -128,10 +126,6 @@ func extractSsaChunk(chunk string, s string) (string, error) {
 	res := s[pos+len(chunk):]
 
 	return strings.Trim(res, "\r\n "), nil
-}
-
-func makeTime(h int, m int, s int, ms int) time.Time {
-	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
 func parseSsaTime(in string) (time.Time, error) {

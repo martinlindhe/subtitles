@@ -1,16 +1,15 @@
-package download
+package subber
 
 import (
 	"os"
 	"testing"
 
-	"github.com/martinlindhe/subber/testExtras"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateMovieHashFromMovieFile(t *testing.T) {
 
-	fileName := testExtras.CreateTempFile(1024 * 1024 * 2)
+	fileName := createTempFile(1024 * 1024 * 2)
 
 	hash, err := createMovieHashFromMovieFile(fileName)
 
@@ -21,7 +20,7 @@ func TestCreateMovieHashFromMovieFile(t *testing.T) {
 }
 
 func TestDownloadFromTheSubDb(t *testing.T) {
-	fileName := testExtras.CreateZeroedTempFile(1024 * 1024 * 2)
+	fileName := createZeroedTempFile(1024 * 1024 * 2)
 
 	text, err := fromTheSubDb(fileName, "en", "sandbox.thesubdb.com")
 	assert.Equal(t, nil, err)

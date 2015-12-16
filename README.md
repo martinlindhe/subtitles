@@ -3,6 +3,7 @@
 Subber is a cli tool and library for reading,
 writing and manipulating .srt subtitle files written in Go
 
+WARNING: The API is unstable, work in progress!
 
 ### Features
 
@@ -22,10 +23,10 @@ and the `subber` cli app automates this task.
 
 # Installation
 
-Assuming golang is installed on your system:
+To install the command line:
 
 ```
-go install github.com/martinlindhe/subber
+go install github.com/martinlindhe/subber/subber
 ```
 
 
