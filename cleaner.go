@@ -73,6 +73,7 @@ func removeAds(subs []caption) []caption {
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
+		"svensktextning", "(c) sveriges television",
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
 		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av",
