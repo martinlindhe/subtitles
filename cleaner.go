@@ -73,10 +73,10 @@ func removeAds(subs []caption) []caption {
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
-		"svensktextning", "(c) sveriges television",
+		"svensktextning", "(c) sveriges televisionit",
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
 		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
-		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av",
+		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av", "textning:",
 		"svensk text", "text av", "text:", "omsynk:", "omsynkad",
 		"transkribering:", "piratpartiet.se",
 		"korrektur:", "korrekturläst", "texter på nätet", "text hämtad från",
@@ -85,7 +85,7 @@ func removeAds(subs []caption) []caption {
 		"senaste undertexter på",
 		"programtextning", "översättargrupp",
 		"mediatextgruppen", "visiontext", "scandinavian text service",
-		"jhs International",
+		"jhs International", "svensk medietext",
 
 		// french:
 		"relecture et corrections finales:",
