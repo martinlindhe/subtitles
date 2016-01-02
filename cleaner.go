@@ -101,7 +101,7 @@ func removeAds(subs []caption) []caption {
 			for _, adLine := range ads {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					log.Println("[ads]", orgSeq, sub.Text, "matched", adLine)
+					log.Println("[ads]", (orgSeq + 1), sub.Text, "matched", adLine)
 					break
 				}
 			}
