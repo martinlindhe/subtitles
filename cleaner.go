@@ -1,12 +1,14 @@
-package subber
+package subtitles
 
 import (
+	"fmt"
 	"log"
 	"strings"
+	"time"
 )
 
 // CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
-func CleanupSub(utf8 string, filterName string, keepAds bool) (string, error) {
+func CleanupSub(utf8 string, filterName string, keepAds bool, sync int) (string, error) {
 
 	var captions []caption
 
@@ -21,11 +23,28 @@ func CleanupSub(utf8 string, filterName string, keepAds bool) (string, error) {
 		captions = removeAds(captions)
 	}
 
+	if sync != 0 {
+		captions = resyncSubs(captions, sync)
+	}
+
 	captions = filterSubs(captions, filterName)
 
 	out := renderSrt(captions)
 
 	return out, nil
+}
+
+func resyncSubs(subs []caption, sync int) []caption {
+
+	//	var res []caption
+	fmt.Printf("resyncing with %d\n", sync)
+
+	for i := range subs {
+		subs[i].Start = subs[i].Start.Add(time.Duration(sync) * time.Millisecond)
+		subs[i].End = subs[i].End.Add(time.Duration(sync) * time.Millisecond)
+	}
+
+	return subs
 }
 
 // RemoveAds removes advertisement from the subtitles

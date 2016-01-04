@@ -1,4 +1,4 @@
-package subber
+package subtitles
 
 // parse tries to parse a subtitle from the data stream
 func parse(b []byte) []caption {

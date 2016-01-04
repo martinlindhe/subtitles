@@ -1,4 +1,4 @@
-package subber
+package subtitles
 
 import (
 	"os"
