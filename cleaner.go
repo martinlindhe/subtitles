@@ -71,6 +71,7 @@ func removeAds(subs []caption) []caption {
 		"synchronization by", "synchronisation:",
 		"resynchronization:",
 		"resync:", "resynchro", "resync by",
+		"translation by",
 		"encoded by",
 		"web-dl",
 		"subscene",
