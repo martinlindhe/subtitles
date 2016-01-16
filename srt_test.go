@@ -33,6 +33,7 @@ func TestParseSrt(t *testing.T) {
 		"00:00:10,000 --> 00:00:11,000\n" +
 		"Subtitles By MrCool\n" +
 		"\n" +
+		"\n" + // NOTE make sure we allow slightly sloppy input
 		"3\n" +
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"

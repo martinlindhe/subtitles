@@ -34,7 +34,7 @@ func parseSrt(s string) []caption {
 
 		seq := strings.Trim(lines[i], "\r ")
 		if seq == "" {
-			break
+			continue
 		}
 
 		_, err := strconv.Atoi(seq)
