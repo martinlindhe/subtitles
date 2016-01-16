@@ -81,6 +81,7 @@ func removeAds(subs []caption) []caption {
 		"cssubs", "tvsub", "uksubtitles",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com",
+		"@gmail.com", "@hotmail.com", "@hotmail.fr",
 		"napisy.org", "1000fr.com",
 		"opensubtitles", "open subtitles", "s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link",
