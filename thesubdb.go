@@ -4,9 +4,10 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // FindSub finds subtitle online, returns untouched data
@@ -113,7 +114,7 @@ func downloadSubtitleByHash(hash string, language string, apiHost string) ([]byt
 	}
 
 	req.Header.Set("User-Agent",
-		"SubDB/1.0 (GoSubber/1.0; http://github.com/martinlindhe/subber)")
+		"SubDB/1.0 (GoSubber/1.0; https://github.com/martinlindhe/subber)")
 
 	resp, err := client.Do(req)
 	if err != nil {

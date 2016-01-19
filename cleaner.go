@@ -2,9 +2,10 @@ package subtitles
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string

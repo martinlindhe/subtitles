@@ -1,7 +1,7 @@
 package subtitles
 
 import (
-	"log"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/kennygrant/sanitize"
 )
