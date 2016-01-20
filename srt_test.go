@@ -38,26 +38,22 @@ func TestParseSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-		{
-			2,
-			makeTime(0, 0, 10, 0),
-			makeTime(0, 0, 11, 0),
-			[]string{"Subtitles By MrCool"},
-		},
-		{
-			3,
-			makeTime(0, 1, 9, 630),
-			makeTime(0, 1, 11, 005),
-			[]string{"No ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}, {
+		2,
+		makeTime(0, 0, 10, 0),
+		makeTime(0, 0, 11, 0),
+		[]string{"Subtitles By MrCool"},
+	}, {
+		3,
+		makeTime(0, 1, 9, 630),
+		makeTime(0, 1, 11, 005),
+		[]string{"No ninja!"},
+	}}
 
 	assert.Equal(t, expected, parseSrt(in))
 }
@@ -72,20 +68,17 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\r" +
 		"No ninja!\r"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-		{
-			2,
-			makeTime(0, 1, 9, 630),
-			makeTime(0, 1, 11, 005),
-			[]string{"No ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}, {
+		2,
+		makeTime(0, 1, 9, 630),
+		makeTime(0, 1, 11, 005),
+		[]string{"No ninja!"},
+	}}
 
 	utf8 := convertToUTF8([]byte(in))
 
@@ -106,20 +99,17 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-		{
-			2,
-			makeTime(0, 1, 9, 630),
-			makeTime(0, 1, 11, 005),
-			[]string{"No ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}, {
+		2,
+		makeTime(0, 1, 9, 630),
+		makeTime(0, 1, 11, 005),
+		[]string{"No ninja!"},
+	}}
 
 	assert.Equal(t, expected, parseSrt(in))
 }
@@ -131,14 +121,12 @@ func TestParseSrtCrlf(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}}
 
 	assert.Equal(t, expected, parseSrt(in))
 }
@@ -153,14 +141,12 @@ func TestParseExtraLineBreak(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}}
 
 	assert.Equal(t, expected, parseSrt(in))
 }
@@ -171,14 +157,12 @@ func TestParseWierdTimestamp(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Go ninja!\r\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 14, 52, 0),
-			makeTime(0, 14, 57, 500),
-			[]string{"Go ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 14, 52, 0),
+		makeTime(0, 14, 57, 500),
+		[]string{"Go ninja!"},
+	}}
 
 	assert.Equal(t, expected, parseSrt(in))
 }
@@ -193,20 +177,17 @@ func TestRenderSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n\n"
 
-	var in = []caption{
-		{
-			1,
-			makeTime(0, 0, 4, 630),
-			makeTime(0, 0, 6, 18),
-			[]string{"Go ninja!"},
-		},
-		{
-			2,
-			makeTime(0, 1, 9, 630),
-			makeTime(0, 1, 11, 005),
-			[]string{"No ninja!"},
-		},
-	}
+	var in = []caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"Go ninja!"},
+	}, {
+		2,
+		makeTime(0, 1, 9, 630),
+		makeTime(0, 1, 11, 005),
+		[]string{"No ninja!"},
+	}}
 
 	assert.Equal(t, expected, renderSrt(in))
 }
@@ -216,14 +197,12 @@ func TestParseLatin1Srt(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Hall\xe5 ninja!\r\n"
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 14, 52, 0),
-			makeTime(0, 14, 57, 500),
-			[]string{"Hallå ninja!"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 14, 52, 0),
+		makeTime(0, 14, 57, 500),
+		[]string{"Hallå ninja!"},
+	}}
 
 	utf8 := convertToUTF8([]byte(in))
 
@@ -234,34 +213,25 @@ func TestParseUTF16BESrt(t *testing.T) {
 
 	in := []byte{
 		0xfe, 0xff, // UTF16 BE BOM
-
 		0, '1',
 		0, '\r', 0, '\n',
-
 		0, '0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':',
 		0, '0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '0',
-
 		0, ' ', 0, '-', 0, '-', 0, '>', 0, ' ',
-
 		0, '0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':',
 		0, '0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '1',
-
 		0, '\r', 0, '\n',
-
 		0, 'T', 0, 'e', 0, 's', 0, 't',
-
 		0, '\r', 0, '\n',
 		0, '\r', 0, '\n',
 	}
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 0, 0),
-			makeTime(0, 0, 0, 1),
-			[]string{"Test"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 0, 0),
+		makeTime(0, 0, 0, 1),
+		[]string{"Test"},
+	}}
 
 	utf8 := convertToUTF8(in)
 
@@ -272,34 +242,25 @@ func TestParseUTF16LESrt(t *testing.T) {
 
 	in := []byte{
 		0xff, 0xfe, // UTF16 LE BOM
-
 		'1', 0,
 		'\r', 0, '\n', 0,
-
 		'0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':', 0,
 		'0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '0', 0,
-
 		' ', 0, '-', 0, '-', 0, '>', 0, ' ', 0,
-
 		'0', 0, '0', 0, ':', 0, '0', 0, '0', 0, ':', 0,
 		'0', 0, '0', 0, ',', 0, '0', 0, '0', 0, '1', 0,
-
 		'\r', 0, '\n', 0,
-
 		'T', 0, 'e', 0, 's', 0, 't', 0,
-
 		'\r', 0, '\n', 0,
 		'\r', 0, '\n', 0,
 	}
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 0, 0),
-			makeTime(0, 0, 0, 1),
-			[]string{"Test"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 0, 0),
+		makeTime(0, 0, 0, 1),
+		[]string{"Test"},
+	}}
 
 	utf8 := convertToUTF8(in)
 
@@ -310,34 +271,25 @@ func TestParseUTF8BomSrt(t *testing.T) {
 
 	in := []byte{
 		0xef, 0xbb, 0xbf, // UTF8 BOM
-
 		'1',
 		'\r', '\n',
-
 		'0', '0', ':', '0', '0', ':',
 		'0', '0', ',', '0', '0', '0',
-
 		' ', '-', '-', '>', ' ',
-
 		'0', '0', ':', '0', '0', ':',
 		'0', '0', ',', '0', '0', '1',
-
 		'\r', '\n',
-
 		'T', 'e', 's', 't',
-
 		'\r', '\n',
 		'\r', '\n',
 	}
 
-	var expected = []caption{
-		{
-			1,
-			makeTime(0, 0, 0, 0),
-			makeTime(0, 0, 0, 1),
-			[]string{"Test"},
-		},
-	}
+	var expected = []caption{{
+		1,
+		makeTime(0, 0, 0, 0),
+		makeTime(0, 0, 0, 1),
+		[]string{"Test"},
+	}}
 
 	utf8 := convertToUTF8(in)
 
