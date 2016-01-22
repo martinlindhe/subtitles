@@ -3,21 +3,22 @@ package subtitles
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 	"unicode/utf16"
 	"unicode/utf8"
 )
 
-// ReadFileAsUTF8 reads text file, tries to convert to UTF8
-func ReadFileAsUTF8(fileName string) (string, error) {
+// ReadAsUTF8 tries to convert io.Reader to UTF8
+func ReadAsUTF8(r io.Reader) (string, error) {
 
-	data, err := ioutil.ReadFile(fileName)
+	buf := new(bytes.Buffer)
+	_, err := buf.ReadFrom(r)
 	if err != nil {
-		return "", err
+		return "", nil
 	}
 
-	utf8 := convertToUTF8(data)
+	utf8 := convertToUTF8(buf.Bytes())
 	return utf8, nil
 }
 
