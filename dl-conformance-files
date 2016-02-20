@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir -p conformance-files/thesubdb
+
+# fetch conformance check videos from http://thesubdb.com/api/
+curl http://thesubdb.com/api/samples/dexter.mp4    -o conformance-files/thesubdb/dexter.mp4
+curl http://thesubdb.com/api/samples/justified.mp4 -o conformance-files/thesubdb/justified.mp4

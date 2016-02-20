@@ -9,6 +9,7 @@ import (
 const tempFilePrefix = "moviehash-temp"
 
 func check(e error) {
+
 	if e != nil {
 		fmt.Println(e)
 		panic(e)
@@ -16,10 +17,12 @@ func check(e error) {
 }
 
 func makeTime(h int, m int, s int, ms int) time.Time {
+
 	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
 func createTempFile(byteSize int) string {
+
 	data := make([]byte, byteSize)
 
 	cnt := uint8(0)
@@ -39,6 +42,7 @@ func createTempFile(byteSize int) string {
 }
 
 func createZeroedTempFile(byteSize int) string {
+
 	data := make([]byte, byteSize)
 
 	f, err := ioutil.TempFile("/tmp", tempFilePrefix)

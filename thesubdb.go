@@ -6,107 +6,33 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-
-	log "github.com/Sirupsen/logrus"
 )
 
-// FindSub finds subtitle online, returns untouched data
-func FindSub(videoFileName string, language string) ([]byte, error) {
-	if !exists(videoFileName) {
-		return nil, fmt.Errorf("%s not found", videoFileName)
+// TheSubDb downloads a subtitle from thesubdb.com
+func (f SubFinder) TheSubDb(args ...string) ([]byte, error) {
+
+	apiHost := ""
+	if len(args) > 0 {
+		apiHost = args[0]
+	} else {
+		apiHost = "api.thesubdb.com"
 	}
 
-	if isDirectory(videoFileName) {
-		return nil, fmt.Errorf("%s is not a file", videoFileName)
-	}
-
-	text, err := fromTheSubDb(videoFileName, language)
+	hash, err := SubDbHashFromFile(f.VideoFile)
 	if err != nil {
 		return nil, err
 	}
-
-	return text, nil
-}
-
-// FromTheSubDb downloads a subtitle from thesubdb.com
-func fromTheSubDb(videoFileName string, language string, optional ...string) ([]byte, error) {
-
-	_apiHost := "api.thesubdb.com"
-	if len(optional) > 0 {
-		_apiHost = optional[0]
-	}
-
-	hash, err := createMovieHashFromMovieFile(videoFileName)
-	if err != nil {
-		return nil, err
-	}
-
-	actualText, err := downloadSubtitleByHash(hash, language, _apiHost)
-	if err != nil {
-		return nil, err
-	}
-
-	return actualText, nil
-}
-
-// returns a md5-sum in hex-string representation
-func createMovieHashFromMovieFile(fileName string) (string, error) {
-
-	if !exists(fileName) {
-		return "", fmt.Errorf("File %s not found", fileName)
-	}
-
-	// block size which is required for the API call
-	readSize := int64(64 * 1024)
-
-	f, err := os.Open(fileName)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-
-	fi, err := f.Stat()
-	if err != nil {
-		return "", err
-	}
-
-	if fi.Size() < readSize {
-		return "", fmt.Errorf("File is too small: %s", fileName)
-	}
-
-	// read first part
-	b1 := make([]byte, readSize)
-	_, err = f.Read(b1)
-	if err != nil {
-		return "", err
-	}
-
-	// move the file pointer ahead, because we only need
-	// the first and the last 64KB of the video file
-	_, err = f.Seek(-readSize, 2)
-	if err != nil {
-		return "", err
-	}
-
-	// read the last part
-	b2 := make([]byte, readSize)
-	_, err = f.Read(b2)
-	if err != nil {
-		return "", err
-	}
-
-	combined := append(b1, b2...)
-
-	return fmt.Sprintf("%x", md5.Sum(combined)), nil
-}
-
-func downloadSubtitleByHash(hash string, language string, apiHost string) ([]byte, error) {
 
 	client := &http.Client{}
 
-	query := "http://" + apiHost + "/?action=download&hash=" + hash + "&language=" + language
+	query := "http://" + apiHost +
+		"/?action=download" +
+		"&hash=" + hash +
+		"&language=" + f.Language
 
-	log.Printf("Fetching %s ...\n", query)
+	if !f.Quiet {
+		fmt.Println("Fetching", query, "...")
+	}
 
 	req, err := http.NewRequest("GET", query, nil)
 	if err != nil {
@@ -135,4 +61,49 @@ func downloadSubtitleByHash(hash string, language string, apiHost string) ([]byt
 	}
 
 	return slurp, nil
+}
+
+// SubDbHashFromFile returns a checksum in hex-string representation
+// conforming to http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes
+func SubDbHashFromFile(f *os.File) (string, error) {
+
+	// rewind
+	f.Seek(0, 0)
+
+	// block size which is required for the API call
+	readSize := int64(64 * 1024)
+
+	fi, err := f.Stat()
+	if err != nil {
+		return "", err
+	}
+
+	if fi.Size() < readSize {
+		return "", fmt.Errorf("Stream is too small: %d", fi.Size())
+	}
+
+	// read first part
+	b1 := make([]byte, readSize)
+	_, err = f.Read(b1)
+	if err != nil {
+		return "", err
+	}
+
+	// move the file pointer ahead, because we only need
+	// the first and the last 64KB of the video file
+	_, err = f.Seek(-readSize, 2)
+	if err != nil {
+		return "", err
+	}
+
+	// read the last part
+	b2 := make([]byte, readSize)
+	_, err = f.Read(b2)
+	if err != nil {
+		return "", err
+	}
+
+	combined := append(b1, b2...)
+
+	return fmt.Sprintf("%x", md5.Sum(combined)), nil
 }

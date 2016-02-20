@@ -16,6 +16,18 @@ go get github.com/martinlindhe/subtitles
 ```
 
 
+# Example
+
+Fetch subtitle from thesubdb.com:
+```go
+f, _ := os.Open(fileName)
+
+finder := NewSubFinder(f, fileName, "en")
+
+text, err := finder.TheSubDb()
+```
+
+
 # See also
 
 - [subber](https://github.com/martinlindhe/subber) command line tool for subtitles
