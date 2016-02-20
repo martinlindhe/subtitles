@@ -21,6 +21,7 @@ go get github.com/martinlindhe/subtitles
 Fetch subtitle from thesubdb.com:
 ```go
 f, _ := os.Open(fileName)
+defer f.Close()
 
 finder := NewSubFinder(f, fileName, "en")
 
