@@ -12,7 +12,7 @@ WARNING: The API is unstable, work in progress!
 # Installation
 
 ```
-go get github.com/martinlindhe/subtitles
+go get -u github.com/martinlindhe/subtitles
 ```
 
 
