@@ -10,7 +10,7 @@ type SubFinder struct {
 	Quiet     bool
 }
 
-// NewSubFinder creates a SubFilePair object used to download subs for a video
+// NewSubFinder returns a new SubFinder
 func NewSubFinder(video *os.File, fileName string, language string) *SubFinder {
 
 	return &SubFinder{
