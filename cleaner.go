@@ -99,7 +99,7 @@ func removeAds(subs []caption) []caption {
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
 		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av", "textning:",
-		"svensk text", "text av", "text:", "omsynk:", "omsynkad",
+		"svensk text", "text:", "omsynk:", "omsynkad",
 		"transkribering:", "piratpartiet.se",
 		"korrektur:", "korrekturläst", "texter på nätet", "text hämtad från",
 		"din filmsajt på nätet", "din största filmsajt på nätet",
