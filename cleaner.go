@@ -92,6 +92,7 @@ func removeAds(subs []caption) []caption {
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
+		":[gwc]:",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
