@@ -81,7 +81,7 @@ func removeAds(subs []caption) []caption {
 		"sdimedia", "sdi media",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral",
 		"cssubs", "tvsub", "uksubtitles",
-		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
+		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr", "blogspot",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt",
 		"@gmail.com", "@hotmail.com", "@hotmail.fr",
 		"napisy.org", "1000fr.com",
