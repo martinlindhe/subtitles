@@ -82,7 +82,7 @@ func removeAds(subs []caption) []caption {
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral",
 		"cssubs", "tvsub", "uksubtitles",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr", "blogspot",
-		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt",
+		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt", "softhome.net",
 		"@gmail.com", "@hotmail.com", "@hotmail.fr",
 		"napisy.org", "1000fr.com",
 		"opensubtitles", "open subtitles", "s u b t i t l e",
@@ -92,7 +92,7 @@ func removeAds(subs []caption) []caption {
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
-		":[gwc]:",
+		":[gwc]:", "ripped with subrip",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
