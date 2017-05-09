@@ -8,14 +8,14 @@ import (
 
 func TestFilterHTML(t *testing.T) {
 
-	var in = []caption{{
+	in := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
 		[]string{"<b>GO NINJA!</b>", "NINJA&nbsp;GO!"},
 	}}
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),

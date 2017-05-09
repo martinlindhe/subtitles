@@ -8,7 +8,7 @@ import (
 
 func TestRemoveAds(t *testing.T) {
 
-	var in = []caption{{
+	in := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -25,7 +25,7 @@ func TestRemoveAds(t *testing.T) {
 		[]string{"No ninja!"},
 	}}
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),

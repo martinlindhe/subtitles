@@ -7,7 +7,7 @@ import (
 )
 
 // filterCapitalization converts "ALL CAPS" text into "Initial letter capped"
-func filterCapitalization(captions []caption) []caption {
+func filterCapitalization(captions []Caption) []Caption {
 
 	for _, cap := range captions {
 		for i, line := range cap.Text {

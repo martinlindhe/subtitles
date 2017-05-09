@@ -13,7 +13,7 @@ func TestParseSsa(t *testing.T) {
 		"Dialogue: 0,0:01:06.37,0:01:08.04,Default,,0000,0000,0000,,Honey, I'm home!\n" +
 		"Dialogue: 0,0:01:09.05,0:01:10.69,Default,,0000,0000,0000,,Hi.\\n- Hi, love.\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 1, 6, 370),
 		makeTime(0, 1, 8, 40),

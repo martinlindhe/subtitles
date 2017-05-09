@@ -1,7 +1,7 @@
 package subtitles
 
 // parse tries to parse a subtitle from the data stream
-func parse(b []byte) []caption {
+func parse(b []byte) []Caption {
 
 	s := convertToUTF8(b)
 

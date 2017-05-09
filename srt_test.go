@@ -40,7 +40,7 @@ func TestParseSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -70,7 +70,7 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\r" +
 		"No ninja!\r"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -101,7 +101,7 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -123,7 +123,7 @@ func TestParseSrtCrlf(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -143,7 +143,7 @@ func TestParseExtraLineBreak(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -159,7 +159,7 @@ func TestParseWierdTimestamp(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Go ninja!\r\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 14, 52, 0),
 		makeTime(0, 14, 57, 500),
@@ -179,7 +179,7 @@ func TestRenderSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n\n"
 
-	var in = []caption{{
+	in := []Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
 		makeTime(0, 0, 6, 18),
@@ -199,7 +199,7 @@ func TestParseLatin1Srt(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Hall\xe5 ninja!\r\n"
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 14, 52, 0),
 		makeTime(0, 14, 57, 500),
@@ -228,7 +228,7 @@ func TestParseUTF16BESrt(t *testing.T) {
 		0, '\r', 0, '\n',
 	}
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 0, 0),
 		makeTime(0, 0, 0, 1),
@@ -257,7 +257,7 @@ func TestParseUTF16LESrt(t *testing.T) {
 		'\r', 0, '\n', 0,
 	}
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 0, 0),
 		makeTime(0, 0, 0, 1),
@@ -286,7 +286,7 @@ func TestParseUTF8BomSrt(t *testing.T) {
 		'\r', '\n',
 	}
 
-	var expected = []caption{{
+	expected := []Caption{{
 		1,
 		makeTime(0, 0, 0, 0),
 		makeTime(0, 0, 0, 1),

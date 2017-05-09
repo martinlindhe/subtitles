@@ -10,8 +10,7 @@ import (
 
 // CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
 func CleanupSub(utf8 string, filterName string, keepAds bool, sync int) (string, error) {
-
-	var captions []caption
+	var captions []Caption
 
 	if looksLikeSrt(utf8) {
 		captions = parseSrt(utf8)
@@ -29,13 +28,12 @@ func CleanupSub(utf8 string, filterName string, keepAds bool, sync int) (string,
 	}
 
 	captions = filterSubs(captions, filterName)
-
 	out := renderSrt(captions)
 
 	return out, nil
 }
 
-func resyncSubs(subs []caption, sync int) []caption {
+func resyncSubs(subs []Caption, sync int) []Caption {
 
 	//	var res []caption
 	fmt.Printf("resyncing with %d\n", sync)
@@ -49,12 +47,8 @@ func resyncSubs(subs []caption, sync int) []caption {
 }
 
 // RemoveAds removes advertisement from the subtitles
-func removeAds(subs []caption) []caption {
-
-	var res []caption
-
+func removeAds(subs []Caption) (res []Caption) {
 	ads := []string{
-
 		// english:
 		"captions paid for by",
 		"english subtitles",
@@ -136,6 +130,5 @@ func removeAds(subs []caption) []caption {
 			seq++
 		}
 	}
-
-	return res
+	return
 }

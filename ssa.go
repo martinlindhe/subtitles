@@ -8,10 +8,7 @@ import (
 	"time"
 )
 
-func parseSsa(s string) []caption {
-
-	var res []caption
-
+func parseSsa(s string) (res []Caption) {
 	chunk, err := extractSsaChunk("[Events]", s)
 	if err != nil {
 		fmt.Println("[ssa]", err)
@@ -43,7 +40,7 @@ func parseSsa(s string) []caption {
 		end := parseSsaDialogue(lines[i], endCol, dialogueColumns)
 		text := parseSsaDialogue(lines[i], textCol, dialogueColumns)
 
-		var o caption
+		var o Caption
 		o.Seq = outSeq
 		o.Start, err = parseSsaTime(start)
 		if err != nil {
@@ -63,13 +60,11 @@ func parseSsa(s string) []caption {
 			outSeq++
 		}
 	}
-
-	return res
+	return
 }
 
 // return column idx from s
 func parseSsaDialogue(s string, idx int, columns int) string {
-
 	pos := strings.Index(s, ": ")
 	if pos == -1 {
 		return ""
@@ -82,7 +77,6 @@ func parseSsaDialogue(s string, idx int, columns int) string {
 }
 
 func parseSsaFormat(s string, colName string) int {
-
 	pos := strings.Index(s, ": ")
 	if pos == -1 {
 		return -1
@@ -116,7 +110,6 @@ func columnCountFromSsaFormat(s string) int {
 }
 
 func extractSsaChunk(chunk string, s string) (string, error) {
-
 	pos := strings.Index(s, chunk)
 	if pos == -1 {
 		return "", fmt.Errorf("Parse error in chunk")

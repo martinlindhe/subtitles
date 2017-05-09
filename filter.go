@@ -5,8 +5,7 @@ import (
 )
 
 // filterSubs pass the captions through a filter function
-func filterSubs(captions []caption, filter string) []caption {
-
+func filterSubs(captions []Caption, filter string) []Caption {
 	if filter == "caps" {
 		return filterCapitalization(captions)
 	}
@@ -16,6 +15,5 @@ func filterSubs(captions []caption, filter string) []caption {
 	if filter != "none" {
 		fmt.Printf("Unrecognized filter name: %s\n", filter)
 	}
-
 	return captions
 }
