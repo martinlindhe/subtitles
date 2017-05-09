@@ -20,18 +20,12 @@ func looksLikeSrt(s string) bool {
 }
 
 // ParseSrt parses a .srt text into []Caption, assumes s is a clean utf8 string
-func parseSrt(s string) []caption {
-
-	var res []caption
-
+func parseSrt(s string) (res []caption) {
 	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
-
 	lines := strings.Split(s, "\n")
-
 	outSeq := 1
 
 	for i := 0; i < len(lines); i++ {
-
 		seq := strings.Trim(lines[i], "\r ")
 		if seq == "" {
 			continue
@@ -57,13 +51,13 @@ func parseSrt(s string) []caption {
 			continue
 		}
 
-		o.Start, err = parseTime(matches[1])
+		o.Start, err = ParseTime(matches[1])
 		if err != nil {
 			fmt.Printf("[srt] Parse error 3 at line %d: %v\n", i, err)
 			continue
 		}
 
-		o.End, err = parseTime(matches[2])
+		o.End, err = ParseTime(matches[2])
 		if err != nil {
 			fmt.Printf("[srt] Parse error 4 at line %d: %v\n", i, err)
 			continue
@@ -97,42 +91,36 @@ func parseSrt(s string) []caption {
 			outSeq++
 		}
 	}
-
-	return res
+	return
 }
 
-func parseTime(in string) (time.Time, error) {
+// ParseTime parses a subtitle time (duration since start of film)
+func ParseTime(in string) (time.Time, error) {
+	// . and , to :
+	in = strings.Replace(in, ",", ":", -1)
+	in = strings.Replace(in, ".", ":", -1)
 
-	// . to ,
-	in = strings.Replace(in, ",", ".", 1)
-
-	if !strings.ContainsAny(in, ".") {
-		in += ".000"
+	if strings.Count(in, ":") == 2 {
+		in += ":000"
 	}
 
-	r1 := regexp.MustCompile("([0-9]+):([0-9]+):([0-9]+)[.]([0-9]+)")
-
+	r1 := regexp.MustCompile("([0-9]+):([0-9]+):([0-9]+):([0-9]+)")
 	matches := r1.FindStringSubmatch(in)
-
 	if len(matches) < 5 {
 		return time.Now(), fmt.Errorf("[srt] Regexp didnt match: %s", in)
 	}
-
 	h, err := strconv.Atoi(matches[1])
 	if err != nil {
 		return time.Now(), err
 	}
-
 	m, err := strconv.Atoi(matches[2])
 	if err != nil {
 		return time.Now(), err
 	}
-
 	s, err := strconv.Atoi(matches[3])
 	if err != nil {
 		return time.Now(), err
 	}
-
 	ms, err := strconv.Atoi(matches[4])
 	if err != nil {
 		return time.Now(), err
@@ -143,30 +131,19 @@ func parseTime(in string) (time.Time, error) {
 
 // writeSrt prints a srt render to outFileName
 func writeSrt(subs []caption, outFileName string) error {
-
 	text := renderSrt(subs)
-
-	err := ioutil.WriteFile(outFileName, []byte(text), 0644)
-	if err != nil {
-		return err
-	}
-	return nil
+	return ioutil.WriteFile(outFileName, []byte(text), 0644)
 }
 
 // renderSrt produces a text representation of the subtitles
-func renderSrt(subs []caption) string {
-
-	res := ""
-
+func renderSrt(subs []caption) (res string) {
 	for _, sub := range subs {
 		res += renderCaptionAsSrt(sub)
 	}
-
-	return res
+	return
 }
 
 func renderCaptionAsSrt(cap caption) string {
-
 	res := fmt.Sprintf("%d", cap.Seq) + eol +
 		cap.srtTime() + eol
 
