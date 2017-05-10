@@ -16,13 +16,13 @@ func TestParseTime(t *testing.T) {
 	t6, _ := ParseTime("00:00:2,00")
 	t7, _ := ParseTime("00:14:52.12")
 
-	assert.Equal(t, makeTime(18, 40, 22, 110), t1)
-	assert.Equal(t, makeTime(18, 40, 22, 110), t2)
-	assert.Equal(t, makeTime(18, 40, 22, 110), t3)
-	assert.Equal(t, makeTime(18, 40, 22, 0), t4)
-	assert.Equal(t, makeTime(0, 0, 0, 500), t5)
-	assert.Equal(t, makeTime(0, 0, 2, 0), t6)
-	assert.Equal(t, makeTime(0, 14, 52, 12), t7)
+	assert.Equal(t, MakeTime(18, 40, 22, 110), t1)
+	assert.Equal(t, MakeTime(18, 40, 22, 110), t2)
+	assert.Equal(t, MakeTime(18, 40, 22, 110), t3)
+	assert.Equal(t, MakeTime(18, 40, 22, 0), t4)
+	assert.Equal(t, MakeTime(0, 0, 0, 500), t5)
+	assert.Equal(t, MakeTime(0, 0, 2, 0), t6)
+	assert.Equal(t, MakeTime(0, 14, 52, 12), t7)
 }
 
 func TestParseSrt(t *testing.T) {
@@ -42,18 +42,18 @@ func TestParseSrt(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}, {
 		2,
-		makeTime(0, 0, 10, 0),
-		makeTime(0, 0, 11, 0),
+		MakeTime(0, 0, 10, 0),
+		MakeTime(0, 0, 11, 0),
 		[]string{"Subtitles By MrCool"},
 	}, {
 		3,
-		makeTime(0, 1, 9, 630),
-		makeTime(0, 1, 11, 005),
+		MakeTime(0, 1, 9, 630),
+		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}
 
@@ -72,13 +72,13 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}, {
 		2,
-		makeTime(0, 1, 9, 630),
-		makeTime(0, 1, 11, 005),
+		MakeTime(0, 1, 9, 630),
+		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}
 
@@ -103,13 +103,13 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}, {
 		2,
-		makeTime(0, 1, 9, 630),
-		makeTime(0, 1, 11, 005),
+		MakeTime(0, 1, 9, 630),
+		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}
 
@@ -125,8 +125,8 @@ func TestParseSrtCrlf(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}}
 
@@ -145,8 +145,8 @@ func TestParseExtraLineBreak(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}}
 
@@ -161,8 +161,8 @@ func TestParseWierdTimestamp(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 14, 52, 0),
-		makeTime(0, 14, 57, 500),
+		MakeTime(0, 14, 52, 0),
+		MakeTime(0, 14, 57, 500),
 		[]string{"Go ninja!"},
 	}}
 
@@ -181,13 +181,13 @@ func TestRenderSrt(t *testing.T) {
 
 	in := []Caption{{
 		1,
-		makeTime(0, 0, 4, 630),
-		makeTime(0, 0, 6, 18),
+		MakeTime(0, 0, 4, 630),
+		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
 	}, {
 		2,
-		makeTime(0, 1, 9, 630),
-		makeTime(0, 1, 11, 005),
+		MakeTime(0, 1, 9, 630),
+		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}
 
@@ -201,8 +201,8 @@ func TestParseLatin1Srt(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 14, 52, 0),
-		makeTime(0, 14, 57, 500),
+		MakeTime(0, 14, 52, 0),
+		MakeTime(0, 14, 57, 500),
 		[]string{"Hallå ninja!"},
 	}}
 
@@ -230,8 +230,8 @@ func TestParseUTF16BESrt(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 0, 0),
-		makeTime(0, 0, 0, 1),
+		MakeTime(0, 0, 0, 0),
+		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
 	}}
 
@@ -259,8 +259,8 @@ func TestParseUTF16LESrt(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 0, 0),
-		makeTime(0, 0, 0, 1),
+		MakeTime(0, 0, 0, 0),
+		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
 	}}
 
@@ -288,8 +288,8 @@ func TestParseUTF8BomSrt(t *testing.T) {
 
 	expected := []Caption{{
 		1,
-		makeTime(0, 0, 0, 0),
-		makeTime(0, 0, 0, 1),
+		MakeTime(0, 0, 0, 0),
+		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
 	}}
 

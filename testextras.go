@@ -3,7 +3,6 @@ package subtitles
 import (
 	"fmt"
 	"io/ioutil"
-	"time"
 )
 
 const tempFilePrefix = "moviehash-temp"
@@ -14,11 +13,6 @@ func check(e error) {
 		fmt.Println(e)
 		panic(e)
 	}
-}
-
-func makeTime(h int, m int, s int, ms int) time.Time {
-
-	return time.Date(0, 1, 1, h, m, s, ms*1000*1000, time.UTC)
 }
 
 func createTempFile(byteSize int) string {

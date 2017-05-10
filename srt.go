@@ -126,7 +126,7 @@ func ParseTime(in string) (time.Time, error) {
 		return time.Now(), err
 	}
 
-	return makeTime(h, m, s, ms), nil
+	return MakeTime(h, m, s, ms), nil
 }
 
 // writeSrt prints a srt render to outFileName

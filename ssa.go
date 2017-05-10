@@ -152,5 +152,5 @@ func parseSsaTime(in string) (time.Time, error) {
 		return time.Now(), err
 	}
 
-	return makeTime(h, m, s, cs*10), nil
+	return MakeTime(h, m, s, cs*10), nil
 }
