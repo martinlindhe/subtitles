@@ -2,7 +2,6 @@ package subtitles
 
 import (
 	"fmt"
-	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
@@ -19,8 +18,8 @@ func looksLikeSrt(s string) bool {
 	return false
 }
 
-// ParseSrt parses a .srt text into []Caption, assumes s is a clean utf8 string
-func parseSrt(s string) (res []Caption) {
+// NewFromSRT parses a .srt text into Subtitle, assumes s is a clean utf8 string
+func NewFromSRT(s string) (res Subtitle, err error) {
 	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
 	lines := strings.Split(s, "\n")
 	outSeq := 1
@@ -33,8 +32,8 @@ func parseSrt(s string) (res []Caption) {
 
 		_, err := strconv.Atoi(seq)
 		if err != nil {
-			fmt.Printf("[srt] Parse error 1 at line %d: %v\n", i, err)
-			continue
+			err = fmt.Errorf("srt: atoi error at line %d: %v", i, err)
+			break
 		}
 
 		var o Caption
@@ -47,20 +46,20 @@ func parseSrt(s string) (res []Caption) {
 
 		matches := r1.FindStringSubmatch(lines[i])
 		if len(matches) < 3 {
-			fmt.Printf("[srt] Parser error 2 at line %d (idx out of range)\n", i)
-			continue
+			err = fmt.Errorf("srt: parse error at line %d (idx out of range)", i)
+			break
 		}
 
 		o.Start, err = ParseTime(matches[1])
 		if err != nil {
-			fmt.Printf("[srt] Parse error 3 at line %d: %v\n", i, err)
-			continue
+			err = fmt.Errorf("srt: start error at line %d: %v", i, err)
+			break
 		}
 
 		o.End, err = ParseTime(matches[2])
 		if err != nil {
-			fmt.Printf("[srt] Parse error 4 at line %d: %v\n", i, err)
-			continue
+			err = fmt.Errorf("srt: end error at line %d: %v", i, err)
+			break
 		}
 
 		i++
@@ -87,7 +86,7 @@ func parseSrt(s string) (res []Caption) {
 		}
 
 		if len(o.Text) > 0 {
-			res = append(res, o)
+			res.Captions = append(res.Captions, o)
 			outSeq++
 		}
 	}
@@ -129,22 +128,26 @@ func ParseTime(in string) (time.Time, error) {
 	return MakeTime(h, m, s, ms), nil
 }
 
-// writeSrt prints a srt render to outFileName
-func writeSrt(subs []Caption, outFileName string) error {
-	text := renderSrt(subs)
-	return ioutil.WriteFile(outFileName, []byte(text), 0644)
-}
-
-// renderSrt produces a text representation of the subtitles
-func renderSrt(subs []Caption) (res string) {
-	for _, sub := range subs {
-		res += sub.AsSrt()
+// AsSRT renders the sub in .srt format
+func (subtitle *Subtitle) AsSRT() (res string) {
+	for _, sub := range subtitle.Captions {
+		res += sub.AsSRT()
 	}
 	return
 }
 
-// SrtTime renders a timestamp for use in .srt
-func SrtTime(t time.Time) string {
+// AsSRT renders the caption as srt
+func (cap Caption) AsSRT() string {
+	res := fmt.Sprintf("%d", cap.Seq) + eol +
+		TimeSRT(cap.Start) + " --> " + TimeSRT(cap.End) + eol
+	for _, line := range cap.Text {
+		res += line + eol
+	}
+	return res + eol
+}
+
+// TimeSRT renders a timestamp for use in .srt
+func TimeSRT(t time.Time) string {
 	res := t.Format("15:04:05.000")
 	return strings.Replace(res, ".", ",", 1)
 }

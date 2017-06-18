@@ -8,7 +8,7 @@ import (
 
 func TestRemoveAds(t *testing.T) {
 
-	in := []Caption{{
+	in := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -23,9 +23,9 @@ func TestRemoveAds(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -35,7 +35,7 @@ func TestRemoveAds(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, removeAds(in))
+	assert.Equal(t, &expected, in.removeAds())
 }

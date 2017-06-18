@@ -7,27 +7,22 @@ import (
 )
 
 // filterCapitalization converts "ALL CAPS" text into "Initial letter capped"
-func filterCapitalization(captions []Caption) []Caption {
-
-	for _, cap := range captions {
+func (subtitle *Subtitle) filterCapitalization() *Subtitle {
+	for _, cap := range subtitle.Captions {
 		for i, line := range cap.Text {
 
 			clean := ucFirst(line)
-
 			if clean != cap.Text[i] {
 				log.Printf("[caps] %s -> %s\n", cap.Text[i], clean)
-				cap.Text[i] = clean
+				cap.Text[i] = clean // XXX updated?!
 			}
 		}
 	}
-
-	return captions
+	return subtitle
 }
 
 func ucFirst(s string) string {
-
 	res := ""
-
 	for i, c := range s {
 		if i == 0 {
 			res += strings.ToUpper(string(c))
@@ -35,6 +30,5 @@ func ucFirst(s string) string {
 			res += strings.ToLower(string(c))
 		}
 	}
-
 	return res
 }

@@ -25,7 +25,7 @@ func TestParseTime(t *testing.T) {
 	assert.Equal(t, MakeTime(0, 14, 52, 12), t7)
 }
 
-func TestParseSrt(t *testing.T) {
+func TestNewFromSRT(t *testing.T) {
 
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
@@ -40,7 +40,7 @@ func TestParseSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -55,12 +55,14 @@ func TestParseSrt(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, parseSrt(in))
+	res, err := NewFromSRT(in)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
-func TestParseSrtWithMacLinebreaks(t *testing.T) {
+func TestNewFromSRTWithMacLinebreaks(t *testing.T) {
 
 	in := "1\r" +
 		"00:00:04,630 --> 00:00:06,018\r" +
@@ -70,7 +72,7 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\r" +
 		"No ninja!\r"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -80,14 +82,16 @@ func TestParseSrtWithMacLinebreaks(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
 	utf8 := convertToUTF8([]byte(in))
 
-	assert.Equal(t, expected, parseSrt(utf8))
+	res, err := NewFromSRT(utf8)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
-func TestParseSrtSkipEmpty(t *testing.T) {
+func TestNewFromSRTSkipEmpty(t *testing.T) {
 
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
@@ -101,7 +105,7 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -111,26 +115,30 @@ func TestParseSrtSkipEmpty(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, parseSrt(in))
+	res, err := NewFromSRT(in)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
-func TestParseSrtCrlf(t *testing.T) {
+func TestNewFromSRTCrlf(t *testing.T) {
 
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\r\n" +
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, parseSrt(in))
+	res, err := NewFromSRT(in)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
 func TestParseExtraLineBreak(t *testing.T) {
@@ -143,14 +151,16 @@ func TestParseExtraLineBreak(t *testing.T) {
 		"Go ninja!\r\n" +
 		"\r\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
 		[]string{"Go ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, parseSrt(in))
+	res, err := NewFromSRT(in)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
 func TestParseWierdTimestamp(t *testing.T) {
@@ -159,17 +169,19 @@ func TestParseWierdTimestamp(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Go ninja!\r\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 14, 52, 0),
 		MakeTime(0, 14, 57, 500),
 		[]string{"Go ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, parseSrt(in))
+	res, err := NewFromSRT(in)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
-func TestRenderSrt(t *testing.T) {
+func TestAsSRT(t *testing.T) {
 
 	expected := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
@@ -179,7 +191,7 @@ func TestRenderSrt(t *testing.T) {
 		"00:01:09,630 --> 00:01:11,005\n" +
 		"No ninja!\n\n"
 
-	in := []Caption{{
+	in := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 4, 630),
 		MakeTime(0, 0, 6, 18),
@@ -189,9 +201,9 @@ func TestRenderSrt(t *testing.T) {
 		MakeTime(0, 1, 9, 630),
 		MakeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
-	}}
+	}}}
 
-	assert.Equal(t, expected, renderSrt(in))
+	assert.Equal(t, expected, in.AsSRT())
 }
 
 func TestParseLatin1Srt(t *testing.T) {
@@ -199,16 +211,18 @@ func TestParseLatin1Srt(t *testing.T) {
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Hall\xe5 ninja!\r\n"
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 14, 52, 0),
 		MakeTime(0, 14, 57, 500),
 		[]string{"Hallå ninja!"},
-	}}
+	}}}
 
 	utf8 := convertToUTF8([]byte(in))
 
-	assert.Equal(t, expected, parseSrt(utf8))
+	res, err := NewFromSRT(utf8)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
 func TestParseUTF16BESrt(t *testing.T) {
@@ -228,16 +242,18 @@ func TestParseUTF16BESrt(t *testing.T) {
 		0, '\r', 0, '\n',
 	}
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 0, 0),
 		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
-	}}
+	}}}
 
 	utf8 := convertToUTF8(in)
 
-	assert.Equal(t, expected, parseSrt(utf8))
+	res, err := NewFromSRT(utf8)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
 func TestParseUTF16LESrt(t *testing.T) {
@@ -257,16 +273,18 @@ func TestParseUTF16LESrt(t *testing.T) {
 		'\r', 0, '\n', 0,
 	}
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 0, 0),
 		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
-	}}
+	}}}
 
 	utf8 := convertToUTF8(in)
 
-	assert.Equal(t, expected, parseSrt(utf8))
+	res, err := NewFromSRT(utf8)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }
 
 func TestParseUTF8BomSrt(t *testing.T) {
@@ -286,14 +304,16 @@ func TestParseUTF8BomSrt(t *testing.T) {
 		'\r', '\n',
 	}
 
-	expected := []Caption{{
+	expected := Subtitle{[]Caption{{
 		1,
 		MakeTime(0, 0, 0, 0),
 		MakeTime(0, 0, 0, 1),
 		[]string{"Test"},
-	}}
+	}}}
 
 	utf8 := convertToUTF8(in)
 
-	assert.Equal(t, expected, parseSrt(utf8))
+	res, err := NewFromSRT(utf8)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expected, res)
 }

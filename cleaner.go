@@ -1,7 +1,6 @@
 package subtitles
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -10,44 +9,45 @@ import (
 
 // CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
 func CleanupSub(utf8 string, filterName string, keepAds bool, sync int) (string, error) {
-	var captions []Caption
+	var subtitle Subtitle
+	var err error
 
 	if looksLikeSrt(utf8) {
-		captions = parseSrt(utf8)
+		subtitle, err = NewFromSRT(utf8)
 	} else {
 		// falls back on .ssa decoding, for now
-		captions = parseSsa(utf8)
+		subtitle, err = NewFromSSA(utf8)
+	}
+	if err != nil {
+		return "", err
 	}
 
 	if !keepAds {
-		captions = removeAds(captions)
+		subtitle.removeAds()
 	}
 
 	if sync != 0 {
-		captions = resyncSubs(captions, sync)
+		subtitle.resyncSubs(sync)
 	}
 
-	captions = filterSubs(captions, filterName)
-	out := renderSrt(captions)
+	subtitle.filterSubs(filterName)
+	out := subtitle.AsSRT()
 
 	return out, nil
 }
 
-func resyncSubs(subs []Caption, sync int) []Caption {
-
-	//	var res []caption
-	fmt.Printf("resyncing with %d\n", sync)
-
-	for i := range subs {
-		subs[i].Start = subs[i].Start.Add(time.Duration(sync) * time.Millisecond)
-		subs[i].End = subs[i].End.Add(time.Duration(sync) * time.Millisecond)
+func (subtitle *Subtitle) resyncSubs(sync int) {
+	// log.Printf("resyncing with %d\n", sync)
+	for i := range subtitle.Captions {
+		subtitle.Captions[i].Start = subtitle.Captions[i].Start.
+			Add(time.Duration(sync) * time.Millisecond)
+		subtitle.Captions[i].End = subtitle.Captions[i].End.
+			Add(time.Duration(sync) * time.Millisecond)
 	}
-
-	return subs
 }
 
 // RemoveAds removes advertisement from the subtitles
-func removeAds(subs []Caption) (res []Caption) {
+func (subtitle *Subtitle) removeAds() *Subtitle {
 	ads := []string{
 		// english:
 		"captions paid for by",
@@ -109,7 +109,8 @@ func removeAds(subs []Caption) (res []Caption) {
 	}
 
 	seq := 1
-	for orgSeq, sub := range subs {
+	res := []Caption{}
+	for orgSeq, sub := range subtitle.Captions {
 
 		isAd := false
 
@@ -130,5 +131,6 @@ func removeAds(subs []Caption) (res []Caption) {
 			seq++
 		}
 	}
-	return
+	subtitle.Captions = res
+	return subtitle
 }

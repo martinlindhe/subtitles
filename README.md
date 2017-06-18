@@ -15,10 +15,31 @@ WARNING: The API is unstable, work in progress!
 go get -u github.com/martinlindhe/subtitles
 ```
 
+# Example - convert srt to vtt
 
-# Example
+```go
+in := "1\n" +
+    "00:00:04,630 --> 00:00:06,018\n" +
+    "Go ninja!\n" +
+    "\n" +
+    "1\n" +
+    "00:01:09,630 --> 00:01:11,005\n" +
+    "No ninja!\n"
 
-Fetch subtitle from thesubdb.com:
+res, _ := NewFromSRT(in)
+
+// Output: WEBVTT
+//
+// 00:00:04.630 --> 00:00:06.018
+// Go ninja!
+//
+// 00:01:09.630 --> 00:01:11.005
+// No ninja!
+fmt.Println(res.AsVTT())
+```
+
+# Example - download subtitle from thesubdb.com
+
 ```go
 f, _ := os.Open(fileName)
 defer f.Close()

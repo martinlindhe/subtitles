@@ -7,15 +7,15 @@ import (
 )
 
 // filterHTML removes all html tags from captions
-func filterHTML(captions []Caption) []Caption {
-	for _, cap := range captions {
+func (subtitle *Subtitle) filterHTML() *Subtitle {
+	for _, cap := range subtitle.Captions {
 		for i, line := range cap.Text {
 			clean := sanitize.HTML(line)
 			if clean != cap.Text[i] {
 				log.Printf("[html] %s -> %s\n", cap.Text[i], clean)
-				cap.Text[i] = clean
+				cap.Text[i] = clean // XXX works?!
 			}
 		}
 	}
-	return captions
+	return subtitle
 }

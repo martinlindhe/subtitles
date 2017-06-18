@@ -40,7 +40,7 @@ func (f SubFinder) TheSubDb(args ...string) ([]byte, error) {
 	}
 
 	req.Header.Set("User-Agent",
-		"SubDB/1.0 (GoSubber/1.0; https://github.com/martinlindhe/subber)")
+		"SubDB/1.0 (GoSubber/1.0; https://github.com/martinlindhe/subtitles)")
 
 	resp, err := client.Do(req)
 	if err != nil {

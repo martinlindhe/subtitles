@@ -8,11 +8,17 @@ import (
 	"time"
 )
 
-func parseSsa(s string) (res []Caption) {
-	chunk, err := extractSsaChunk("[Events]", s)
+// Subtitle holds a parsed subtitle
+type Subtitle struct {
+	Captions []Caption
+}
+
+// NewFromSSA parses a .ssa text into []Caption, assumes s is a clean utf8 string
+func NewFromSSA(s string) (res Subtitle, err error) {
+	var chunk string
+	chunk, err = extractSsaChunk("[Events]", s)
 	if err != nil {
-		fmt.Println("[ssa]", err)
-		return nil
+		return
 	}
 
 	lines := strings.Split(chunk, "\n")
@@ -56,7 +62,7 @@ func parseSsa(s string) (res []Caption) {
 		o.Text = strings.Split(text, "\\n")
 
 		if len(o.Text) > 0 {
-			res = append(res, o)
+			res.Captions = append(res.Captions, o)
 			outSeq++
 		}
 	}
