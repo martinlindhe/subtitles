@@ -13,8 +13,8 @@ func (subtitle *Subtitle) filterCapitalization() *Subtitle {
 
 			clean := ucFirst(line)
 			if clean != cap.Text[i] {
-				log.Printf("[caps] %s -> %s\n", cap.Text[i], clean)
-				cap.Text[i] = clean // XXX updated?!
+				log.Println("[caps]", cap.Text[i], "-->", clean)
+				cap.Text[i] = clean
 			}
 		}
 	}

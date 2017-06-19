@@ -4,15 +4,15 @@ import (
 	"fmt"
 )
 
-// filterSubs pass the captions through a filter function
-func (subtitle *Subtitle) filterSubs(filter string) {
-	if filter == "caps" {
+// FilterCaptions pass the captions through a filter function
+func (subtitle *Subtitle) FilterCaptions(filter string) {
+	switch filter {
+	case "caps":
 		subtitle.filterCapitalization()
-	}
-	if filter == "html" {
+	case "html":
 		subtitle.filterHTML()
-	}
-	if filter != "none" {
+	case "none":
+	default:
 		fmt.Printf("Unrecognized filter name: %s\n", filter)
 	}
 }

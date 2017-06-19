@@ -11,7 +11,7 @@ import (
 // Eol is the end of line characters to use when writing .srt data
 const eol = "\n"
 
-func looksLikeSrt(s string) bool {
+func looksLikeSRT(s string) bool {
 	if strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") {
 		return true
 	}
@@ -50,13 +50,13 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 			break
 		}
 
-		o.Start, err = ParseTime(matches[1])
+		o.Start, err = parseTime(matches[1])
 		if err != nil {
 			err = fmt.Errorf("srt: start error at line %d: %v", i, err)
 			break
 		}
 
-		o.End, err = ParseTime(matches[2])
+		o.End, err = parseTime(matches[2])
 		if err != nil {
 			err = fmt.Errorf("srt: end error at line %d: %v", i, err)
 			break
@@ -91,41 +91,6 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 		}
 	}
 	return
-}
-
-// ParseTime parses a subtitle time (duration since start of film)
-func ParseTime(in string) (time.Time, error) {
-	// . and , to :
-	in = strings.Replace(in, ",", ":", -1)
-	in = strings.Replace(in, ".", ":", -1)
-
-	if strings.Count(in, ":") == 2 {
-		in += ":000"
-	}
-
-	r1 := regexp.MustCompile("([0-9]+):([0-9]+):([0-9]+):([0-9]+)")
-	matches := r1.FindStringSubmatch(in)
-	if len(matches) < 5 {
-		return time.Now(), fmt.Errorf("[srt] Regexp didnt match: %s", in)
-	}
-	h, err := strconv.Atoi(matches[1])
-	if err != nil {
-		return time.Now(), err
-	}
-	m, err := strconv.Atoi(matches[2])
-	if err != nil {
-		return time.Now(), err
-	}
-	s, err := strconv.Atoi(matches[3])
-	if err != nil {
-		return time.Now(), err
-	}
-	ms, err := strconv.Atoi(matches[4])
-	if err != nil {
-		return time.Now(), err
-	}
-
-	return MakeTime(h, m, s, ms), nil
 }
 
 // AsSRT renders the sub in .srt format

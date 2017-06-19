@@ -10,8 +10,8 @@ func TestRenderTime(t *testing.T) {
 
 	cap := Caption{
 		1,
-		MakeTime(18, 40, 22, 110),
-		MakeTime(18, 41, 20, 123),
+		makeTime(18, 40, 22, 110),
+		makeTime(18, 41, 20, 123),
 		[]string{"<i>Go ninja!</i>"},
 	}
 

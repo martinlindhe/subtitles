@@ -13,6 +13,10 @@ type Subtitle struct {
 	Captions []Caption
 }
 
+func looksLikeSSA(s string) bool {
+	return s[0] == '['
+}
+
 // NewFromSSA parses a .ssa text into []Caption, assumes s is a clean utf8 string
 func NewFromSSA(s string) (res Subtitle, err error) {
 	var chunk string
@@ -158,5 +162,5 @@ func parseSsaTime(in string) (time.Time, error) {
 		return time.Now(), err
 	}
 
-	return MakeTime(h, m, s, cs*10), nil
+	return makeTime(h, m, s, cs*10), nil
 }

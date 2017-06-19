@@ -18,6 +18,6 @@ func TestReadFileAsUTF8(t *testing.T) {
 	f, err := os.Open("README.md")
 	assert.Equal(t, nil, err)
 
-	_, err = ReadAsUTF8(f)
+	_, err = readAsUTF8(f)
 	assert.Equal(t, nil, err)
 }

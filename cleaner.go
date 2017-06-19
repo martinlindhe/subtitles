@@ -7,36 +7,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-// CleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
-func CleanupSub(utf8 string, filterName string, keepAds bool, sync int) (string, error) {
-	var subtitle Subtitle
-	var err error
-
-	if looksLikeSrt(utf8) {
-		subtitle, err = NewFromSRT(utf8)
-	} else {
-		// falls back on .ssa decoding, for now
-		subtitle, err = NewFromSSA(utf8)
-	}
-	if err != nil {
-		return "", err
-	}
-
-	if !keepAds {
-		subtitle.removeAds()
-	}
-
-	if sync != 0 {
-		subtitle.resyncSubs(sync)
-	}
-
-	subtitle.filterSubs(filterName)
-	out := subtitle.AsSRT()
-
-	return out, nil
-}
-
-func (subtitle *Subtitle) resyncSubs(sync int) {
+// ResyncSubs adjust text timing by `sync` milliseconds
+func (subtitle *Subtitle) ResyncSubs(sync int) {
 	// log.Printf("resyncing with %d\n", sync)
 	for i := range subtitle.Captions {
 		subtitle.Captions[i].Start = subtitle.Captions[i].Start.
@@ -46,9 +18,8 @@ func (subtitle *Subtitle) resyncSubs(sync int) {
 	}
 }
 
-// RemoveAds removes advertisement from the subtitles
-func (subtitle *Subtitle) removeAds() *Subtitle {
-	ads := []string{
+var (
+	advertisements = []string{
 		// english:
 		"captions paid for by",
 		"english subtitles",
@@ -107,16 +78,17 @@ func (subtitle *Subtitle) removeAds() *Subtitle {
 		// french:
 		"relecture et corrections finales:",
 	}
+)
 
+// RemoveAds removes advertisement from the subtitles
+func (subtitle *Subtitle) RemoveAds() *Subtitle {
 	seq := 1
 	res := []Caption{}
 	for orgSeq, sub := range subtitle.Captions {
-
 		isAd := false
-
 		for _, line := range sub.Text {
 			x := strings.ToLower(line)
-			for _, adLine := range ads {
+			for _, adLine := range advertisements {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
 					log.Println("[ads]", (orgSeq + 1), sub.Text, "matched", adLine)
@@ -124,7 +96,6 @@ func (subtitle *Subtitle) removeAds() *Subtitle {
 				}
 			}
 		}
-
 		if !isAd {
 			sub.Seq = seq
 			res = append(res, sub)

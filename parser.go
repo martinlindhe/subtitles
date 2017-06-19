@@ -1,15 +1,16 @@
 package subtitles
 
-// parse tries to parse a subtitle from the data stream
-func parse(b []byte) (Subtitle, error) {
+import "fmt"
 
-	s := convertToUTF8(b)
-
-	if s[0] == '[' {
-		// looks like ssa
+// Parse tries to parse a subtitle
+func Parse(b []byte) (Subtitle, error) {
+	s := ConvertToUTF8(b)
+	if looksLikeSSA(s) {
 		return NewFromSSA(s)
+	} else if looksLikeDCSub(s) {
+		return NewFromDCSub(s)
+	} else if looksLikeSRT(s) {
+		return NewFromSRT(s)
 	}
-
-	// XXX
-	return NewFromSRT(s)
+	return Subtitle{}, fmt.Errorf("parse: unrecognized subtitle type")
 }

@@ -9,8 +9,8 @@ import (
 	"unicode/utf8"
 )
 
-// ReadAsUTF8 tries to convert io.Reader to UTF8
-func ReadAsUTF8(r io.Reader) (string, error) {
+// readAsUTF8 tries to convert io.Reader to UTF8
+func readAsUTF8(r io.Reader) (string, error) {
 
 	buf := new(bytes.Buffer)
 	_, err := buf.ReadFrom(r)
@@ -18,12 +18,12 @@ func ReadAsUTF8(r io.Reader) (string, error) {
 		return "", nil
 	}
 
-	utf8 := convertToUTF8(buf.Bytes())
+	utf8 := ConvertToUTF8(buf.Bytes())
 	return utf8, nil
 }
 
-// ConvertToUTF8 returns an utf8 string
-func convertToUTF8(b []byte) string {
+// ConvertToUTF8 returns a utf8 string
+func ConvertToUTF8(b []byte) string {
 
 	s := ""
 
@@ -44,7 +44,6 @@ func convertToUTF8(b []byte) string {
 
 // NormalizeLineFeeds will return a string with \n as linefeeds
 func normalizeLineFeeds(s string) string {
-
 	if len(s) < 80 {
 		return s
 	}

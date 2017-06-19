@@ -12,8 +12,8 @@ func (subtitle *Subtitle) filterHTML() *Subtitle {
 		for i, line := range cap.Text {
 			clean := sanitize.HTML(line)
 			if clean != cap.Text[i] {
-				log.Printf("[html] %s -> %s\n", cap.Text[i], clean)
-				cap.Text[i] = clean // XXX works?!
+				log.Println("[html]", cap.Text[i], "->", clean)
+				cap.Text[i] = clean
 			}
 		}
 	}

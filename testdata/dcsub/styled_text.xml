@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DCSubtitle Version="1.0">
+<Language>Svenska</Language>
+<Font Italic="no">
+<Subtitle SpotNumber="1" TimeIn="00:05:40:000" TimeOut="00:05:43:000" FadeUpTime="20" FadeDownTime="20">
+  <Text Direction="horizontal" HAlign="center" HPosition="0.0" VAlign="bottom" VPosition="6.0"><Font Italic="yes">Hanne!</Font></Text>
+</Subtitle>
+</Font>
+</DCSubtitle>

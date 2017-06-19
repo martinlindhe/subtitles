@@ -15,13 +15,13 @@ func TestNewFromSsa(t *testing.T) {
 
 	expected := Subtitle{[]Caption{{
 		1,
-		MakeTime(0, 1, 6, 370),
-		MakeTime(0, 1, 8, 40),
+		makeTime(0, 1, 6, 370),
+		makeTime(0, 1, 8, 40),
 		[]string{"Honey, I'm home!"},
 	}, {
 		2,
-		MakeTime(0, 1, 9, 50),
-		MakeTime(0, 1, 10, 690),
+		makeTime(0, 1, 9, 50),
+		makeTime(0, 1, 10, 690),
 		[]string{"Hi.", "- Hi, love."},
 	}}}
 
@@ -40,7 +40,7 @@ func TestParseSsaFormat(t *testing.T) {
 func TestParseSsaTime(t *testing.T) {
 
 	t1, _ := parseSsaTime("0:01:06.37")
-	assert.Equal(t, MakeTime(0, 1, 6, 370), t1)
+	assert.Equal(t, makeTime(0, 1, 6, 370), t1)
 }
 
 func TestColumnCountFromSsaFormat(t *testing.T) {
