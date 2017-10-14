@@ -81,3 +81,22 @@ func TestFilterOCREnglish(t *testing.T) {
 
 	assert.Equal(t, &expected, in.filterOCR())
 }
+
+func TestFilterOCRCapitalization(t *testing.T) {
+
+	in := Subtitle{[]Caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"GAsPs slowly"},
+	}}}
+
+	expected := Subtitle{[]Caption{{
+		1,
+		makeTime(0, 0, 4, 630),
+		makeTime(0, 0, 6, 18),
+		[]string{"GASPS slowly"},
+	}}}
+
+	assert.Equal(t, &expected, in.filterOCR())
+}
