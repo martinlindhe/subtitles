@@ -57,9 +57,9 @@ text, err := finder.TheSubDb()
 
 # Sub-projects
 
-- [subber](https://github.com/martinlindhe/subtitles/subber) command line tool for subtitles
-- [ssa2srt](https://github.com/martinlindhe/subtitles/ssa2srt) for converting .ssa to .srt
-- [dcsub2srt](https://github.com/martinlindhe/subtitles/dcsub2srt) for converting dcsubtitles to .srt
+- [subber](https://github.com/martinlindhe/subtitles/tree/master/cmd/subber) command line tool for subtitles
+- [ssa2srt](https://github.com/martinlindhe/subtitles/tree/master/cmd/ssa2srt) for converting .ssa to .srt
+- [dcsub2srt](https://github.com/martinlindhe/subtitles/tree/master/cmd/dcsub2srt) for converting dcsubtitles to .srt
 
 
 # License
