@@ -3,13 +3,19 @@ package subtitles
 import (
 	"fmt"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
 )
 
 // Eol is the end of line characters to use when writing .srt data
-const eol = "\n"
+var eol = "\n"
+func init() {
+	if runtime.GOOS == "windows" {
+		eol = "\r\n"
+	}
+}
 
 func looksLikeSRT(s string) bool {
 	if strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") {
