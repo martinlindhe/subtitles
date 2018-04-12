@@ -10,14 +10,20 @@ This is a go library and command-line tools for handling .srt, .vtt and .ssa sub
 
 Windows and macOS binaries are available under [Releases](https://github.com/martinlindhe/subtitles/releases)
 
-Or install them from source:
+Or install them directly from git:
 
 ```
 go get -u github.com/martinlindhe/subtitles/...
 ```
 
 
-# Example - convert srt to vtt
+
+# Sub-projects
+
+- [subber](https://github.com/martinlindhe/subtitles/tree/master/cmd/subber) command line tool for subtitles
+
+
+# Library example - convert srt to vtt
 
 ```go
 import "github.com/martinlindhe/subtitles"
@@ -29,7 +35,6 @@ in := "1\n" +
     "1\n" +
     "00:01:09,630 --> 00:01:11,005\n" +
     "No ninja!\n"
-
 res, _ := subtitles.NewFromSRT(in)
 
 // Output: WEBVTT
@@ -43,23 +48,15 @@ fmt.Println(res.AsVTT())
 ```
 
 
-# Example - download subtitle from thesubdb.com
+# Library example - download subtitles
 
 ```go
 f, _ := os.Open(fileName)
 defer f.Close()
 
 finder := subtitles.NewSubFinder(f, fileName, "en")
-
 text, err := finder.TheSubDb()
 ```
-
-
-# Sub-projects
-
-- [subber](https://github.com/martinlindhe/subtitles/tree/master/cmd/subber) command line tool for subtitles
-- [ssa2srt](https://github.com/martinlindhe/subtitles/tree/master/cmd/ssa2srt) for converting .ssa to .srt
-- [dcsub2srt](https://github.com/martinlindhe/subtitles/tree/master/cmd/dcsub2srt) for converting dcsubtitles to .srt
 
 
 # License

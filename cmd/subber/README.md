@@ -33,7 +33,7 @@ go install github.com/martinlindhe/subtitles/cmd/subber
 
 ## Usage
 
-### To download subtitles for a video file
+### Download subtitles for a video
 
 ```
 $ subber movie.mp4
@@ -61,7 +61,7 @@ $ subber subtitle.srt
 Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font color="#00FFFF"> www.vitac.com</font>]
 ```
 
-### Strip html tags from .srt
+### Strip html from .srt
 
 ```
 $ subber subtitle.srt --filter="html"
@@ -78,7 +78,7 @@ $ subber subtitle.srt --filter="caps"
 [caps] right, to go? -> Right, to go?
 ```
 
-### Convert a .ssa to a .srt
+### Convert .ssa to .srt
 
 ```
 $ subber subtitle.ssa -o subtitle.srt
