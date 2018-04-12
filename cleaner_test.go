@@ -7,7 +7,6 @@ import (
 )
 
 func TestRemoveAds(t *testing.T) {
-
 	in := Subtitle{[]Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
@@ -36,6 +35,5 @@ func TestRemoveAds(t *testing.T) {
 		makeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}}
-
 	assert.Equal(t, &expected, in.RemoveAds())
 }

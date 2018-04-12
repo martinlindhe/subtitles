@@ -1,0 +1,20 @@
+[INFORMATION]
+[TITLE]CCDB Captured File
+[AUTHOR]ATI TV
+[SOURCE]ATI TV
+[PRG]
+[FILEPATH].
+[DELAY]0
+[CD TRACK]0
+[COMMENT]
+[END INFORMATION]
+[SUBTITLE]
+[COLF]&HFFFFFF,[STYLE]no,[SIZE]10,[FONT]Arial
+00:00:16.24,00:01:25.82
+Whoa.                           
+
+00:01:31.45,00:01:33.62
+Go on. Get out.                 
+
+00:01:33.62,00:01:34.81
+Out!                            

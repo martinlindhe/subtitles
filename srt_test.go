@@ -7,7 +7,6 @@ import (
 )
 
 func TestParseTime(t *testing.T) {
-
 	t1, _ := parseTime("18:40:22.110")
 	t2, _ := parseTime("18:40:22,110")
 	t3, _ := parseTime("18:40:22:110")
@@ -26,7 +25,6 @@ func TestParseTime(t *testing.T) {
 }
 
 func TestNewFromSRT(t *testing.T) {
-
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
 		"Go ninja!\n" +
@@ -63,7 +61,6 @@ func TestNewFromSRT(t *testing.T) {
 }
 
 func TestNewFromSRTWithMacLinebreaks(t *testing.T) {
-
 	in := "1\r" +
 		"00:00:04,630 --> 00:00:06,018\r" +
 		"Go ninja!\r" +
@@ -92,7 +89,6 @@ func TestNewFromSRTWithMacLinebreaks(t *testing.T) {
 }
 
 func TestNewFromSRTSkipEmpty(t *testing.T) {
-
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +
 		"Go ninja!\n" +
@@ -123,7 +119,6 @@ func TestNewFromSRTSkipEmpty(t *testing.T) {
 }
 
 func TestNewFromSRTCrlf(t *testing.T) {
-
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\r\n" +
 		"Go ninja!\r\n" +
@@ -142,7 +137,6 @@ func TestNewFromSRTCrlf(t *testing.T) {
 }
 
 func TestParseExtraLineBreak(t *testing.T) {
-
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\r\n" +
 		// NOTE: should not be line break here, but some files has,
@@ -164,11 +158,9 @@ func TestParseExtraLineBreak(t *testing.T) {
 }
 
 func TestParseWierdTimestamp(t *testing.T) {
-
 	in := "1\r\n" +
 		"00:14:52.00 --> 00:14:57,500\r\n" +
 		"Go ninja!\r\n"
-
 	expected := Subtitle{[]Caption{{
 		1,
 		makeTime(0, 14, 52, 0),
@@ -182,15 +174,6 @@ func TestParseWierdTimestamp(t *testing.T) {
 }
 
 func TestAsSRT(t *testing.T) {
-
-	expected := "1\n" +
-		"00:00:04,630 --> 00:00:06,018\n" +
-		"Go ninja!\n" +
-		"\n" +
-		"2\n" +
-		"00:01:09,630 --> 00:01:11,005\n" +
-		"No ninja!\n\n"
-
 	in := Subtitle{[]Caption{{
 		1,
 		makeTime(0, 0, 4, 630),
@@ -202,7 +185,13 @@ func TestAsSRT(t *testing.T) {
 		makeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}}
-
+	expected := "1\n" +
+		"00:00:04,630 --> 00:00:06,018\n" +
+		"Go ninja!\n" +
+		"\n" +
+		"2\n" +
+		"00:01:09,630 --> 00:01:11,005\n" +
+		"No ninja!\n\n"
 	assert.Equal(t, expected, in.AsSRT())
 }
 
@@ -226,7 +215,6 @@ func TestParseLatin1Srt(t *testing.T) {
 }
 
 func TestParseUTF16BESrt(t *testing.T) {
-
 	in := []byte{
 		0xfe, 0xff, // UTF16 BE BOM
 		0, '1',
@@ -241,7 +229,6 @@ func TestParseUTF16BESrt(t *testing.T) {
 		0, '\r', 0, '\n',
 		0, '\r', 0, '\n',
 	}
-
 	expected := Subtitle{[]Caption{{
 		1,
 		makeTime(0, 0, 0, 0),
@@ -257,7 +244,6 @@ func TestParseUTF16BESrt(t *testing.T) {
 }
 
 func TestParseUTF16LESrt(t *testing.T) {
-
 	in := []byte{
 		0xff, 0xfe, // UTF16 LE BOM
 		'1', 0,
@@ -272,7 +258,6 @@ func TestParseUTF16LESrt(t *testing.T) {
 		'\r', 0, '\n', 0,
 		'\r', 0, '\n', 0,
 	}
-
 	expected := Subtitle{[]Caption{{
 		1,
 		makeTime(0, 0, 0, 0),
@@ -288,7 +273,6 @@ func TestParseUTF16LESrt(t *testing.T) {
 }
 
 func TestParseUTF8BomSrt(t *testing.T) {
-
 	in := []byte{
 		0xef, 0xbb, 0xbf, // UTF8 BOM
 		'1',

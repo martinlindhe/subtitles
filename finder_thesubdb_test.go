@@ -11,7 +11,6 @@ import (
 )
 
 func TestDownloadFromTheSubDb(t *testing.T) {
-
 	fileName := createZeroedTempFile(1024 * 1024 * 4)
 	defer os.Remove(fileName)
 
@@ -44,7 +43,6 @@ func subDbConformTest(t *testing.T, fileName string, expectedHash string) {
 }
 
 func TestSubDbHashFromFile(t *testing.T) {
-
 	// NOTE for this to work, run "./hash-conformance-deps" to fetch needed files
 
 	// http://thesubdb.com/api/samples/dexter.mp4

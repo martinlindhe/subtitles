@@ -93,7 +93,7 @@ func cleanupSub(data []byte, filterName string, keepAds bool, sync int) (string,
 func action(inFileName string) error {
 
 	ext := path.Ext(inFileName)
-	if ext == ".srt" {
+	if subtitles.LooksLikeTextSubtitle(inFileName) {
 		if !*dontTouch {
 			parseAndWriteSubFile(inFileName, *filterName, *keepAds, *sync)
 		}
@@ -103,7 +103,6 @@ func action(inFileName string) error {
 	subFileName := inFileName[:len(inFileName)-len(ext)] + ".srt"
 
 	if fileExists(subFileName) {
-
 		verboseMessage("Subs found locally in", subFileName, ", skipping download")
 
 		if !*dontTouch {
