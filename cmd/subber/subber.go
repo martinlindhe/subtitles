@@ -89,7 +89,6 @@ func cleanupSub(data []byte, filterName string, keepAds bool, sync int) (string,
 }
 
 func action(inFileName, outFileName string) error {
-
 	if outFileName == "" {
 		outFileName = inFileName
 	}
@@ -138,7 +137,6 @@ func action(inFileName, outFileName string) error {
 		}
 		return nil
 	}
-	backupSub(subFileName)
 	out, _ = cleanupSub(data, *filterName, *keepAds, *sync)
 	err = writeText(subFileName, *skipBackups, out)
 	if err != nil {
@@ -148,24 +146,13 @@ func action(inFileName, outFileName string) error {
 	return nil
 }
 
-func backupSub(fileName string) {
-	log.Println("XXX TODO impl backupSub")
-}
-
 func writeText(outFileName string, skipBackups bool, text string) error {
-
 	if !skipBackups && fileExists(outFileName) {
 		backupFileName := outFileName + ".org"
 		os.Rename(outFileName, backupFileName)
 		// fmt.Printf("Backed up to %s\n", backupFileName)
 	}
-
-	err := ioutil.WriteFile(outFileName, []byte(text), 0644)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return ioutil.WriteFile(outFileName, []byte(text), 0644)
 }
 
 func fileExists(name string) bool {

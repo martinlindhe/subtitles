@@ -1,4 +1,4 @@
-# About
+## About
 
 Subber is a cli tool for reading,
 writing and manipulating .srt subtitle files
@@ -21,17 +21,19 @@ So, sometimes "other software" needs a cleaned up .srt,
 and the `subber` cli app automates this task.
 
 
-# Installation
+## Installation
 
+Windows and macOS binaries are available under [Releases](https://github.com/martinlindhe/subtitles/releases)
 
+Or if you have golang installed, you can compile from source:
 ```
 go install github.com/martinlindhe/subtitles/cmd/subber
 ```
 
 
-# Usage
+## Usage
 
-To download subtitles for a video file:
+### To download subtitles for a video file
 
 ```
 $ subber movie.mp4
@@ -51,7 +53,7 @@ Some additional flags (use `-h` for full list) includes:
   * `--sync="-3000"` Moves all captions backwards by 3000 ms
 
 
-Remove ads from an existing .srt file:
+### Remove ads from an existing .srt file
 
 ```
 $ subber subtitle.srt
@@ -59,7 +61,7 @@ $ subber subtitle.srt
 Removing caption 21 [<font color="#FFFF00"> Captions by VITAC  </font><font color="#00FFFF"> www.vitac.com</font>]
 ```
 
-Strip html tags from .srt:
+### Strip html tags from .srt
 
 ```
 $ subber subtitle.srt --filter="html"
@@ -67,7 +69,7 @@ $ subber subtitle.srt --filter="html"
 [html] <i>And there's a lot of it there.</i> -> And there's a lot of it there.
 ```
 
-Normalize capitalization in .srt:
+### Normalize capitalization in .srt
 
 ```
 $ subber subtitle.srt --filter="caps"
@@ -75,3 +77,13 @@ $ subber subtitle.srt --filter="caps"
 [caps] INTRODUCING -> Introducing
 [caps] right, to go? -> Right, to go?
 ```
+
+### Convert a .ssa to a .srt
+
+```
+$ subber subtitle.ssa -o subtitle.srt
+```
+
+## License
+
+Under [MIT](LICENSE)

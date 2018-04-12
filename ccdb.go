@@ -25,9 +25,8 @@ func NewFromCCDBCapture(s string) (res Subtitle, err error) {
 			continue
 		}
 		if parseText {
-			// log.Println("TEXT:", row)
 			if row == "\r" || row == "" {
-				parseText = false // XXX until text = empty
+				parseText = false
 			} else {
 				row = strings.TrimSpace(row)
 				if row != "" {
@@ -46,7 +45,6 @@ func NewFromCCDBCapture(s string) (res Subtitle, err error) {
 				}
 				break
 			}
-			// log.Println("TIME:", row)
 			parts := strings.SplitN(row, ",", 2)
 			if len(parts) == 2 {
 				caption.Start, _ = parseCCDBTime(parts[0])
