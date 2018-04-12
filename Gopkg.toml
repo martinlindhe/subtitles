@@ -1,0 +1,24 @@
+[[constraint]]
+  name = "github.com/Sirupsen/logrus"
+  version = "1.0.5"
+
+[[constraint]]
+  name = "github.com/kennygrant/sanitize"
+  version = "1.2.3"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.2.1"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/net"
+
+[[constraint]]
+  name = "gopkg.in/alecthomas/kingpin.v2"
+  version = "2.2.6"
+
+[prune]
+  go-tests = true
+  non-go = true
+  unused-packages = true
