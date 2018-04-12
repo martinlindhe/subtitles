@@ -14,6 +14,7 @@ import (
 
 var (
 	file        = kingpin.Arg("file", "A .srt (to clean) or video file (to fetch subs).").Required().File()
+	outFile     = kingpin.Flag("output-file", "A .srt (to clean) or video file (to fetch subs).").Short('o').String()
 	verbose     = kingpin.Flag("verbose", "Verbose mode (more output).").Short('v').Bool()
 	quiet       = kingpin.Flag("quiet", "Quiet mode (less output).").Short('q').Bool()
 	dontTouch   = kingpin.Flag("dont-touch", "Do not try to process .srt (write directly to disk).").Bool()
@@ -37,6 +38,7 @@ func main() {
 	}
 
 	inFileName := (*file).Name()
+	outFileName := *outFile
 
 	// skip "hidden" .dotfiles
 	baseName := filepath.Base(inFileName)
@@ -45,7 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err := action(inFileName)
+	err := action(inFileName, outFileName)
 	if err != nil {
 		fmt.Println("An error occured:", err)
 	}
@@ -57,20 +59,16 @@ func verboseMessage(args ...interface{}) {
 	}
 }
 
-func parseAndWriteSubFile(fileName string, filterName string, keepAds bool, sync int) error {
-
-	data, err := ioutil.ReadFile(fileName)
+func parseAndWriteSubFile(inFileName, outFileName string, filterName string, keepAds bool, sync int) error {
+	data, err := ioutil.ReadFile(inFileName)
 	if err != nil {
 		return err
 	}
-
 	out, err := cleanupSub(data, filterName, keepAds, sync)
 	if err != nil {
 		return err
 	}
-	writeText(fileName, *skipBackups, out)
-
-	return nil
+	return writeText(outFileName, *skipBackups, out)
 }
 
 // cleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
@@ -90,12 +88,16 @@ func cleanupSub(data []byte, filterName string, keepAds bool, sync int) (string,
 	return out, nil
 }
 
-func action(inFileName string) error {
+func action(inFileName, outFileName string) error {
+
+	if outFileName == "" {
+		outFileName = inFileName
+	}
 
 	ext := path.Ext(inFileName)
 	if subtitles.LooksLikeTextSubtitle(inFileName) {
 		if !*dontTouch {
-			parseAndWriteSubFile(inFileName, *filterName, *keepAds, *sync)
+			parseAndWriteSubFile(inFileName, outFileName, *filterName, *keepAds, *sync)
 		}
 		return nil
 	}
@@ -104,9 +106,8 @@ func action(inFileName string) error {
 
 	if fileExists(subFileName) {
 		verboseMessage("Subs found locally in", subFileName, ", skipping download")
-
 		if !*dontTouch {
-			parseAndWriteSubFile(subFileName, *filterName, *keepAds, *sync)
+			parseAndWriteSubFile(subFileName, outFileName, *filterName, *keepAds, *sync)
 		}
 		return nil
 	}
@@ -148,7 +149,7 @@ func action(inFileName string) error {
 }
 
 func backupSub(fileName string) {
-	log.Fatal("XXX TODO impl backupSub")
+	log.Println("XXX TODO impl backupSub")
 }
 
 func writeText(outFileName string, skipBackups bool, text string) error {

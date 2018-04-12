@@ -1,9 +1,9 @@
 # About
 
-Command line util to convert DCSubtitles into .srt format
+Used to be a separate tool to converts a DCSubtitles to .srt.
 
+Instead, use:
 
-# Installation
-```
-go get -u github.com/martinlindhe/subtitles/cmd/dcsub2srt
-```
+    subber vid.xml -o vid.srt
+
+See [subber](../subber)

@@ -1,17 +1,9 @@
 # About
 
-Converts a .ssa to .srt
+Used to be a separate tool to converts a .ssa to .srt.
 
+Instead, use:
 
-# Installation
+    subber vid.ssa -o vid.srt
 
-```
-go install github.com/martinlindhe/subtitles/cmd/ssa2srt
-```
-
-
-# Usage
-
-```
-$ ssa2srt subtile.ssa
-```
+See [subber](../subber)
