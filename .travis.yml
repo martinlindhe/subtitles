@@ -1,11 +1,10 @@
 language: go
 
 go:
-  - 1.8
-  - tip
+  - "1.10"
+  - "tip"
 
 before_install:
-  - go get github.com/stretchr/testify/assert
   - go get github.com/onsi/gomega
   - go get github.com/onsi/ginkgo
   - go get golang.org/x/tools/cmd/cover
