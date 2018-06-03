@@ -44,7 +44,7 @@ var (
 		"seriessub",
 		"addic7ed", "addicted.com", "vaioholics",
 		"sdimedia", "sdi media",
-		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral",
+		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "mkvcage",
 		"cssubs", "tvsub", "uksubtitles",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr", "blogspot",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt", "softhome.net",
@@ -57,7 +57,7 @@ var (
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
-		":[gwc]:", "ripped with subrip", "titra film",
+		":[gwc]:", "ripped by", "ripped with subrip", "titra film",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
