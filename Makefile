@@ -1,5 +1,5 @@
 install:
-	go install -v ./...
+	go install -v cmd/subber/subber.go
 
 release:
 	goreleaser --rm-dist
