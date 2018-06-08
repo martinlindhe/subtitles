@@ -87,21 +87,36 @@ func TestFilterOCRCapitalization(t *testing.T) {
 }
 
 func TestFixOCRWordCapitalization(t *testing.T) {
-	assert.Equal(t, "He's", fixOCRWordCapitalization("He's"))
-	assert.Equal(t, "GASPS", fixOCRWordCapitalization("GAsPs"))
-
-	assert.Equal(t, "macOS", fixOCRWordCapitalization("macOS"))
-	assert.Equal(t, "WindowsXP", fixOCRWordCapitalization("WindowsXP"))
+	input := map[string]string{
+		"GAsPs":     "GASPS",
+		"He's":      "He's",
+		"macOS":     "macOS",
+		"WindowsXP": "WindowsXP",
+	}
+	for in, out := range input {
+		assert.Equal(t, out, fixOCRWordCapitalization(in))
+	}
 }
 
 func TestStartsWithUppercase(t *testing.T) {
-	assert.Equal(t, true, startsWithUppercase("Allo"))
-	assert.Equal(t, true, startsWithUppercase("Ällo"))
-	assert.Equal(t, false, startsWithUppercase("allo"))
+	input := map[string]bool{
+		"Allo": true,
+		"Ällo": true,
+		"allo": false,
+	}
+	for in, out := range input {
+		assert.Equal(t, out, startsWithUppercase(in))
+	}
 }
 
 func TestCountCaseInLetters(t *testing.T) {
-	assert.Equal(t, []caseCount{{upper, 2}}, countCaseInLetters("GA"))
-	assert.Equal(t, []caseCount{{lower, 2}}, countCaseInLetters("ga"))
-	assert.Equal(t, []caseCount{{upper, 2}, {lower, 1}, {upper, 1}, {lower, 1}}, countCaseInLetters("GAsPs"))
+	input := map[string][]caseCount{
+		"HELLO": []caseCount{{upper, 5}},
+		"hello": []caseCount{{lower, 5}},
+		"Hello": []caseCount{{upper, 1}, {lower, 4}},
+		"GAsPs": []caseCount{{upper, 2}, {lower, 1}, {upper, 1}, {lower, 1}},
+	}
+	for in, out := range input {
+		assert.Equal(t, out, countCaseInLetters(in))
+	}
 }

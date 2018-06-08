@@ -62,10 +62,14 @@ func fixOCRWordCapitalization(s string) string {
 
 	// don't touch group of lowercase + uppercase such as in "macOS"
 	cases := countCaseInLetters(s)
-	if len(cases) < 4 {
+	caseLen := len(cases)
+	if caseLen >= 2 && cases[0].kind == upper && cases[1].kind == lower {
+		// dont count "Word" as two groups of casings
+		caseLen--
+	}
+	if caseLen <= 2 {
 		return s
 	}
-
 	if countUppercaseLetters(s) >= 2 {
 		return strings.ToUpper(s)
 	}
@@ -138,6 +142,7 @@ func getCase(c rune) caseType {
 	return none
 }
 
+// returns an array describing the casing order of the input string (see test cases)
 func countCaseInLetters(s string) []caseCount {
 	res := []caseCount{}
 	currentCount := 0
