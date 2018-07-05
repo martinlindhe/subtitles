@@ -48,6 +48,7 @@ var (
 		"cssubs", "tvsub", "uksubtitles",
 		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr", "blogspot",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt", "softhome.net",
+		"americascardroom.com",
 		"@gmail.com", "@hotmail.com", "@hotmail.fr",
 		"napisy.org", "1000fr.com",
 		"opensubtitles", "open subtitles", "s u b t i t l e",
