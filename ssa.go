@@ -63,6 +63,9 @@ func NewFromSSA(s string) (res Subtitle, err error) {
 			continue
 		}
 
+		// some ass/ssa files use \N as a line break in captions
+		text = strings.ReplaceAll(text, "\\N", "\\n")
+
 		o.Text = strings.Split(text, "\\n")
 
 		if len(o.Text) > 0 {
