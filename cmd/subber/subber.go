@@ -55,7 +55,7 @@ func main() {
 
 func verboseMessage(args ...interface{}) {
 	if !*quiet {
-		fmt.Println(args)
+		fmt.Println(args...)
 	}
 }
 
