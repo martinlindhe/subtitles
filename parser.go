@@ -17,6 +17,8 @@ func Parse(b []byte) (Subtitle, error) {
 		return NewFromDCSub(s)
 	} else if looksLikeSRT(s) {
 		return NewFromSRT(s)
+	} else if looksLikeVTT(s) {
+		return NewFromVTT(s)
 	}
 	return Subtitle{}, fmt.Errorf("parse: unrecognized subtitle type")
 }
@@ -28,5 +30,5 @@ func LooksLikeTextSubtitle(filename string) bool {
 		log.Fatal(err)
 	}
 	s := ConvertToUTF8(data)
-	return looksLikeCCDBCapture(s) || looksLikeSSA(s) || looksLikeDCSub(s) || looksLikeSRT(s)
+	return looksLikeCCDBCapture(s) || looksLikeSSA(s) || looksLikeDCSub(s) || looksLikeSRT(s) || looksLikeVTT(s)
 }

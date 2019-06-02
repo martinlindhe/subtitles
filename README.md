@@ -5,25 +5,21 @@
 
 This is a go library and command-line tools for handling .srt, .vtt and .ssa subtitles
 
-
-# Installation
+## Installation
 
 Windows and macOS binaries are available under [Releases](https://github.com/martinlindhe/subtitles/releases)
 
 Or install them directly from git:
 
-```
+```sh
 go get -u github.com/martinlindhe/subtitles/...
 ```
 
-
-
-# Sub-projects
+## Sub-projects
 
 - [subber](https://github.com/martinlindhe/subtitles/tree/master/cmd/subber) command line tool for subtitles
 
-
-# Library example - convert srt to vtt
+## Library example - convert srt to vtt
 
 ```go
 import "github.com/martinlindhe/subtitles"
@@ -47,8 +43,7 @@ res, _ := subtitles.NewFromSRT(in)
 fmt.Println(res.AsVTT())
 ```
 
-
-# Library example - download subtitles
+## Library example - download subtitles
 
 ```go
 f, _ := os.Open(fileName)
@@ -58,7 +53,6 @@ finder := subtitles.NewSubFinder(f, fileName, "en")
 text, err := finder.TheSubDb()
 ```
 
-
-# License
+## License
 
 Under [MIT](LICENSE)

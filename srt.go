@@ -11,6 +11,7 @@ import (
 
 // Eol is the end of line characters to use when writing .srt data
 var eol = "\n"
+
 func init() {
 	if runtime.GOOS == "windows" {
 		eol = "\r\n"
@@ -18,10 +19,7 @@ func init() {
 }
 
 func looksLikeSRT(s string) bool {
-	if strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") {
-		return true
-	}
-	return false
+	return strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n")
 }
 
 // NewFromSRT parses a .srt text into Subtitle, assumes s is a clean utf8 string
@@ -36,7 +34,7 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 			continue
 		}
 
-		_, err := strconv.Atoi(seq)
+		_, err = strconv.Atoi(seq)
 		if err != nil {
 			err = fmt.Errorf("srt: atoi error at line %d: %v", i, err)
 			break
@@ -52,7 +50,7 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 
 		matches := r1.FindStringSubmatch(lines[i])
 		if len(matches) < 3 {
-			err = fmt.Errorf("srt: parse error at line %d (idx out of range)", i)
+			err = fmt.Errorf("srt: parse error at line %d (idx out of range) for input '%s'", i, lines[i])
 			break
 		}
 
