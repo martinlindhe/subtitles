@@ -6,24 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestParseTime(t *testing.T) {
-	t1, _ := parseTime("18:40:22.110")
-	t2, _ := parseTime("18:40:22,110")
-	t3, _ := parseTime("18:40:22:110")
-	t4, _ := parseTime("18:40:22")
-	t5, _ := parseTime("00:00:0,500")
-	t6, _ := parseTime("00:00:2,00")
-	t7, _ := parseTime("00:14:52.12")
-
-	assert.Equal(t, makeTime(18, 40, 22, 110), t1)
-	assert.Equal(t, makeTime(18, 40, 22, 110), t2)
-	assert.Equal(t, makeTime(18, 40, 22, 110), t3)
-	assert.Equal(t, makeTime(18, 40, 22, 0), t4)
-	assert.Equal(t, makeTime(0, 0, 0, 500), t5)
-	assert.Equal(t, makeTime(0, 0, 2, 0), t6)
-	assert.Equal(t, makeTime(0, 14, 52, 12), t7)
-}
-
 func TestNewFromSRT(t *testing.T) {
 	in := "1\n" +
 		"00:00:04,630 --> 00:00:06,018\n" +

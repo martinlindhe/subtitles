@@ -54,10 +54,10 @@ func (parser *dcsubParser) traverse(n *parser.Node) (Subtitle, bool) {
 			parser.cap.Seq, _ = strconv.Atoi(p)
 		}
 		if p, ok := getAttribute(n, "timein"); ok {
-			parser.cap.Start, _ = parseTime(p)
+			parser.cap.Start, _ = parseSrtTime(p)
 		}
 		if p, ok := getAttribute(n, "timeout"); ok {
-			parser.cap.End, _ = parseTime(p)
+			parser.cap.End, _ = parseSrtTime(p)
 		}
 	}
 

@@ -54,13 +54,13 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 			break
 		}
 
-		o.Start, err = parseTime(matches[1])
+		o.Start, err = parseSrtTime(matches[1])
 		if err != nil {
 			err = fmt.Errorf("srt: start error at line %d: %v", i, err)
 			break
 		}
 
-		o.End, err = parseTime(matches[2])
+		o.End, err = parseSrtTime(matches[2])
 		if err != nil {
 			err = fmt.Errorf("srt: end error at line %d: %v", i, err)
 			break

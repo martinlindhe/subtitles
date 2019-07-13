@@ -67,13 +67,13 @@ func NewFromVTT(s string) (res Subtitle, err error) {
 			break
 		}
 
-		o.Start, err = parseTime(matches[1])
+		o.Start, err = parseVttTime(matches[1])
 		if err != nil {
 			err = fmt.Errorf("vtt: start error at line %d: %v", i, err)
 			break
 		}
 
-		o.End, err = parseTime(matches[2])
+		o.End, err = parseVttTime(matches[2])
 		if err != nil {
 			err = fmt.Errorf("vtt: end error at line %d: %v", i, err)
 			break

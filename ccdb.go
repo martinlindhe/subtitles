@@ -59,5 +59,5 @@ func NewFromCCDBCapture(s string) (res Subtitle, err error) {
 }
 
 func parseCCDBTime(s string) (time.Time, error) {
-	return parseTime(s)
+	return parseSrtTime(s)
 }
