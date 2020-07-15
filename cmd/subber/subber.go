@@ -21,7 +21,7 @@ var (
 	keepAds     = kingpin.Flag("keep-ads", "Do not strip advertisement captions.").Bool()
 	skipBackups = kingpin.Flag("skip-backups", "Do not make backup (.srt.org) of original .srt").Bool()
 	language    = kingpin.Flag("language", "Language.").Default("en").String()
-	filterName  = kingpin.Flag("filter", "Filter (none, caps, html, ocr, flip, all).").Default("none").String()
+	filterName  = kingpin.Flag("filter", "Filter (none, caps, html, ocr, merge, flip, all).").Default("none").String()
 	sync        = kingpin.Flag("sync", "Synchronize captions (milliseconds).").Int()
 )
 

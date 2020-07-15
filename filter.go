@@ -17,6 +17,8 @@ func (subtitle *Subtitle) FilterCaptions(filter string) {
 		subtitle.filterHTML()
 	case "ocr":
 		subtitle.filterOCR()
+	case "merge":
+		subtitle.filterMerge()
 	case "flip":
 		subtitle.filterFlip()
 	case "none":
