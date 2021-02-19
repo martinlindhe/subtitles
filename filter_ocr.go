@@ -5,7 +5,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 var (

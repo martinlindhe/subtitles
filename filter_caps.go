@@ -3,7 +3,7 @@ package subtitles
 import (
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 // filterCapitalization converts "ALL CAPS" text into "Initial letter capped"
