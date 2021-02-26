@@ -33,6 +33,8 @@ func ConvertToUTF8(b []byte) string {
 		s, _ = utf16ToUTF8(b[2:], false)
 	} else if hasUTF8Marker(b) {
 		s = string(b[3:])
+	} else if utf8.ValidString(string(b)) {
+		s = string(b)
 	} else if looksLikeLatin1(b) {
 		s = latin1toUTF8(b)
 	} else {
