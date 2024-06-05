@@ -7,9 +7,9 @@ import (
 	"path"
 	"path/filepath"
 
+	"github.com/alecthomas/kingpin/v2"
 	"github.com/martinlindhe/subtitles"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
