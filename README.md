@@ -1,6 +1,5 @@
 # About
 
-[![Travis-CI](https://api.travis-ci.org/martinlindhe/subtitles.svg)](https://travis-ci.org/martinlindhe/subtitles)
 [![GoDoc](https://godoc.org/github.com/martinlindhe/subtitles?status.svg)](https://godoc.org/github.com/martinlindhe/subtitles)
 
 This is a go library and command-line tools for handling .srt, .vtt and .ssa subtitles
