@@ -12,7 +12,8 @@ Windows and macOS binaries are available under [Releases](https://github.com/mar
 Or install them directly from git:
 
 ```sh
-go get -u github.com/martinlindhe/subtitles/...
+go install github.com/martinlindhe/subtitles/cmd/subber@latest
+
 ```
 
 ## Sub-projects

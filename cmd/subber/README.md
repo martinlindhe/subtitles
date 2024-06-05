@@ -27,7 +27,7 @@ Windows and macOS binaries are available under [Releases](https://github.com/mar
 
 Or if you have golang installed, you can compile from source:
 ```
-go install github.com/martinlindhe/subtitles/cmd/subber
+go install github.com/martinlindhe/subtitles/cmd/subber@latest
 ```
 
 
