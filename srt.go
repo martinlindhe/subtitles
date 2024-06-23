@@ -19,7 +19,7 @@ func init() {
 }
 
 func looksLikeSRT(s string) bool {
-	return strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n")
+	return strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") || strings.HasPrefix(s, "2\n") || strings.HasPrefix(s, "2\r\n")
 }
 
 // NewFromSRT parses a .srt text into Subtitle, assumes s is a clean utf8 string
