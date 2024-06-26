@@ -39,9 +39,10 @@ var (
 		"resync:", "resynchro", "resync by",
 		"translation by",
 		"encoded by",
+		"downloaded from",
 		"web-dl",
 		"subscene",
-		"seriessub",
+		"seriessub", "subtitlesource",
 		"addic7ed", "addicted.com", "vaioholics",
 		"sdimedia", "sdi media",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "mkvcage",
@@ -50,15 +51,16 @@ var (
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt", "softhome.net",
 		"americascardroom.com",
 		"@gmail.com", "@hotmail.com", "@hotmail.fr",
-		"napisy.org", "1000fr.com",
+		"napisy.org", "1000fr.com", "yts.mx",
 		"opensubtitles", "open subtitles", "s u b t i t l e",
 		"sous-titres.eu", "300mbfilms.com", "put.io", "subtitulos.es", "osdb.link", "300mbunited",
-		"simail.si", "sf.net", "vitac.com", "rapidpremium", "psarips",
-		"yify-torrents", "yify torrents",
+		"simail.si", "sf-film.dk", "sf.net", "vitac.com", "rapidpremium", "psarips",
+		"yify-torrents", "yify torrents", "yify movies",
 		"thepiratebay", "anoxmous", "verdikt", "la fisher team", "red bee media",
 		"mkv player", "best watched using", "advertise your product", "remove all ads",
 		"memoryonsmells", "1st-booking",
 		":[gwc]:", "ripped by", "ripped with subrip", "titra film",
+		"hiqve",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
@@ -76,8 +78,11 @@ var (
 		"mediatextgruppen", "visiontext", "scandinavian text service",
 		"jhs International", "svensk medietext",
 
+		// danish:
+		"oversættelse:",
+
 		// french:
-		"relecture et corrections finales:",
+		"relecture et corrections finales:", "sous-titres par", "el uploador",
 	}
 )
 
