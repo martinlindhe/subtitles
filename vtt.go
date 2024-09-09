@@ -3,6 +3,7 @@ package subtitles
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -40,6 +41,11 @@ func looksLikeVTT(s string) bool {
 	return strings.HasPrefix(s, webVTTTag)
 }
 
+func isInteger(s string) bool {
+	_, err := strconv.ParseInt(s, 10, 64)
+	return err == nil
+}
+
 // NewFromVTT parses a .vtt text into Subtitle, assumes s is a clean utf8 string
 func NewFromVTT(s string) (res Subtitle, err error) {
 	idx := strings.Index(s, webVTTTag)
@@ -48,7 +54,7 @@ func NewFromVTT(s string) (res Subtitle, err error) {
 	}
 	s = s[idx+len(webVTTTag):]
 
-	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
+	timespanRegex := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
 	lines := strings.Split(s, "\n")
 	outSeq := 1
 
@@ -58,10 +64,15 @@ func NewFromVTT(s string) (res Subtitle, err error) {
 			continue
 		}
 
+		// optional: each caption block is prefixed by a sequence number
+		if isInteger(seq) {
+			i++
+		}
+
 		var o Caption
 		o.Seq = outSeq
 
-		matches := r1.FindStringSubmatch(lines[i])
+		matches := timespanRegex.FindStringSubmatch(lines[i])
 		if len(matches) < 3 {
 			err = fmt.Errorf("vtt: parse error at line %d (idx out of range) for input '%s'", i, lines[i])
 			break

@@ -40,6 +40,37 @@ func TestParseVTT(t *testing.T) {
 	assert.Equal(t, expected, res)
 }
 
+func TestParseVTTWithSequenceNumber(t *testing.T) {
+	txt := "WEBVTT\n" +
+		"\n" +
+		"1\n" +
+		"00:00:32.140 --> 00:00:33.240\n" +
+		"Er det slik?\n" +
+		"\n" +
+		"2\n" +
+		"00:00:41.120 --> 00:00:45.100\n" +
+		"Ja.\n"
+
+	res, err := NewFromVTT(txt)
+	assert.Equal(t, nil, err)
+
+	expected := Subtitle{
+		[]Caption{{
+			1,
+			makeTime(0, 0, 32, 140),
+			makeTime(0, 0, 33, 240),
+			[]string{
+				"Er det slik?",
+			}}, {
+			2,
+			makeTime(0, 0, 41, 120),
+			makeTime(0, 0, 45, 100),
+			[]string{
+				"Ja.",
+			}}}}
+	assert.Equal(t, expected, res)
+}
+
 func TestAsVTT(t *testing.T) {
 	expected := "WEBVTT\n" +
 		"\n" +
