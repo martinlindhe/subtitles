@@ -28,12 +28,12 @@ func TestNewFromCCDBCapture(t *testing.T) {
 		makeTime(0, 0, 16, 24),
 		makeTime(0, 1, 25, 82),
 		[]string{"Whoa."},
-	}, Caption{
+	}, {
 		2,
 		makeTime(0, 1, 31, 45),
 		makeTime(0, 1, 33, 62),
 		[]string{"Go on. Get out."},
-	}, Caption{
+	}, {
 		3,
 		makeTime(0, 1, 33, 65),
 		makeTime(0, 1, 34, 81),

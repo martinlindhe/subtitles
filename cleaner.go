@@ -23,7 +23,7 @@ var (
 		// english:
 		"captions paid for by",
 		"english subtitles",
-		"subtitles:", "subtitles by",
+		"subtitles -", "subtitles:", "subtitles by",
 		"subtitles downloaded",
 		"captioning by", "captions by",
 		"transcript :", "transcript:", "transcript by",

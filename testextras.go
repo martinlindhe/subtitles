@@ -2,7 +2,7 @@ package subtitles
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 )
 
 const tempFilePrefix = "moviehash-temp"
@@ -25,7 +25,7 @@ func createTempFile(byteSize int) string {
 		cnt++
 	}
 
-	f, err := ioutil.TempFile("/tmp", tempFilePrefix)
+	f, err := os.CreateTemp("/tmp", tempFilePrefix)
 	check(err)
 	defer f.Close()
 
@@ -39,7 +39,7 @@ func createZeroedTempFile(byteSize int) string {
 
 	data := make([]byte, byteSize)
 
-	f, err := ioutil.TempFile("/tmp", tempFilePrefix)
+	f, err := os.CreateTemp("/tmp", tempFilePrefix)
 	check(err)
 	defer f.Close()
 

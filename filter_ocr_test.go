@@ -111,10 +111,10 @@ func TestStartsWithUppercase(t *testing.T) {
 
 func TestCountCaseInLetters(t *testing.T) {
 	input := map[string][]caseCount{
-		"HELLO": []caseCount{{upper, 5}},
-		"hello": []caseCount{{lower, 5}},
-		"Hello": []caseCount{{upper, 1}, {lower, 4}},
-		"GAsPs": []caseCount{{upper, 2}, {lower, 1}, {upper, 1}, {lower, 1}},
+		"HELLO": {{upper, 5}},
+		"hello": {{lower, 5}},
+		"Hello": {{upper, 1}, {lower, 4}},
+		"GAsPs": {{upper, 2}, {lower, 1}, {upper, 1}, {lower, 1}},
 	}
 	for in, out := range input {
 		assert.Equal(t, out, countCaseInLetters(in))
