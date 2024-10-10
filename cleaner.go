@@ -42,6 +42,7 @@ var (
 		"downloaded from",
 		"web-dl",
 		"subscene",
+		"broadcasttext",
 		"seriessub", "subtitlesource",
 		"addic7ed", "addicted.com", "vaioholics",
 		"sdimedia", "sdi media",
@@ -61,11 +62,12 @@ var (
 		"memoryonsmells", "1st-booking",
 		":[gwc]:", "ripped by", "ripped with subrip", "titra film",
 		"hiqve",
+		"trimark home video",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
 		"svensktextning", "(c) sveriges televisionit", "sveriges television ab",
-		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden",
+		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden", "undertext.com", "undertext.se",
 		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av", "textning:",
 		"svensk text", "text:", "omsynk:", "omsynkad",
@@ -78,8 +80,14 @@ var (
 		"mediatextgruppen", "visiontext", "scandinavian text service",
 		"jhs International", "svensk medietext",
 
+		// norweigan:
+		"norsk tekst:",
+
 		// danish:
-		"oversættelse:",
+		"oversættelse:", "tekster:",
+
+		// finnish:
+		"suomennos:",
 
 		// french:
 		"relecture et corrections finales:", "sous-titres par", "el uploador",
