@@ -49,7 +49,8 @@ func main() {
 
 	err := action(inFileName, outFileName)
 	if err != nil {
-		fmt.Println("An error occured:", err)
+		fmt.Println("An error occurred:", err)
+		os.Exit(1)
 	}
 }
 
@@ -95,21 +96,14 @@ func action(inFileName, outFileName string) error {
 
 	ext := path.Ext(inFileName)
 	if subtitles.LooksLikeTextSubtitle(inFileName) {
+		var err error
 		if !*dontTouch {
-			parseAndWriteSubFile(inFileName, outFileName, *filterName, *keepAds, *sync)
+			err = parseAndWriteSubFile(inFileName, outFileName, *filterName, *keepAds, *sync)
 		}
-		return nil
+		return err
 	}
 
 	subFileName := inFileName[:len(inFileName)-len(ext)] + ".srt"
-
-	if fileExists(subFileName) {
-		verboseMessage("Subs found locally in", subFileName, ", skipping download")
-		if !*dontTouch {
-			parseAndWriteSubFile(subFileName, outFileName, *filterName, *keepAds, *sync)
-		}
-		return nil
-	}
 
 	verboseMessage("Downloading subs for", inFileName, "...")
 
@@ -127,23 +121,21 @@ func action(inFileName, outFileName string) error {
 		return err
 	}
 
-	out := ""
-
 	if *dontTouch {
-		// write untouched copy
-		err = writeText(subFileName, *skipBackups, string(data))
+		_, err = cleanupSub(data, *filterName, *keepAds, *sync)
 		if err != nil {
-			return err
+			log.Printf("ERROR: cleanupSub failed: %s", err)
 		}
-		return nil
+
+		// write untouched copy
+		return writeText(subFileName, *skipBackups, string(data))
 	}
-	out, _ = cleanupSub(data, *filterName, *keepAds, *sync)
-	err = writeText(subFileName, *skipBackups, out)
+
+	out, err := cleanupSub(data, *filterName, *keepAds, *sync)
 	if err != nil {
 		return err
 	}
-
-	return nil
+	return writeText(subFileName, *skipBackups, out)
 }
 
 func writeText(outFileName string, skipBackups bool, text string) error {

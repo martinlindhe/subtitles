@@ -2,8 +2,8 @@ package subtitles
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 // Parse tries to parse a subtitle
@@ -25,7 +25,7 @@ func Parse(b []byte) (Subtitle, error) {
 
 // LooksLikeTextSubtitle returns true i byte stream seems to be of a recognized format
 func LooksLikeTextSubtitle(filename string) bool {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
