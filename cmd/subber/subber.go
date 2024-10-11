@@ -64,9 +64,6 @@ func parseAndWriteSubFile(inFileName, outFileName string, filterName string, kee
 	if err != nil {
 		return err
 	}
-	if len(data) == 0 {
-		return fmt.Errorf("input file is empty")
-	}
 
 	out, err := cleanupSub(data, filterName, keepAds, sync, inFileName)
 	if err != nil {

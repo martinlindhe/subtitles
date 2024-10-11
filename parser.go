@@ -8,6 +8,9 @@ import (
 
 // Parse tries to parse a subtitle
 func Parse(b []byte) (Subtitle, error) {
+	if len(b) <= 10 {
+		return Subtitle{}, fmt.Errorf("parse: empty input")
+	}
 	s := ConvertToUTF8(b)
 	if looksLikeCCDBCapture(s) {
 		return NewFromCCDBCapture(s)
@@ -28,6 +31,9 @@ func LooksLikeTextSubtitle(filename string) bool {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if len(data) <= 10 {
+		log.Fatal(fmt.Errorf("parse: empty input in '%s'", filename))
 	}
 	s := ConvertToUTF8(data)
 	return looksLikeCCDBCapture(s) || looksLikeSSA(s) || looksLikeDCSub(s) || looksLikeSRT(s) || looksLikeVTT(s)
