@@ -49,7 +49,7 @@ var (
 		"sdimedia", "sdi media",
 		"allsubs.org", "hdbits.org", "bierdopje.com", "subcentral", "mkvcage",
 		"cssubs", "tvsub", "uksubtitles",
-		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr", "blogspot",
+		"ragbear.com", "ydy.com", "yyets.net", "indivx.net", "sub-way.fr",
 		"forom.com", "forom. com", "facebook.com", "hdvietnam.com", "sapo.pt", "softhome.net",
 		"americascardroom.com",
 		"@gmail.com", "@hotmail.com", "@hotmail.fr",
