@@ -26,22 +26,25 @@ var (
 		"english subtitles",
 		"subtitles -", "subtitles:", "subtitles by",
 		"subtitles downloaded",
-		"captioning by", "captions by",
+		"captioning by", "captions by", "captioning made possible by",
+		"mtv network", "turner entertainment group", "fox broadcasting",
+		"carsey-werner", "red bee media",
 		"transcript :", "transcript:", "transcript by",
 		"sync, corrected", "synced and corrected",
-		"sync and corrected", "sync & corrections",
+		"sync and corrected", "sync & correction",
 		"sync and corrections",
 		"traduction:", "transcript par",
-		"corrections by",
-		"sync by n17t01",
-		"sync,", "synchro :", "synchro:", "synced by", "synchronized by",
+		"corrections by", "corrected by",
+		"n17t01", "vnaru", "honeybunny", "sp8ky", "susanalc", "f1nc0", "euroeuro",
+		"skmatt",
+		"synchro :", "synchro:", "synced by", "synchronized by",
 		"synchronization by", "synchronisation:",
 		"resynchronization:",
 		"resync:", "resynchro", "resync by",
 		"translation by",
 		"encoded by",
 		"downloaded from",
-		"web-dl",
+		"web-dl", "xvid",
 		"subscene", "podnapisi", "bokutox", "team nanban",
 		"fury_don@hotmail.com",
 		"broadcasttext",
@@ -65,6 +68,7 @@ var (
 		":[gwc]:", "ripped with subrip", "titra film",
 		"hiqve", "kentir.bb", "w-bb.org", "sub download",
 		"trimark home video",
+		"captionmax", "southparknews",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
@@ -83,7 +87,7 @@ var (
 		"jhs International", "svensk medietext",
 
 		// norweigan:
-		"norsk tekst:",
+		"norsk tekst:", "norske tekster:",
 
 		// danish:
 		"oversættelse:", "tekster:",
