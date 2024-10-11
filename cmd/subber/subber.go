@@ -49,7 +49,7 @@ func main() {
 
 	err := action(inFileName, outFileName)
 	if err != nil {
-		fmt.Println("An error occurred:", err)
+		fmt.Printf("An error occurred processing '%s': %s\n", inFileName, err)
 		os.Exit(1)
 	}
 }
@@ -65,7 +65,7 @@ func parseAndWriteSubFile(inFileName, outFileName string, filterName string, kee
 	if err != nil {
 		return err
 	}
-	out, err := cleanupSub(data, filterName, keepAds, sync)
+	out, err := cleanupSub(data, filterName, keepAds, sync, inFileName)
 	if err != nil {
 		return err
 	}
@@ -73,13 +73,13 @@ func parseAndWriteSubFile(inFileName, outFileName string, filterName string, kee
 }
 
 // cleanupSub parses .srt or .ssa, performs cleanup and renders to a .srt, returning a string. caller is responsible for passing UTF8 string
-func cleanupSub(data []byte, filterName string, keepAds bool, sync int) (string, error) {
+func cleanupSub(data []byte, filterName string, keepAds bool, sync int, cleanerOutputPrefix string) (string, error) {
 	subtitle, err := subtitles.Parse(data)
 	if err != nil {
 		return "", err
 	}
 	if !keepAds {
-		subtitle.RemoveAds()
+		subtitle.RemoveAds(cleanerOutputPrefix)
 	}
 	if sync != 0 {
 		subtitle.ResyncSubs(sync)
@@ -105,6 +105,11 @@ func action(inFileName, outFileName string) error {
 
 	subFileName := inFileName[:len(inFileName)-len(ext)] + ".srt"
 
+	if fileExists(subFileName) {
+		fmt.Println("ERROR: Subs found locally in", subFileName, " (BUT DID NOT LOOK LIKE SUBS), skipping download")
+		os.Exit(1)
+	}
+
 	verboseMessage("Downloading subs for", inFileName, "...")
 
 	f, err := os.Open(inFileName)
@@ -122,7 +127,7 @@ func action(inFileName, outFileName string) error {
 	}
 
 	if *dontTouch {
-		_, err = cleanupSub(data, *filterName, *keepAds, *sync)
+		_, err = cleanupSub(data, *filterName, *keepAds, *sync, inFileName)
 		if err != nil {
 			log.Printf("ERROR: cleanupSub failed: %s", err)
 		}
@@ -131,7 +136,7 @@ func action(inFileName, outFileName string) error {
 		return writeText(subFileName, *skipBackups, string(data))
 	}
 
-	out, err := cleanupSub(data, *filterName, *keepAds, *sync)
+	out, err := cleanupSub(data, *filterName, *keepAds, *sync, inFileName)
 	if err != nil {
 		return err
 	}
@@ -141,10 +146,12 @@ func action(inFileName, outFileName string) error {
 func writeText(outFileName string, skipBackups bool, text string) error {
 	if !skipBackups && fileExists(outFileName) {
 		backupFileName := outFileName + ".org"
-		os.Rename(outFileName, backupFileName)
-		// fmt.Printf("Backed up to %s\n", backupFileName)
+		err := os.Rename(outFileName, backupFileName)
+		if err != nil {
+			return err
+		}
 	}
-	return ioutil.WriteFile(outFileName, []byte(text), 0644)
+	return os.WriteFile(outFileName, []byte(text), 0644)
 }
 
 func fileExists(name string) bool {

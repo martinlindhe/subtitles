@@ -35,5 +35,5 @@ func TestRemoveAds(t *testing.T) {
 		makeTime(0, 1, 11, 005),
 		[]string{"No ninja!"},
 	}}}
-	assert.Equal(t, &expected, in.RemoveAds())
+	assert.Equal(t, &expected, in.RemoveAds(""))
 }

@@ -1,10 +1,11 @@
 package subtitles
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/fatih/color"
 )
 
 // ResyncSubs adjust text timing by `sync` milliseconds
@@ -95,7 +96,11 @@ var (
 )
 
 // RemoveAds removes advertisement from the subtitles
-func (subtitle *Subtitle) RemoveAds() *Subtitle {
+func (subtitle *Subtitle) RemoveAds(outputPrefix string) *Subtitle {
+
+	info := color.New(color.FgGreen, color.BgBlack).SprintFunc()
+	orange := color.New(color.FgBlack, color.BgHiYellow).SprintFunc()
+
 	seq := 1
 	res := []Caption{}
 	for orgSeq, sub := range subtitle.Captions {
@@ -105,7 +110,8 @@ func (subtitle *Subtitle) RemoveAds() *Subtitle {
 			for _, adLine := range advertisements {
 				if !isAd && strings.Contains(x, adLine) {
 					isAd = true
-					log.Println("[ads]", (orgSeq + 1), sub.Text, "matched", adLine)
+
+					fmt.Printf("%s [ads] %d %s matched (%s)\n", info(outputPrefix), (orgSeq + 1), orange(sub.Text), adLine)
 					break
 				}
 			}
