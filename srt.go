@@ -19,6 +19,7 @@ func init() {
 }
 
 func looksLikeSRT(s string) bool {
+	s = strings.TrimSpace(s)
 	return strings.HasPrefix(s, "0\n") || strings.HasPrefix(s, "0\r\n") || strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") || strings.HasPrefix(s, "2\n") || strings.HasPrefix(s, "2\r\n")
 }
 
