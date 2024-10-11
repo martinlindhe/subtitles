@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -61,13 +60,17 @@ func verboseMessage(args ...interface{}) {
 }
 
 func parseAndWriteSubFile(inFileName, outFileName string, filterName string, keepAds bool, sync int) error {
-	data, err := ioutil.ReadFile(inFileName)
+	data, err := os.ReadFile(inFileName)
 	if err != nil {
 		return err
 	}
 	out, err := cleanupSub(data, filterName, keepAds, sync, inFileName)
 	if err != nil {
 		return err
+	}
+	if string(data) == out {
+		// only write to disk if content has changed
+		return nil
 	}
 	return writeText(outFileName, *skipBackups, out)
 }
