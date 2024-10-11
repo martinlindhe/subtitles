@@ -12,6 +12,8 @@ import (
 // Eol is the end of line characters to use when writing .srt data
 var eol = "\n"
 
+var r1 = regexp.MustCompile("([0-9:.,]*) (-->|->) ([0-9:.,]*)")
+
 func init() {
 	if runtime.GOOS == "windows" {
 		eol = "\r\n"
@@ -20,18 +22,21 @@ func init() {
 
 func looksLikeSRT(s string) bool {
 	s = strings.TrimSpace(s)
-	return strings.HasPrefix(s, "0\n") || strings.HasPrefix(s, "0\r\n") || strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") || strings.HasPrefix(s, "2\n") || strings.HasPrefix(s, "2\r\n")
+	return strings.HasPrefix(s, "0\n") || strings.HasPrefix(s, "0\r\n") || strings.HasPrefix(s, "1\n") || strings.HasPrefix(s, "1\r\n") || strings.HasPrefix(s, "2\n") || strings.HasPrefix(s, "2\r\n") || strings.HasPrefix(s, "3\n") || strings.HasPrefix(s, "3\r\n")
 }
 
 // NewFromSRT parses a .srt text into Subtitle, assumes s is a clean utf8 string
 func NewFromSRT(s string) (res Subtitle, err error) {
-	r1 := regexp.MustCompile("([0-9:.,]*) --> ([0-9:.,]*)")
 	lines := strings.Split(s, "\n")
 	outSeq := 1
 
 	for i := 0; i < len(lines); i++ {
 		seq := strings.Trim(lines[i], "\r ")
 		if seq == "" {
+			continue
+		}
+
+		if strings.TrimSpace(seq) == "" {
 			continue
 		}
 
@@ -61,7 +66,7 @@ func NewFromSRT(s string) (res Subtitle, err error) {
 			break
 		}
 
-		o.End, err = parseSrtTime(matches[2])
+		o.End, err = parseSrtTime(matches[3])
 		if err != nil {
 			err = fmt.Errorf("srt: end error at line %d: %v", i, err)
 			break
