@@ -148,14 +148,23 @@ func action(inFileName, outFileName string) error {
 }
 
 func writeText(outFileName string, skipBackups bool, text string) error {
-	if !skipBackups && fileExists(outFileName) {
-		backupFileName := outFileName + ".org"
+	backupFileName := outFileName + ".org"
+	if fileExists(outFileName) {
 		err := os.Rename(outFileName, backupFileName)
 		if err != nil {
 			return err
 		}
 	}
-	return os.WriteFile(outFileName, []byte(text), 0644)
+
+	err := os.WriteFile(outFileName, []byte(text), 0644)
+	if err != nil {
+		return err
+	}
+
+	if skipBackups && fileExists(backupFileName) {
+		err = os.Remove(backupFileName)
+	}
+	return err
 }
 
 func fileExists(name string) bool {

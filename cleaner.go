@@ -69,6 +69,7 @@ var (
 		"hiqve", "kentir.bb", "w-bb.org", "sub download",
 		"trimark home video",
 		"captionmax", "southparknews",
+		"national captioning institute",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
@@ -110,17 +111,20 @@ func (subtitle *Subtitle) RemoveAds(outputPrefix string) *Subtitle {
 	res := []Caption{}
 	for orgSeq, sub := range subtitle.Captions {
 		isAd := false
-		for _, line := range sub.Text {
-			x := strings.ToLower(line)
-			for _, adLine := range advertisements {
-				if !isAd && strings.Contains(x, adLine) {
-					isAd = true
 
-					fmt.Printf("%s [ads] %d %s matched (%s)\n", info(outputPrefix), (orgSeq + 1), orange(sub.Text), adLine)
-					break
-				}
+		block := ""
+		for _, line := range sub.Text {
+			block += strings.ToLower(line) + " "
+		}
+
+		for _, adLine := range advertisements {
+			if !isAd && strings.Contains(block, adLine) {
+				isAd = true
+				fmt.Printf("%s [ads] %d %s matched (%s)\n", info(outputPrefix), (orgSeq + 1), orange(sub.Text), adLine)
+				break
 			}
 		}
+
 		if !isAd {
 			sub.Seq = seq
 			res = append(res, sub)
