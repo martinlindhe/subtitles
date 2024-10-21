@@ -102,7 +102,7 @@ var (
 )
 
 // RemoveAds removes advertisement from the subtitles
-func (subtitle *Subtitle) RemoveAds(outputPrefix string) *Subtitle {
+func (subtitle *Subtitle) RemoveAds(outputPrefix string, verbose bool) *Subtitle {
 
 	info := color.New(color.FgGreen, color.BgBlack).SprintFunc()
 	orange := color.New(color.FgBlack, color.BgHiYellow).SprintFunc()
@@ -120,7 +120,9 @@ func (subtitle *Subtitle) RemoveAds(outputPrefix string) *Subtitle {
 		for _, adLine := range advertisements {
 			if !isAd && strings.Contains(block, adLine) {
 				isAd = true
-				fmt.Printf("%s [ads] %d %s matched (%s)\n", info(outputPrefix), (orgSeq + 1), orange(sub.Text), adLine)
+				if verbose {
+					fmt.Printf("%s [ads] %d %s matched (%s)\n", info(outputPrefix), (orgSeq + 1), orange(sub.Text), adLine)
+				}
 				break
 			}
 		}

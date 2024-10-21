@@ -83,7 +83,7 @@ func cleanupSub(data []byte, filterName string, keepAds bool, sync int, cleanerO
 		return "", err
 	}
 	if !keepAds {
-		subtitle.RemoveAds(cleanerOutputPrefix)
+		subtitle.RemoveAds(cleanerOutputPrefix, true)
 	}
 	if sync != 0 {
 		subtitle.ResyncSubs(sync)
