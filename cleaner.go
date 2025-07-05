@@ -70,12 +70,16 @@ var (
 		"trimark home video",
 		"captionmax", "southparknews",
 		"national captioning institute",
+		"netflix presents", "a netflix original",
+		"netflix præsenterer", "netflix presenterar",
+		"iptv.cat", "iptv provider",
+		"ocr & translation",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
 		"svensktextning", "(c) sveriges televisionit", "sveriges television ab",
 		"undertexter.se", "undertexter. se", "swesub.nu", "divxsweden", "undertext.com", "undertext.se",
-		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av",
+		"undertext av", "översatt av", "översättning:", "översättning av", "rättad av", "undertexter:",
 		"synkad av", "synkat av", "synk:", "synkning:", "redigerad av", "textning:",
 		"svensk text", "text:", "omsynk:", "omsynkad",
 		"transkribering:", "piratpartiet.se",
@@ -85,10 +89,11 @@ var (
 		"senaste undertexter på",
 		"programtextning", "översättargrupp",
 		"mediatextgruppen", "visiontext", "scandinavian text service",
-		"jhs International", "svensk medietext",
+		"jhs international", "svensk medietext",
+		"primetext",
 
 		// norweigan:
-		"norsk tekst:", "norske tekster:",
+		"norsk tekst:", "norske tekster:", "tekst:",
 
 		// danish:
 		"oversættelse:", "tekster:",
