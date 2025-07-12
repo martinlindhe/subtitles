@@ -74,6 +74,7 @@ var (
 		"netflix præsenterer", "netflix presenterar",
 		"iptv.cat", "iptv provider",
 		"ocr & translation",
+		"crazy4tv",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
