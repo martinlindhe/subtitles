@@ -1,6 +1,6 @@
 module github.com/martinlindhe/subtitles
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.24.4
 
@@ -10,7 +10,7 @@ require (
 	github.com/kennygrant/sanitize v1.2.4
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/net v0.42.0
+	golang.org/x/net v0.47.0
 )
 
 require (
@@ -20,6 +20,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -75,6 +75,7 @@ var (
 		"iptv.cat", "iptv provider",
 		"ocr & translation",
 		"crazy4tv",
+		"★ POOP ★",
 
 		// swedish:
 		"swedish subtitles", "svenska undertexter", "internationella undertexter",
